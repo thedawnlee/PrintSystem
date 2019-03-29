@@ -15,11 +15,12 @@
       <arg column="pay_status" javaType="java.lang.Integer" jdbcType="INTEGER" />
       <arg column="create_time" javaType="java.util.Date" jdbcType="TIMESTAMP" />
       <arg column="update_time" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+      <arg column="refuse_reason" javaType="java.lang.String" jdbcType="VARCHAR" />
     </constructor>
   </resultMap>
   <sql id="Base_Column_List">
     order_no, shop_id, buyer_id, buyer_name, buyer_phone, buyer_email, payment, payment_type, 
-    order_status, pay_status, create_time, update_time
+    order_status, pay_status, create_time, update_time, refuse_reason
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
@@ -35,13 +36,13 @@
     insert into order (order_no, shop_id, buyer_id, 
       buyer_name, buyer_phone, buyer_email, 
       payment, payment_type, order_status, 
-      pay_status, create_time, update_time
-      )
+      pay_status, create_time, update_time, 
+      refuse_reason)
     values (#{orderNo,jdbcType=VARCHAR}, #{shopId,jdbcType=INTEGER}, #{buyerId,jdbcType=INTEGER}, 
       #{buyerName,jdbcType=VARCHAR}, #{buyerPhone,jdbcType=VARCHAR}, #{buyerEmail,jdbcType=VARCHAR}, 
       #{payment,jdbcType=DECIMAL}, #{paymentType,jdbcType=INTEGER}, #{orderStatus,jdbcType=INTEGER}, 
-      #{payStatus,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}
-      )
+      #{payStatus,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{refuseReason,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.wrq.pojo.Order">
     insert into order
@@ -82,6 +83,9 @@
       <if test="updateTime != null">
         update_time,
       </if>
+      <if test="refuseReason != null">
+        refuse_reason,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="orderNo != null">
@@ -119,6 +123,9 @@
       </if>
       <if test="updateTime != null">
         #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="refuseReason != null">
+        #{refuseReason,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -158,6 +165,9 @@
       <if test="updateTime != null">
         update_time = #{updateTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="refuseReason != null">
+        refuse_reason = #{refuseReason,jdbcType=VARCHAR},
+      </if>
     </set>
     where order_no = #{orderNo,jdbcType=VARCHAR}
   </update>
@@ -173,7 +183,8 @@
       order_status = #{orderStatus,jdbcType=INTEGER},
       pay_status = #{payStatus,jdbcType=INTEGER},
       create_time = #{createTime,jdbcType=TIMESTAMP},
-      update_time = #{updateTime,jdbcType=TIMESTAMP}
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      refuse_reason = #{refuseReason,jdbcType=VARCHAR}
     where order_no = #{orderNo,jdbcType=VARCHAR}
   </update>
 </mapper>

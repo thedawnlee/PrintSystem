@@ -33,7 +33,9 @@ public class Shop {
 
     private String creditTotal;
 
-    public Shop(Integer id, Integer ownerId, String shopName, String shopAddress, String shopDescription, String content, String credit, Integer status, Date workTime, Date closeTime, Integer isReceiveOrder, Date createTime, Date updateTime, Integer creditPeopleNum, String creditTotal) {
+    private Integer dealNum;
+
+    public Shop(Integer id, Integer ownerId, String shopName, String shopAddress, String shopDescription, String content, String credit, Integer status, Date workTime, Date closeTime, Integer isReceiveOrder, Date createTime, Date updateTime, Integer creditPeopleNum, String creditTotal, Integer dealNum) {
         this.id = id;
         this.ownerId = ownerId;
         this.shopName = shopName;
@@ -49,6 +51,7 @@ public class Shop {
         this.updateTime = updateTime;
         this.creditPeopleNum = creditPeopleNum;
         this.creditTotal = creditTotal;
+        this.dealNum = dealNum;
     }
 
     public Shop() {
@@ -173,5 +176,13 @@ public class Shop {
 
     public void setCreditTotal(String creditTotal) {
         this.creditTotal = creditTotal == null ? null : creditTotal.trim();
+    }
+
+    public Integer getDealNum() {
+        return dealNum;
+    }
+
+    public void setDealNum(Integer dealNum) {
+        this.dealNum = dealNum;
     }
 }

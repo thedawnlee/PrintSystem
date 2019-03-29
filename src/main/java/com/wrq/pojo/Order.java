@@ -28,7 +28,9 @@ public class Order {
 
     private Date updateTime;
 
-    public Order(String orderNo, Integer shopId, Integer buyerId, String buyerName, String buyerPhone, String buyerEmail, BigDecimal payment, Integer paymentType, Integer orderStatus, Integer payStatus, Date createTime, Date updateTime) {
+    private String refuseReason;
+
+    public Order(String orderNo, Integer shopId, Integer buyerId, String buyerName, String buyerPhone, String buyerEmail, BigDecimal payment, Integer paymentType, Integer orderStatus, Integer payStatus, Date createTime, Date updateTime, String refuseReason) {
         this.orderNo = orderNo;
         this.shopId = shopId;
         this.buyerId = buyerId;
@@ -41,6 +43,7 @@ public class Order {
         this.payStatus = payStatus;
         this.createTime = createTime;
         this.updateTime = updateTime;
+        this.refuseReason = refuseReason;
     }
 
     public Order() {
@@ -141,5 +144,13 @@ public class Order {
 
     public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
+    }
+
+    public String getRefuseReason() {
+        return refuseReason;
+    }
+
+    public void setRefuseReason(String refuseReason) {
+        this.refuseReason = refuseReason == null ? null : refuseReason.trim();
     }
 }
