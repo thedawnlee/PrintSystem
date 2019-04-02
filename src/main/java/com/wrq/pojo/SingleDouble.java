@@ -3,17 +3,17 @@ package com.wrq.pojo;
 public class SingleDouble {
     private Integer id;
 
-    private String type;
+    private String pageType;
 
     private Integer shopId;
 
-    private String index;
+    private String variable;
 
-    public SingleDouble(Integer id, String type, Integer shopId, String index) {
+    public SingleDouble(Integer id, String pageType, Integer shopId, String variable) {
         this.id = id;
-        this.type = type;
+        this.pageType = pageType;
         this.shopId = shopId;
-        this.index = index;
+        this.variable = variable;
     }
 
     public SingleDouble() {
@@ -28,12 +28,12 @@ public class SingleDouble {
         this.id = id;
     }
 
-    public String getType() {
-        return type;
+    public String getPageType() {
+        return pageType;
     }
 
-    public void setType(String type) {
-        this.type = type == null ? null : type.trim();
+    public void setPageType(String pageType) {
+        this.pageType = pageType == null ? null : pageType.trim();
     }
 
     public Integer getShopId() {
@@ -44,11 +44,11 @@ public class SingleDouble {
         this.shopId = shopId;
     }
 
-    public String getIndex() {
-        return index;
+    public String getVariable() {
+        return variable;
     }
 
-    public void setIndex(String index) {
-        this.index = index == null ? null : index.trim();
+    public void setVariable(String variable) {
+        this.variable = variable == null ? null : variable.trim();
     }
 }

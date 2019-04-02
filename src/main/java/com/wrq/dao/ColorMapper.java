@@ -1,6 +1,8 @@
 package com.wrq.dao;
 
 import com.wrq.pojo.Color;
+import org.apache.ibatis.annotations.Param;
+
 
 public interface ColorMapper {
     int deleteByPrimaryKey(Integer id);
@@ -14,4 +16,8 @@ public interface ColorMapper {
     int updateByPrimaryKeySelective(Color record);
 
     int updateByPrimaryKey(Color record);
+
+    /* 根据店铺ID查询黑白或则彩色 */
+    Color selectBlackOrColorByShopId(@Param("shopId") Integer shopId, @Param("colorType") Integer colorType);
+
 }

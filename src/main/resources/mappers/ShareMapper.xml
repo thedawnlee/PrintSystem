@@ -43,7 +43,7 @@
       #{userId,jdbcType=INTEGER}, #{fileId,jdbcType=INTEGER}, #{isDelete,jdbcType=INTEGER}, 
       #{tag,jdbcType=VARCHAR}, #{viewNum,jdbcType=VARCHAR}, #{downloadNum,jdbcType=INTEGER}, 
       #{isHot,jdbcType=INTEGER}, #{isTop,jdbcType=INTEGER}, #{content,jdbcType=VARCHAR}, 
-      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP})
+      now(), now())
   </insert>
   <insert id="insertSelective" parameterType="com.wrq.pojo.Share">
     insert into share
@@ -129,10 +129,10 @@
         #{content,jdbcType=VARCHAR},
       </if>
       <if test="createTime != null">
-        #{createTime,jdbcType=TIMESTAMP},
+        now(),
       </if>
       <if test="updateTime != null">
-        #{updateTime,jdbcType=TIMESTAMP},
+        now(),
       </if>
     </trim>
   </insert>
@@ -176,7 +176,7 @@
         create_time = #{createTime,jdbcType=TIMESTAMP},
       </if>
       <if test="updateTime != null">
-        update_time = #{updateTime,jdbcType=TIMESTAMP},
+        update_time = now(),
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
@@ -195,7 +195,7 @@
       is_top = #{isTop,jdbcType=INTEGER},
       content = #{content,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP},
-      update_time = #{updateTime,jdbcType=TIMESTAMP}
+      update_time = now()
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

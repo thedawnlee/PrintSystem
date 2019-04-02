@@ -5,17 +5,17 @@ import java.math.BigDecimal;
 public class Color {
     private Integer id;
 
-    private String type;
+    private String colorType;
 
-    private String shopId;
+    private Integer shopId;
 
-    private BigDecimal index;
+    private BigDecimal price;
 
-    public Color(Integer id, String type, String shopId, BigDecimal index) {
+    public Color(Integer id, String colorType, Integer shopId, BigDecimal price) {
         this.id = id;
-        this.type = type;
+        this.colorType = colorType;
         this.shopId = shopId;
-        this.index = index;
+        this.price = price;
     }
 
     public Color() {
@@ -30,27 +30,27 @@ public class Color {
         this.id = id;
     }
 
-    public String getType() {
-        return type;
+    public String getColorType() {
+        return colorType;
     }
 
-    public void setType(String type) {
-        this.type = type == null ? null : type.trim();
+    public void setColorType(String colorType) {
+        this.colorType = colorType == null ? null : colorType.trim();
     }
 
-    public String getShopId() {
+    public Integer getShopId() {
         return shopId;
     }
 
-    public void setShopId(String shopId) {
-        this.shopId = shopId == null ? null : shopId.trim();
+    public void setShopId(Integer shopId) {
+        this.shopId = shopId;
     }
 
-    public BigDecimal getIndex() {
-        return index;
+    public BigDecimal getPrice() {
+        return price;
     }
 
-    public void setIndex(BigDecimal index) {
-        this.index = index;
+    public void setPrice(BigDecimal price) {
+        this.price = price;
     }
 }

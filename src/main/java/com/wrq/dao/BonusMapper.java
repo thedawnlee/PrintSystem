@@ -14,4 +14,6 @@ public interface BonusMapper {
     int updateByPrimaryKeySelective(Bonus record);
 
     int updateByPrimaryKey(Bonus record);
+
+    Bonus selectBonusByShopId(Integer id);
 }

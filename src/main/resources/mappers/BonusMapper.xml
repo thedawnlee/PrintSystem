@@ -5,13 +5,13 @@
     <constructor>
       <idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER" />
       <arg column="shop_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
-      <arg column="condition" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="threshold" javaType="java.lang.String" jdbcType="VARCHAR" />
       <arg column="bonus" javaType="java.lang.String" jdbcType="VARCHAR" />
       <arg column="description" javaType="java.lang.String" jdbcType="VARCHAR" />
     </constructor>
   </resultMap>
   <sql id="Base_Column_List">
-    id, shop_id, condition, bonus, description
+    id, shop_id, threshold, bonus, description
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
@@ -24,9 +24,9 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.wrq.pojo.Bonus">
-    insert into bonus_info (id, shop_id, condition, 
+    insert into bonus_info (id, shop_id, threshold, 
       bonus, description)
-    values (#{id,jdbcType=INTEGER}, #{shopId,jdbcType=INTEGER}, #{condition,jdbcType=VARCHAR}, 
+    values (#{id,jdbcType=INTEGER}, #{shopId,jdbcType=INTEGER}, #{threshold,jdbcType=VARCHAR}, 
       #{bonus,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.wrq.pojo.Bonus">
@@ -38,8 +38,8 @@
       <if test="shopId != null">
         shop_id,
       </if>
-      <if test="condition != null">
-        condition,
+      <if test="threshold != null">
+        threshold,
       </if>
       <if test="bonus != null">
         bonus,
@@ -55,8 +55,8 @@
       <if test="shopId != null">
         #{shopId,jdbcType=INTEGER},
       </if>
-      <if test="condition != null">
-        #{condition,jdbcType=VARCHAR},
+      <if test="threshold != null">
+        #{threshold,jdbcType=VARCHAR},
       </if>
       <if test="bonus != null">
         #{bonus,jdbcType=VARCHAR},
@@ -72,8 +72,8 @@
       <if test="shopId != null">
         shop_id = #{shopId,jdbcType=INTEGER},
       </if>
-      <if test="condition != null">
-        condition = #{condition,jdbcType=VARCHAR},
+      <if test="threshold != null">
+        threshold = #{threshold,jdbcType=VARCHAR},
       </if>
       <if test="bonus != null">
         bonus = #{bonus,jdbcType=VARCHAR},
@@ -87,9 +87,17 @@
   <update id="updateByPrimaryKey" parameterType="com.wrq.pojo.Bonus">
     update bonus_info
     set shop_id = #{shopId,jdbcType=INTEGER},
-      condition = #{condition,jdbcType=VARCHAR},
+      threshold = #{threshold,jdbcType=VARCHAR},
       bonus = #{bonus,jdbcType=VARCHAR},
       description = #{description,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+  <select id="selectBonusByShopId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from bonus_info
+    where shop_id = #{id,jdbcType=INTEGER}
+  </select>
+
 </mapper>

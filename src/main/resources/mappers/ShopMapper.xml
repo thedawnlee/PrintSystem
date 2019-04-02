@@ -11,20 +11,21 @@
       <arg column="content" javaType="java.lang.String" jdbcType="VARCHAR" />
       <arg column="credit" javaType="java.lang.String" jdbcType="VARCHAR" />
       <arg column="status" javaType="java.lang.Integer" jdbcType="INTEGER" />
-      <arg column="work_time" javaType="java.util.Date" jdbcType="TIMESTAMP" />
-      <arg column="close_time" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+      <arg column="work_time" javaType="java.lang.String" jdbcType="TIMESTAMP" />
+      <arg column="close_time" javaType="java.lang.String" jdbcType="TIMESTAMP" />
       <arg column="is_receive_order" javaType="java.lang.Integer" jdbcType="INTEGER" />
       <arg column="create_time" javaType="java.util.Date" jdbcType="TIMESTAMP" />
       <arg column="update_time" javaType="java.util.Date" jdbcType="TIMESTAMP" />
       <arg column="credit_people_num" javaType="java.lang.Integer" jdbcType="INTEGER" />
-      <arg column="credit_total" javaType="java.lang.String" jdbcType="VARCHAR" />
       <arg column="deal_num" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="sub_img" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="main_img" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="mini_img" javaType="java.lang.String" jdbcType="VARCHAR" />
     </constructor>
   </resultMap>
   <sql id="Base_Column_List">
     id, owner_id, shop_name, shop_address, shop_description, content, credit, status, 
-    work_time, close_time, is_receive_order, create_time, update_time, credit_people_num, 
-    credit_total, deal_num
+    work_time, close_time, is_receive_order, create_time, update_time, credit_people_num, deal_num, sub_img, main_img, mini_img
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
@@ -41,14 +42,16 @@
       shop_address, shop_description, content, 
       credit, status, work_time, 
       close_time, is_receive_order, create_time, 
-      update_time, credit_people_num, credit_total, 
-      deal_num)
+      update_time, credit_people_num,
+      deal_num, sub_img, main_img, 
+      mini_img)
     values (#{id,jdbcType=INTEGER}, #{ownerId,jdbcType=INTEGER}, #{shopName,jdbcType=VARCHAR}, 
       #{shopAddress,jdbcType=VARCHAR}, #{shopDescription,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR}, 
-      #{credit,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, #{workTime,jdbcType=TIMESTAMP}, 
-      #{closeTime,jdbcType=TIMESTAMP}, #{isReceiveOrder,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
-      #{updateTime,jdbcType=TIMESTAMP}, #{creditPeopleNum,jdbcType=INTEGER}, #{creditTotal,jdbcType=VARCHAR}, 
-      #{dealNum,jdbcType=INTEGER})
+      #{credit,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, #{workTime,jdbcType=VARCHAR},
+      #{closeTime,jdbcType=VARCHAR}, #{isReceiveOrder,jdbcType=INTEGER}, now(),
+      now(), #{creditPeopleNum,jdbcType=INTEGER}, #{creditTotal,jdbcType=VARCHAR},
+      #{dealNum,jdbcType=INTEGER}, #{subImg,jdbcType=VARCHAR}, #{mainImg,jdbcType=VARCHAR}, 
+      #{miniImg,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.wrq.pojo.Shop">
     insert into shop
@@ -95,11 +98,17 @@
       <if test="creditPeopleNum != null">
         credit_people_num,
       </if>
-      <if test="creditTotal != null">
-        credit_total,
-      </if>
       <if test="dealNum != null">
         deal_num,
+      </if>
+      <if test="subImg != null">
+        sub_img,
+      </if>
+      <if test="mainImg != null">
+        main_img,
+      </if>
+      <if test="miniImg != null">
+        mini_img,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -128,28 +137,34 @@
         #{status,jdbcType=INTEGER},
       </if>
       <if test="workTime != null">
-        #{workTime,jdbcType=TIMESTAMP},
+        #{workTime,jdbcType=VARCHAR},
       </if>
       <if test="closeTime != null">
-        #{closeTime,jdbcType=TIMESTAMP},
+        #{closeTime,jdbcType=VARCHAR},
       </if>
       <if test="isReceiveOrder != null">
         #{isReceiveOrder,jdbcType=INTEGER},
       </if>
       <if test="createTime != null">
-        #{createTime,jdbcType=TIMESTAMP},
+        now(),
       </if>
       <if test="updateTime != null">
-        #{updateTime,jdbcType=TIMESTAMP},
+        now(),
       </if>
       <if test="creditPeopleNum != null">
         #{creditPeopleNum,jdbcType=INTEGER},
       </if>
-      <if test="creditTotal != null">
-        #{creditTotal,jdbcType=VARCHAR},
-      </if>
       <if test="dealNum != null">
         #{dealNum,jdbcType=INTEGER},
+      </if>
+      <if test="subImg != null">
+        #{subImg,jdbcType=VARCHAR},
+      </if>
+      <if test="mainImg != null">
+        #{mainImg,jdbcType=VARCHAR},
+      </if>
+      <if test="miniImg != null">
+        #{miniImg,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -178,10 +193,10 @@
         status = #{status,jdbcType=INTEGER},
       </if>
       <if test="workTime != null">
-        work_time = #{workTime,jdbcType=TIMESTAMP},
+        work_time = #{workTime,jdbcType=VARCHAR},
       </if>
       <if test="closeTime != null">
-        close_time = #{closeTime,jdbcType=TIMESTAMP},
+        close_time = #{closeTime,jdbcType=VARCHAR},
       </if>
       <if test="isReceiveOrder != null">
         is_receive_order = #{isReceiveOrder,jdbcType=INTEGER},
@@ -190,16 +205,22 @@
         create_time = #{createTime,jdbcType=TIMESTAMP},
       </if>
       <if test="updateTime != null">
-        update_time = #{updateTime,jdbcType=TIMESTAMP},
+        update_time = now(),
       </if>
       <if test="creditPeopleNum != null">
         credit_people_num = #{creditPeopleNum,jdbcType=INTEGER},
       </if>
-      <if test="creditTotal != null">
-        credit_total = #{creditTotal,jdbcType=VARCHAR},
-      </if>
       <if test="dealNum != null">
         deal_num = #{dealNum,jdbcType=INTEGER},
+      </if>
+      <if test="subImg != null">
+        sub_img = #{subImg,jdbcType=VARCHAR},
+      </if>
+      <if test="mainImg != null">
+        main_img = #{mainImg,jdbcType=VARCHAR},
+      </if>
+      <if test="miniImg != null">
+        mini_img = #{miniImg,jdbcType=VARCHAR},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
@@ -213,14 +234,56 @@
       content = #{content,jdbcType=VARCHAR},
       credit = #{credit,jdbcType=VARCHAR},
       status = #{status,jdbcType=INTEGER},
-      work_time = #{workTime,jdbcType=TIMESTAMP},
-      close_time = #{closeTime,jdbcType=TIMESTAMP},
+      work_time = #{workTime,jdbcType=VARCHAR},
+      close_time = #{closeTime,jdbcType=VARCHAR},
       is_receive_order = #{isReceiveOrder,jdbcType=INTEGER},
       create_time = #{createTime,jdbcType=TIMESTAMP},
-      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      update_time = now(),
       credit_people_num = #{creditPeopleNum,jdbcType=INTEGER},
-      credit_total = #{creditTotal,jdbcType=VARCHAR},
-      deal_num = #{dealNum,jdbcType=INTEGER}
+      deal_num = #{dealNum,jdbcType=INTEGER},
+      sub_img = #{subImg,jdbcType=VARCHAR},
+      main_img = #{mainImg,jdbcType=VARCHAR},
+      mini_img = #{miniImg,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+  <select id="selectShopListByCreateTimeSort" resultMap="BaseResultMap" parameterType="int">
+    SELECT
+    <include refid="Base_Column_List"/>
+    from shop
+    where status = 0
+    order by create_time desc
+  </select>
+
+  <select id="selectShopListByCreditSort" resultMap="BaseResultMap" parameterType="int">
+    SELECT
+    <include refid="Base_Column_List"/>
+    from shop
+    where status = 0
+    order by credit desc
+  </select>
+
+  <select id="selectShopListByDealNumSort" resultMap="BaseResultMap" parameterType="int">
+    SELECT
+    <include refid="Base_Column_List"/>
+    from shop
+    where status = 0
+    order by dealNum desc
+  </select>
+
+  <select id="selectAllShopByCredit" resultMap="BaseResultMap" parameterType="int">
+    SELECT
+    <include refid="Base_Column_List"/>
+    from shop
+    order by credit desc
+  </select>
+
+  <select id="selectOtherShopSortByCredit" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List"/>
+    from shop
+    where id != #{shopId}
+    order by credit desc
+  </select>
+
 </mapper>

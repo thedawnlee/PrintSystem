@@ -1,0 +1,34 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>毕业设计</title>
+    <#include "portal/common/meta.html"/>
+    <link href="css/common.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="${basePath}/css/index.css" />
+    <script src="js/lib/jquery.js" type="text/javascript" charset="utf-8"></script>
+    <script src="js/lib/unslider.js" type="text/javascript" charset="utf-8"></script>
+    <!--引入js-->
+    <#include "portal/common/js.html"/>
+</head>
+<body mpa-version="5.10.0" mpa-extension-id="ibefaeehajgcpooopoegkifhgecigeeg">
+<div id="app">
+    <div data-v-637a7fc8="" class="page-home">
+
+        <#include "portal/common/page/header.html"/>
+
+        <#include "portal/index/banner.html"/>
+
+        <#include "portal/index/content.html"/>
+
+    </div>
+        <#include "portal/common/page/footer.html"/>
+</div>
+</div>
+<script type="text/javascript">
+    $(function() {
+        $('.banner').unslider();
+    });
+</script>
+<!--<script src="/js/index/index.js"></script>-->
+</body>
+</html>

@@ -5,19 +5,19 @@
     <constructor>
       <idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER" />
       <arg column="user_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
-      <arg column="traget_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="target_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
       <arg column="ip" javaType="java.lang.String" jdbcType="VARCHAR" />
       <arg column="content" javaType="java.lang.String" jdbcType="VARCHAR" />
       <arg column="parent_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
       <arg column="status" javaType="java.lang.Integer" jdbcType="INTEGER" />
       <arg column="create_time" javaType="java.util.Date" jdbcType="TIMESTAMP" />
       <arg column="update_time" javaType="java.util.Date" jdbcType="TIMESTAMP" />
-      <arg column="type" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="comment_type" javaType="java.lang.Integer" jdbcType="INTEGER" />
     </constructor>
   </resultMap>
   <sql id="Base_Column_List">
-    id, user_id, traget_id, ip, content, parent_id, status, create_time, update_time, 
-    type
+    id, user_id, target_id, ip, content, parent_id, status, create_time, update_time, 
+    comment_type
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
@@ -30,14 +30,14 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.wrq.pojo.Comment">
-    insert into comment (id, user_id, traget_id, 
+    insert into comment (id, user_id, target_id, 
       ip, content, parent_id, 
       status, create_time, update_time, 
-      type)
-    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{tragetId,jdbcType=INTEGER}, 
+      comment_type)
+    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{targetId,jdbcType=INTEGER}, 
       #{ip,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR}, #{parentId,jdbcType=INTEGER}, 
-      #{status,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
-      #{type,jdbcType=INTEGER})
+      #{status,jdbcType=INTEGER}, now(), now(),
+      #{commentType,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.wrq.pojo.Comment">
     insert into comment
@@ -48,8 +48,8 @@
       <if test="userId != null">
         user_id,
       </if>
-      <if test="tragetId != null">
-        traget_id,
+      <if test="targetId != null">
+        target_id,
       </if>
       <if test="ip != null">
         ip,
@@ -69,8 +69,8 @@
       <if test="updateTime != null">
         update_time,
       </if>
-      <if test="type != null">
-        type,
+      <if test="commentType != null">
+        comment_type,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -80,8 +80,8 @@
       <if test="userId != null">
         #{userId,jdbcType=INTEGER},
       </if>
-      <if test="tragetId != null">
-        #{tragetId,jdbcType=INTEGER},
+      <if test="targetId != null">
+        #{targetId,jdbcType=INTEGER},
       </if>
       <if test="ip != null">
         #{ip,jdbcType=VARCHAR},
@@ -99,10 +99,10 @@
         #{createTime,jdbcType=TIMESTAMP},
       </if>
       <if test="updateTime != null">
-        #{updateTime,jdbcType=TIMESTAMP},
+        now(),
       </if>
-      <if test="type != null">
-        #{type,jdbcType=INTEGER},
+      <if test="commentType != null">
+        now(),
       </if>
     </trim>
   </insert>
@@ -112,8 +112,8 @@
       <if test="userId != null">
         user_id = #{userId,jdbcType=INTEGER},
       </if>
-      <if test="tragetId != null">
-        traget_id = #{tragetId,jdbcType=INTEGER},
+      <if test="targetId != null">
+        target_id = #{targetId,jdbcType=INTEGER},
       </if>
       <if test="ip != null">
         ip = #{ip,jdbcType=VARCHAR},
@@ -131,10 +131,10 @@
         create_time = #{createTime,jdbcType=TIMESTAMP},
       </if>
       <if test="updateTime != null">
-        update_time = #{updateTime,jdbcType=TIMESTAMP},
+        update_time = now(),
       </if>
-      <if test="type != null">
-        type = #{type,jdbcType=INTEGER},
+      <if test="commentType != null">
+        comment_type = #{commentType,jdbcType=INTEGER},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
@@ -142,14 +142,14 @@
   <update id="updateByPrimaryKey" parameterType="com.wrq.pojo.Comment">
     update comment
     set user_id = #{userId,jdbcType=INTEGER},
-      traget_id = #{tragetId,jdbcType=INTEGER},
+      target_id = #{targetId,jdbcType=INTEGER},
       ip = #{ip,jdbcType=VARCHAR},
       content = #{content,jdbcType=VARCHAR},
       parent_id = #{parentId,jdbcType=INTEGER},
       status = #{status,jdbcType=INTEGER},
       create_time = #{createTime,jdbcType=TIMESTAMP},
-      update_time = #{updateTime,jdbcType=TIMESTAMP},
-      type = #{type,jdbcType=INTEGER}
+      update_time = now(),
+      comment_type = #{commentType,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

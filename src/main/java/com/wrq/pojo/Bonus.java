@@ -5,16 +5,16 @@ public class Bonus {
 
     private Integer shopId;
 
-    private String condition;
+    private String threshold;
 
     private String bonus;
 
     private String description;
 
-    public Bonus(Integer id, Integer shopId, String condition, String bonus, String description) {
+    public Bonus(Integer id, Integer shopId, String threshold, String bonus, String description) {
         this.id = id;
         this.shopId = shopId;
-        this.condition = condition;
+        this.threshold = threshold;
         this.bonus = bonus;
         this.description = description;
     }
@@ -39,12 +39,12 @@ public class Bonus {
         this.shopId = shopId;
     }
 
-    public String getCondition() {
-        return condition;
+    public String getThreshold() {
+        return threshold;
     }
 
-    public void setCondition(String condition) {
-        this.condition = condition == null ? null : condition.trim();
+    public void setThreshold(String threshold) {
+        this.threshold = threshold == null ? null : threshold.trim();
     }
 
     public String getBonus() {

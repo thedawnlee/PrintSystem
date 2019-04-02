@@ -1,6 +1,7 @@
 package com.wrq.dao;
 
 import com.wrq.pojo.PageSize;
+import org.apache.ibatis.annotations.Param;
 
 public interface PageSizeMapper {
     int deleteByPrimaryKey(Integer id);
@@ -14,4 +15,6 @@ public interface PageSizeMapper {
     int updateByPrimaryKeySelective(PageSize record);
 
     int updateByPrimaryKey(PageSize record);
+
+    PageSize getPageSizeByShopIdAndSize(@Param("shopId") Integer shopId, @Param("pageSize") Integer pageSize);
 }

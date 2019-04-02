@@ -1,6 +1,7 @@
 package com.wrq.dao;
 
 import com.wrq.pojo.SingleDouble;
+import org.apache.ibatis.annotations.Param;
 
 public interface SingleDoubleMapper {
     int deleteByPrimaryKey(Integer id);
@@ -14,4 +15,6 @@ public interface SingleDoubleMapper {
     int updateByPrimaryKeySelective(SingleDouble record);
 
     int updateByPrimaryKey(SingleDouble record);
+
+    SingleDouble selectSingleOrDoubleByShopId(@Param("shopId") Integer shopId, @Param("pageType") Integer pageType);
 }

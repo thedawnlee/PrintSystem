@@ -3,17 +3,17 @@ package com.wrq.pojo;
 public class PageSize {
     private Integer id;
 
-    private String type;
+    private String sizeType;
 
     private Integer shopId;
 
-    private String index;
+    private String variable;
 
-    public PageSize(Integer id, String type, Integer shopId, String index) {
+    public PageSize(Integer id, String sizeType, Integer shopId, String variable) {
         this.id = id;
-        this.type = type;
+        this.sizeType = sizeType;
         this.shopId = shopId;
-        this.index = index;
+        this.variable = variable;
     }
 
     public PageSize() {
@@ -28,12 +28,12 @@ public class PageSize {
         this.id = id;
     }
 
-    public String getType() {
-        return type;
+    public String getSizeType() {
+        return sizeType;
     }
 
-    public void setType(String type) {
-        this.type = type == null ? null : type.trim();
+    public void setSizeType(String sizeType) {
+        this.sizeType = sizeType == null ? null : sizeType.trim();
     }
 
     public Integer getShopId() {
@@ -44,11 +44,11 @@ public class PageSize {
         this.shopId = shopId;
     }
 
-    public String getIndex() {
-        return index;
+    public String getVariable() {
+        return variable;
     }
 
-    public void setIndex(String index) {
-        this.index = index == null ? null : index.trim();
+    public void setVariable(String variable) {
+        this.variable = variable == null ? null : variable.trim();
     }
 }

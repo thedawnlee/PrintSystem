@@ -8,7 +8,7 @@ import java.math.BigDecimal;
 public class BigDecimalUtil {
 
     /**
-     * 防止丢失精度的一个工具类
+     * Created by wangqian on 2019/3/30.
      */
     private BigDecimalUtil(){
 

@@ -13,7 +13,7 @@ public class File {
 
     private Integer pageNum;
 
-    private Integer private;
+    private Integer share;
 
     private Integer integral;
 
@@ -23,13 +23,13 @@ public class File {
 
     private Date updateTime;
 
-    public File(Integer id, String fileName, Integer userId, String fileSpec, Integer pageNum, Integer private, Integer integral, String description, Date createTime, Date updateTime) {
+    public File(Integer id, String fileName, Integer userId, String fileSpec, Integer pageNum, Integer share, Integer integral, String description, Date createTime, Date updateTime) {
         this.id = id;
         this.fileName = fileName;
         this.userId = userId;
         this.fileSpec = fileSpec;
         this.pageNum = pageNum;
-        this.private = private;
+        this.share = share;
         this.integral = integral;
         this.description = description;
         this.createTime = createTime;
@@ -80,12 +80,12 @@ public class File {
         this.pageNum = pageNum;
     }
 
-    public Integer getPrivate() {
-        return private;
+    public Integer getShare() {
+        return share;
     }
 
-    public void setPrivate(Integer private) {
-        this.private = private;
+    public void setShare(Integer share) {
+        this.share = share;
     }
 
     public Integer getIntegral() {

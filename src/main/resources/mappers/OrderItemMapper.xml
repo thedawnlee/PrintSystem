@@ -40,8 +40,8 @@
       picking_time)
     values (#{id,jdbcType=INTEGER}, #{orderId,jdbcType=VARCHAR}, #{userId,jdbcType=INTEGER}, 
       #{fileId,jdbcType=INTEGER}, #{fileQuantity,jdbcType=INTEGER}, #{totalPrice,jdbcType=DECIMAL}, 
-      #{sizeInfoId,jdbcType=VARCHAR}, #{userDes,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
-      #{updateTime,jdbcType=TIMESTAMP}, #{colorInfoId,jdbcType=INTEGER}, #{pageInfoId,jdbcType=INTEGER}, 
+      #{sizeInfoId,jdbcType=VARCHAR}, #{userDes,jdbcType=VARCHAR}, now(),
+      now(), #{colorInfoId,jdbcType=INTEGER}, #{pageInfoId,jdbcType=INTEGER},
       #{pickingTime,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="com.wrq.pojo.OrderItem">
@@ -113,10 +113,10 @@
         #{userDes,jdbcType=VARCHAR},
       </if>
       <if test="createTime != null">
-        #{createTime,jdbcType=TIMESTAMP},
+        now(),
       </if>
       <if test="updateTime != null">
-        #{updateTime,jdbcType=TIMESTAMP},
+        now(),
       </if>
       <if test="colorInfoId != null">
         #{colorInfoId,jdbcType=INTEGER},
@@ -157,7 +157,7 @@
         create_time = #{createTime,jdbcType=TIMESTAMP},
       </if>
       <if test="updateTime != null">
-        update_time = #{updateTime,jdbcType=TIMESTAMP},
+        update_time = now(),
       </if>
       <if test="colorInfoId != null">
         color_info_id = #{colorInfoId,jdbcType=INTEGER},
@@ -181,7 +181,7 @@
       size_info_id = #{sizeInfoId,jdbcType=VARCHAR},
       user_des = #{userDes,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP},
-      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      update_time = now(),
       color_info_id = #{colorInfoId,jdbcType=INTEGER},
       page_info_id = #{pageInfoId,jdbcType=INTEGER},
       picking_time = #{pickingTime,jdbcType=TIMESTAMP}

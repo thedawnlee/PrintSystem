@@ -4,7 +4,7 @@
   <resultMap id="BaseResultMap" type="com.wrq.pojo.User">
     <constructor>
       <idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER" />
-      <arg column="nickname" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="username" javaType="java.lang.String" jdbcType="VARCHAR" />
       <arg column="password" javaType="java.lang.String" jdbcType="VARCHAR" />
       <arg column="email" javaType="java.lang.String" jdbcType="VARCHAR" />
       <arg column="phone" javaType="java.lang.String" jdbcType="VARCHAR" />
@@ -18,7 +18,7 @@
     </constructor>
   </resultMap>
   <sql id="Base_Column_List">
-    id, nickname, password, email, phone, header_pic, question, answer, role, integral, 
+    id, username, password, email, phone, header_pic, question, answer, role, integral, 
     create_time, update_time
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
@@ -32,15 +32,15 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.wrq.pojo.User">
-    insert into user (id, nickname, password, 
+    insert into user (id, username, password, 
       email, phone, header_pic, 
       question, answer, role, 
       integral, create_time, update_time
       )
-    values (#{id,jdbcType=INTEGER}, #{nickname,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
+    values (#{id,jdbcType=INTEGER}, #{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
       #{email,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, #{headerPic,jdbcType=VARCHAR}, 
       #{question,jdbcType=VARCHAR}, #{answer,jdbcType=VARCHAR}, #{role,jdbcType=INTEGER}, 
-      #{integral,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}
+      #{integral,jdbcType=VARCHAR}, now(), now()
       )
   </insert>
   <insert id="insertSelective" parameterType="com.wrq.pojo.User">
@@ -49,8 +49,8 @@
       <if test="id != null">
         id,
       </if>
-      <if test="nickname != null">
-        nickname,
+      <if test="username != null">
+        username,
       </if>
       <if test="password != null">
         password,
@@ -87,8 +87,8 @@
       <if test="id != null">
         #{id,jdbcType=INTEGER},
       </if>
-      <if test="nickname != null">
-        #{nickname,jdbcType=VARCHAR},
+      <if test="username != null">
+        #{username,jdbcType=VARCHAR},
       </if>
       <if test="password != null">
         #{password,jdbcType=VARCHAR},
@@ -115,18 +115,18 @@
         #{integral,jdbcType=VARCHAR},
       </if>
       <if test="createTime != null">
-        #{createTime,jdbcType=TIMESTAMP},
+        now(),
       </if>
       <if test="updateTime != null">
-        #{updateTime,jdbcType=TIMESTAMP},
+        now(),
       </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.wrq.pojo.User">
     update user
     <set>
-      <if test="nickname != null">
-        nickname = #{nickname,jdbcType=VARCHAR},
+      <if test="username != null">
+        username = #{username,jdbcType=VARCHAR},
       </if>
       <if test="password != null">
         password = #{password,jdbcType=VARCHAR},
@@ -156,14 +156,14 @@
         create_time = #{createTime,jdbcType=TIMESTAMP},
       </if>
       <if test="updateTime != null">
-        update_time = #{updateTime,jdbcType=TIMESTAMP},
+        update_time = now(),
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.wrq.pojo.User">
     update user
-    set nickname = #{nickname,jdbcType=VARCHAR},
+    set username = #{username,jdbcType=VARCHAR},
       password = #{password,jdbcType=VARCHAR},
       email = #{email,jdbcType=VARCHAR},
       phone = #{phone,jdbcType=VARCHAR},
@@ -173,7 +173,63 @@
       role = #{role,jdbcType=INTEGER},
       integral = #{integral,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP},
-      update_time = #{updateTime,jdbcType=TIMESTAMP}
+      update_time = now()
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+  <select id="checkUsername" resultType="int" parameterType="string">
+    select count(1) from user
+    where username = #{username}
+  </select>
+
+  <select id="checkEmail" resultType="int" parameterType="string">
+    select count(1) from user
+    where email = #{email}
+  </select>
+
+
+  <select id="selectLogin" resultMap="BaseResultMap" parameterType="map">
+    SELECT
+    <include refid="Base_Column_List"/>
+    from  user
+    where  username = #{username}
+    and password = #{password}
+
+  </select>
+
+  <!--<select id="selectQuestionByUsername" resultType="string" parameterType="string">-->
+    <!--SELECT  question-->
+    <!--from  user-->
+    <!--where  username = #{username}-->
+  <!--</select>-->
+
+  <!--<select id="checkAnswer" resultType="int" parameterType="map">-->
+    <!--SELECT-->
+    <!--count(1)-->
+    <!--from user-->
+    <!--where username=#{username}-->
+    <!--and question = #{question}-->
+    <!--and answer = #{answer}-->
+  <!--</select>-->
+
+  <!--<update id="updatePasswordByUsername" parameterType="map">-->
+    <!--UPDATE  user-->
+    <!--set password = #{passwordNew},update_time = now()-->
+    <!--where username = #{username}-->
+  <!--</update>-->
+
+  <!--<select id="checkPassword" resultType="int" parameterType="map">-->
+    <!--SELECT-->
+    <!--count(1)-->
+    <!--FROM  user-->
+    <!--WHERE id = #{userId}-->
+    <!--and password = #{password}-->
+  <!--</select>-->
+
+  <!--<select id="checkEmailByUserId" resultType="int" parameterType="map">-->
+    <!--select count(1) from user-->
+    <!--where email = #{email}-->
+    <!--and id !=#{userId}-->
+  <!--</select>-->
+
 </mapper>

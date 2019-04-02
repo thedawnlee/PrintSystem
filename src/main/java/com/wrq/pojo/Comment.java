@@ -7,7 +7,7 @@ public class Comment {
 
     private Integer userId;
 
-    private Integer tragetId;
+    private Integer targetId;
 
     private String ip;
 
@@ -21,19 +21,19 @@ public class Comment {
 
     private Date updateTime;
 
-    private Integer type;
+    private Integer commentType;
 
-    public Comment(Integer id, Integer userId, Integer tragetId, String ip, String content, Integer parentId, Integer status, Date createTime, Date updateTime, Integer type) {
+    public Comment(Integer id, Integer userId, Integer targetId, String ip, String content, Integer parentId, Integer status, Date createTime, Date updateTime, Integer commentType) {
         this.id = id;
         this.userId = userId;
-        this.tragetId = tragetId;
+        this.targetId = targetId;
         this.ip = ip;
         this.content = content;
         this.parentId = parentId;
         this.status = status;
         this.createTime = createTime;
         this.updateTime = updateTime;
-        this.type = type;
+        this.commentType = commentType;
     }
 
     public Comment() {
@@ -56,12 +56,12 @@ public class Comment {
         this.userId = userId;
     }
 
-    public Integer getTragetId() {
-        return tragetId;
+    public Integer getTargetId() {
+        return targetId;
     }
 
-    public void setTragetId(Integer tragetId) {
-        this.tragetId = tragetId;
+    public void setTargetId(Integer targetId) {
+        this.targetId = targetId;
     }
 
     public String getIp() {
@@ -112,11 +112,11 @@ public class Comment {
         this.updateTime = updateTime;
     }
 
-    public Integer getType() {
-        return type;
+    public Integer getCommentType() {
+        return commentType;
     }
 
-    public void setType(Integer type) {
-        this.type = type;
+    public void setCommentType(Integer commentType) {
+        this.commentType = commentType;
     }
 }

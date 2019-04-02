@@ -19,9 +19,9 @@ public class Shop {
 
     private Integer status;
 
-    private Date workTime;
+    private String workTime;
 
-    private Date closeTime;
+    private String closeTime;
 
     private Integer isReceiveOrder;
 
@@ -31,11 +31,15 @@ public class Shop {
 
     private Integer creditPeopleNum;
 
-    private String creditTotal;
-
     private Integer dealNum;
 
-    public Shop(Integer id, Integer ownerId, String shopName, String shopAddress, String shopDescription, String content, String credit, Integer status, Date workTime, Date closeTime, Integer isReceiveOrder, Date createTime, Date updateTime, Integer creditPeopleNum, String creditTotal, Integer dealNum) {
+    private String subImg;
+
+    private String mainImg;
+
+    private String miniImg;
+
+    public Shop(Integer id, Integer ownerId, String shopName, String shopAddress, String shopDescription, String content, String credit, Integer status, String workTime, String closeTime, Integer isReceiveOrder, Date createTime, Date updateTime, Integer creditPeopleNum, Integer dealNum, String subImg, String mainImg, String miniImg) {
         this.id = id;
         this.ownerId = ownerId;
         this.shopName = shopName;
@@ -50,8 +54,10 @@ public class Shop {
         this.createTime = createTime;
         this.updateTime = updateTime;
         this.creditPeopleNum = creditPeopleNum;
-        this.creditTotal = creditTotal;
         this.dealNum = dealNum;
+        this.subImg = subImg;
+        this.mainImg = mainImg;
+        this.miniImg = miniImg;
     }
 
     public Shop() {
@@ -122,19 +128,19 @@ public class Shop {
         this.status = status;
     }
 
-    public Date getWorkTime() {
+    public String getWorkTime() {
         return workTime;
     }
 
-    public void setWorkTime(Date workTime) {
+    public void setWorkTime(String workTime) {
         this.workTime = workTime;
     }
 
-    public Date getCloseTime() {
+    public String getCloseTime() {
         return closeTime;
     }
 
-    public void setCloseTime(Date closeTime) {
+    public void setCloseTime(String closeTime) {
         this.closeTime = closeTime;
     }
 
@@ -170,19 +176,35 @@ public class Shop {
         this.creditPeopleNum = creditPeopleNum;
     }
 
-    public String getCreditTotal() {
-        return creditTotal;
-    }
-
-    public void setCreditTotal(String creditTotal) {
-        this.creditTotal = creditTotal == null ? null : creditTotal.trim();
-    }
-
     public Integer getDealNum() {
         return dealNum;
     }
 
     public void setDealNum(Integer dealNum) {
         this.dealNum = dealNum;
+    }
+
+    public String getSubImg() {
+        return subImg;
+    }
+
+    public void setSubImg(String subImg) {
+        this.subImg = subImg == null ? null : subImg.trim();
+    }
+
+    public String getMainImg() {
+        return mainImg;
+    }
+
+    public void setMainImg(String mainImg) {
+        this.mainImg = mainImg == null ? null : mainImg.trim();
+    }
+
+    public String getMiniImg() {
+        return miniImg;
+    }
+
+    public void setMiniImg(String miniImg) {
+        this.miniImg = miniImg == null ? null : miniImg.trim();
     }
 }
