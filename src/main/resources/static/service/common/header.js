@@ -10,7 +10,9 @@ var vue = new Vue({
         controlStyle: {
             display: 'none'
         },
-        isShow: false
+        isShow: false,
+        username: "",
+        phone: ""
     },
     methods: {
         getUserInfo: function () {
@@ -19,9 +21,10 @@ var vue = new Vue({
         successCallback: function ( res ) {
             res = res.body;
             if( res.data && res.status == 0){
-                this.controlStyle.display = 'none'
-                this.profileStyle.display = ''
-                console.log(res.data)
+                this.controlStyle.display = 'none';
+                this.profileStyle.display = '';
+                this.username = res.data.username;
+                this.phone = res.data.phone;
             }else {
                 // do nothing
                 this.profileStyle.display = 'none'
@@ -47,7 +50,7 @@ var vue = new Vue({
             }
         }
     },
-    created: function () {
+    mounted: function () {
         this.getUserInfo();
     }
 })

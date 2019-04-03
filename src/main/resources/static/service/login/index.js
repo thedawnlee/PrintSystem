@@ -5,7 +5,8 @@ var vue = new Vue({
     el: "#app",
     data: {
         username: "",
-        password: ""
+        password: "",
+        url: ""
     },
     methods: {
         handleClick: function () {
@@ -17,16 +18,24 @@ var vue = new Vue({
         successCallback: function ( res ) {
             res = res.body;
             if( res.data && res.status == 0){
-                window.location.href = './index.html';
+                if ( this.url != null ){
+                    this.$http.get(this.url).then(this.otherSuccessCallback, this.errorCallback);
+                }else {
+                    window.location.href = './index.html';
+                }
             }else {
                 util.errorTips( res.msg )
             }
         },
         errorCallback: function ( res ) {
             util.errorTips()
+        },
+        otherSuccessCallback: function ( res ) {
+
         }
     },
-    created: function () {
-        //this.getBlogInfo(1, util.pageSize());
+    mounted: function () {
+        this.url = this.$refs.urlRef.value;
+        console.log( this.url )
     }
-})
+});

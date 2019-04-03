@@ -4,7 +4,7 @@
   <resultMap id="BaseResultMap" type="com.wrq.pojo.OrderItem">
     <constructor>
       <idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER" />
-      <arg column="order_id" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="order_no" javaType="java.lang.String" jdbcType="VARCHAR" />
       <arg column="user_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
       <arg column="file_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
       <arg column="file_quantity" javaType="java.lang.Integer" jdbcType="INTEGER" />
@@ -15,12 +15,11 @@
       <arg column="update_time" javaType="java.util.Date" jdbcType="TIMESTAMP" />
       <arg column="color_info_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
       <arg column="page_info_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
-      <arg column="picking_time" javaType="java.util.Date" jdbcType="TIMESTAMP" />
     </constructor>
   </resultMap>
   <sql id="Base_Column_List">
-    id, order_id, user_id, file_id, file_quantity, total_price, size_info_id, user_des, 
-    create_time, update_time, color_info_id, page_info_id, picking_time
+    id, order_no, user_id, file_id, file_quantity, total_price, size_info_id, user_des, 
+    create_time, update_time, color_info_id, page_info_id
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
@@ -33,16 +32,14 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.wrq.pojo.OrderItem">
-    insert into order_item (id, order_id, user_id, 
+    insert into order_item (id, order_no, user_id, 
       file_id, file_quantity, total_price, 
       size_info_id, user_des, create_time, 
-      update_time, color_info_id, page_info_id, 
-      picking_time)
+      update_time, color_info_id, page_info_id)
     values (#{id,jdbcType=INTEGER}, #{orderId,jdbcType=VARCHAR}, #{userId,jdbcType=INTEGER}, 
       #{fileId,jdbcType=INTEGER}, #{fileQuantity,jdbcType=INTEGER}, #{totalPrice,jdbcType=DECIMAL}, 
       #{sizeInfoId,jdbcType=VARCHAR}, #{userDes,jdbcType=VARCHAR}, now(),
-      now(), #{colorInfoId,jdbcType=INTEGER}, #{pageInfoId,jdbcType=INTEGER},
-      #{pickingTime,jdbcType=TIMESTAMP})
+      now(), #{colorInfoId,jdbcType=INTEGER}, #{pageInfoId,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.wrq.pojo.OrderItem">
     insert into order_item
@@ -51,7 +48,7 @@
         id,
       </if>
       <if test="orderId != null">
-        order_id,
+        order_no,
       </if>
       <if test="userId != null">
         user_id,
@@ -82,9 +79,6 @@
       </if>
       <if test="pageInfoId != null">
         page_info_id,
-      </if>
-      <if test="pickingTime != null">
-        picking_time,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -124,16 +118,13 @@
       <if test="pageInfoId != null">
         #{pageInfoId,jdbcType=INTEGER},
       </if>
-      <if test="pickingTime != null">
-        #{pickingTime,jdbcType=TIMESTAMP},
-      </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.wrq.pojo.OrderItem">
     update order_item
     <set>
       <if test="orderId != null">
-        order_id = #{orderId,jdbcType=VARCHAR},
+        order_no = #{orderId,jdbcType=VARCHAR},
       </if>
       <if test="userId != null">
         user_id = #{userId,jdbcType=INTEGER},
@@ -165,15 +156,12 @@
       <if test="pageInfoId != null">
         page_info_id = #{pageInfoId,jdbcType=INTEGER},
       </if>
-      <if test="pickingTime != null">
-        picking_time = #{pickingTime,jdbcType=TIMESTAMP},
-      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.wrq.pojo.OrderItem">
     update order_item
-    set order_id = #{orderId,jdbcType=VARCHAR},
+    set order_no = #{orderId,jdbcType=VARCHAR},
       user_id = #{userId,jdbcType=INTEGER},
       file_id = #{fileId,jdbcType=INTEGER},
       file_quantity = #{fileQuantity,jdbcType=INTEGER},
@@ -183,8 +171,7 @@
       create_time = #{createTime,jdbcType=TIMESTAMP},
       update_time = now(),
       color_info_id = #{colorInfoId,jdbcType=INTEGER},
-      page_info_id = #{pageInfoId,jdbcType=INTEGER},
-      picking_time = #{pickingTime,jdbcType=TIMESTAMP}
+      page_info_id = #{pageInfoId,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

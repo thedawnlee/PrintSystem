@@ -46,7 +46,6 @@ public class ShopController {
      * @return 店铺详情
      */
     @GetMapping("detail/{id}")
-    @ResponseBody
     public ModelAndView detail(@PathVariable("id") Integer id, Map<String, Object> map) {
 
         ServerResponse<DetailVo> detail = iShopService.getShopDetailById(id);

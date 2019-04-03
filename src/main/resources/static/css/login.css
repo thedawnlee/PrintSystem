@@ -1,3 +1,14 @@
+.error-tips{
+	width: 320px;
+	height: 40px;
+	margin: 0 auto;
+	margin-bottom: 10px;
+	text-align: center;
+	line-height:40px;
+	display: inline-block;
+	color: #EF651E;
+}
+
 ::-webkit-input-placeholder {
 	color: #a9a9a9
 }
@@ -1293,7 +1304,7 @@ a:hover {
 
 .logo[data-v-104adcb8] {
 	display: block;
-	margin: 0 auto 35px;
+	margin: -35px auto 15px;
 	max-width: 232px
 }
 
@@ -1521,7 +1532,7 @@ img[data-v-52564f57] {
 
 .logo[data-v-397789a4] {
 	display: block;
-	margin: 0 auto 35px;
+	margin: -35px auto 15px;
 	max-width: 232px
 }
 

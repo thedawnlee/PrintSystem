@@ -6,14 +6,17 @@
     <link rel="stylesheet" type="text/css" href="${basePath}/css/login.css" />
     <link rel="stylesheet" type="text/css" href="${basePath}/css/common.css" />
 </head>
-<body mpa-version="5.10.1" mpa-extension-id="ibefaeehajgcpooopoegkifhgecigeeg">
+<body>
 <div class="app" id="app">
     <div data-v-6143d696="" data-v-397789a4="" class="layout container">
         <div data-v-6143d696="" class="fix-bg"></div>
-        <div data-v-6143d696="" class="layout-content"><img data-v-6143d696="" src="img/login_img.png" class="layout-label">
+        <div data-v-6143d696="" class="layout-content"><img data-v-6143d696="" src="${basePath}/img/login_img.png" class="layout-label">
             <div data-v-cf2320aa="" data-v-397789a4="" class="card" data-v-6143d696="">
-                <div data-v-397789a4="" data-v-cf2320aa=""><img data-v-397789a4="" data-v-cf2320aa="" src="img/logo.png" alt="logo" class="logo">
+                <div data-v-397789a4="" data-v-cf2320aa=""><img data-v-397789a4="" data-v-cf2320aa="" src="${basePath}/img/logo.png" alt="logo" class="logo">
                     <form action="/user/login.do" method="post">
+                        <span class="error-tips">${msg}</span>
+
+                        <input type="hidden" value="${url}" ref="urlRef">
                         <div data-v-397789a4="" data-textarea="0" class="ui-form-item ui-big-input ui-gray-input" validate="true" data-v-cf2320aa="">
                             <input  v-model="username" name="username" type="text" placeholder="请输入用户名" maxlength="64" class="ui-form-text">
                             <!--<span class="ui-input-error" :style="userErrorTips">用户名格式错误</span>-->
@@ -42,7 +45,7 @@
 <!-- 引入脚本 -->
 
 <#include "portal/common/js.html"/>
-<script src="/js/login/index.js"></script>
+<script src="/service/login/index.js"></script>
 
 </body>
 </html>

@@ -6,7 +6,7 @@ import java.util.Date;
 public class OrderItem {
     private Integer id;
 
-    private String orderId;
+    private String orderNo;
 
     private Integer userId;
 
@@ -28,11 +28,10 @@ public class OrderItem {
 
     private Integer pageInfoId;
 
-    private Date pickingTime;
 
-    public OrderItem(Integer id, String orderId, Integer userId, Integer fileId, Integer fileQuantity, BigDecimal totalPrice, String sizeInfoId, String userDes, Date createTime, Date updateTime, Integer colorInfoId, Integer pageInfoId, Date pickingTime) {
+    public OrderItem(Integer id, String orderNo, Integer userId, Integer fileId, Integer fileQuantity, BigDecimal totalPrice, String sizeInfoId, String userDes, Date createTime, Date updateTime, Integer colorInfoId, Integer pageInfoId) {
         this.id = id;
-        this.orderId = orderId;
+        this.orderNo = orderNo;
         this.userId = userId;
         this.fileId = fileId;
         this.fileQuantity = fileQuantity;
@@ -43,7 +42,6 @@ public class OrderItem {
         this.updateTime = updateTime;
         this.colorInfoId = colorInfoId;
         this.pageInfoId = pageInfoId;
-        this.pickingTime = pickingTime;
     }
 
     public OrderItem() {
@@ -58,12 +56,12 @@ public class OrderItem {
         this.id = id;
     }
 
-    public String getOrderId() {
-        return orderId;
+    public String getOrderNo() {
+        return orderNo;
     }
 
-    public void setOrderId(String orderId) {
-        this.orderId = orderId == null ? null : orderId.trim();
+    public void setOrderNo(String orderNo) {
+        this.orderNo = orderNo == null ? null : orderNo.trim();
     }
 
     public Integer getUserId() {
@@ -146,11 +144,4 @@ public class OrderItem {
         this.pageInfoId = pageInfoId;
     }
 
-    public Date getPickingTime() {
-        return pickingTime;
-    }
-
-    public void setPickingTime(Date pickingTime) {
-        this.pickingTime = pickingTime;
-    }
 }
