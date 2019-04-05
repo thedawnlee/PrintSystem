@@ -43,7 +43,7 @@ var vue = new Vue({
         outSuccessCallback: function ( res ) {
             res = res.body;
             if( res.status == 0){
-                window.location.href = util.getUrlParam('redirect') || './index.html';
+                window.location.href = '/index';
                 console.log(res.data)
             }else {
                 util.errorTips( res.msg )

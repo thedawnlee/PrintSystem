@@ -6,7 +6,7 @@
                     <div data-v-0ef69fa0 class="label">确认账号：</div>
                     <div data-v-0ef69fa0 class="list-content">
                         <div data-v-0ef69fa0 class="user">
-                            <span data-v-0ef69fa0>王久一（178****6692）</span>
+                            <span data-v-0ef69fa0>{{username}}（{{phone}}）</span>
                             <a data-v-0ef69fa0 href class="change-user">更换手机号</a>
                         </div>
                     </div>
@@ -37,15 +37,23 @@
                     <div data-v-0ef69fa0 class="label">选择单双页：</div>
                     <div data-v-0ef69fa0 class="list-content">
                         <div data-v-0ef69fa0 class="platforom-radio-pc">
-                            <div data-v-0ef69fa0 class="platform-item-pc active">
+                            <div data-v-0ef69fa0  class="platform-item-pc" :class="{display: !single}">
                                 单页
                                 <span data-v-0ef69fa0>(打印一面)</span>
                                 <span data-v-0ef69fa0 class="corner"><i data-v-0ef69fa0 class="iconfont"></i></span>
                             </div>
-                            <div data-v-0ef69fa0 class="platform-item-pc active">
+                            <div class="not-service" class="platform-item-pc" :class="{display: single}">
+                                单页
+                                <span class="not-service-tip">(无此服务)</span>
+                            </div>
+                            <div data-v-0ef69fa0  class="platform-item-pc" :class="{display: !double}">
                                 双页
                                 <span data-v-0ef69fa0>(正反打印)</span>
-                                <span data-v-0ef69fa0 class="corner"><i data-v-0ef69fa0 class="iconfont"></i></span>
+                                <span data-v-0ef69fa0  class="corner"><i data-v-0ef69fa0 class="iconfont"></i></span>
+                            </div>
+                            <div class="not-service" class="platform-item-pc" :class="{display: double}">
+                                双页
+                                <span class="not-service-tip">(无此服务)</span>
                             </div>
                         </div>
                     </div>
@@ -54,16 +62,22 @@
                     <div data-v-0ef69fa0 class="label">选择打印参数：</div>
                     <div data-v-0ef69fa0 class="list-content">
                         <div data-v-0ef69fa0 class="platforom-radio-pc">
-                            <div data-v-0ef69fa0 class="platform-item-pc active">
-                                黑白
-                                <!-- <span data-v-0ef69fa0>(打印一面)</span> -->
-                                <span data-v-0ef69fa0 class="corner"><i data-v-0ef69fa0 class="iconfont"></i></span>
-                            </div>
-                            <div data-v-0ef69fa0 class="platform-item-pc active">
-                                彩印
-                                <!-- <span data-v-0ef69fa0>(正反打印)</span> -->
-                                <span data-v-0ef69fa0 class="corner"><i data-v-0ef69fa0 class="iconfont"></i></span>
-                            </div>
+                                <div data-v-0ef69fa0 class="platform-item-pc active" :class="{display: !black}">
+                                    黑白
+                                    <span data-v-0ef69fa0 class="corner"><i data-v-0ef69fa0 class="iconfont"></i></span>
+                                </div>
+                                <div class="not-service" class="platform-item-pc" :class="{display: black}">
+                                    黑白
+                                    <span class="not-service-tip">(无此服务)</span>
+                                </div>
+                                <div data-v-0ef69fa0 class="platform-item-pc active" :class="{display: !color}">
+                                    彩印
+                                    <span data-v-0ef69fa0 class="corner"><i data-v-0ef69fa0 class="iconfont"></i></span>
+                                </div>
+                                <div class="not-service" class="platform-item-pc" :class="{display: color}">
+                                    彩印
+                                    <span class="not-service-tip">(无此服务)</span>
+                                </div>
                         </div>
                     </div>
                 </li>
@@ -73,19 +87,9 @@
                     <div data-v-0ef69fa0 class="list-content">
                         <div class="file-size-wrapper">
                             <select name="file_size" data-v-0ef69fa0 class="input error">
-                                <option value="0">A0</option>
-                                <option value="1">A1</option>
-                                <option value="2">A2</option>
-                                <option value="3">A3</option>
-                                <option value="4">A4</option>
-                                <option value="5">A5</option>
-                                <option value="6">A6</option>
-                                <option value="7">A7</option>
-                                <option value="8">A8</option>
-                                <option value="9">A9</option>
-                                <option value="10">A10</option>
-                                <option value="11">4A0</option>
-                                <option value="12">0A0</option>
+
+                                <option :value="index" v-for="(item, index) in pageSizeList" :key="index">{{item}}</option>
+
                             </select>
                             <span data-v-0ef69fa0 class="file-size-tag">﹀</span>
                         </div>

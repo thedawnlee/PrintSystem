@@ -18,8 +18,9 @@ var vue = new Vue({
         successCallback: function ( res ) {
             res = res.body;
             if( res.data && res.status == 0){
-                if ( this.url != null ){
-                    this.$http.get(this.url).then(this.otherSuccessCallback, this.errorCallback);
+                console.log("this.url > 0:" + (this.url.length > 0));
+                if ( this.url.length > 0 ){
+                    window.location.href = this.url ;
                 }else {
                     window.location.href = './index.html';
                 }
@@ -29,13 +30,10 @@ var vue = new Vue({
         },
         errorCallback: function ( res ) {
             util.errorTips()
-        },
-        otherSuccessCallback: function ( res ) {
-
         }
     },
     mounted: function () {
-        this.url = this.$refs.urlRef.value;
-        console.log( this.url )
+        this.url = this.$refs.urlRef.value.trim();
+        console.log( "this.url:" + this.url );
     }
 });

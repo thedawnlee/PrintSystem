@@ -5,19 +5,19 @@ package com.wrq.enums;
  */
 public enum PageSizePriceEnum {
 
-    SIZE_A0(0, "A0尺寸"),
-    SIZE_A1(1, "A1尺寸"),
-    SIZE_A2(2, "A2尺寸"),
-    SIZE_A3(3, "A3尺寸"),
-    SIZE_A4(4, "A4尺寸"),
-    SIZE_A5(5, "A5尺寸"),
-    SIZE_A6(6, "A6尺寸"),
-    SIZE_A7(7, "A7尺寸"),
-    SIZE_A8(8, "A8尺寸"),
-    SIZE_A9(9, "A9尺寸"),
-    SIZE_A10(10, "A10尺寸"),
-    SIZE_4A0(11, "4A0尺寸"),
-    SIZE_0A0(12, "0A0尺寸"),
+    SIZE_A0(0, "A0"),
+    SIZE_A1(1, "A1"),
+    SIZE_A2(2, "A2"),
+    SIZE_A3(3, "A3"),
+    SIZE_A4(4, "A4"),
+    SIZE_A5(5, "A5"),
+    SIZE_A6(6, "A6"),
+    SIZE_A7(7, "A7"),
+    SIZE_A8(8, "A8"),
+    SIZE_A9(9, "A9"),
+    SIZE_A10(10, "A10"),
+    SIZE_4A0(11, "4A0"),
+    SIZE_0A0(12, "0A0"),
     ;
 
     /* 状态码 */

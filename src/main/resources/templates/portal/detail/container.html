@@ -28,17 +28,17 @@
             <div class="shop-detail-price" :style="priceStyle">
                 <section class="_3wvO20Vz_0" class="price-section" >
                     <div class="_3ltB8sut_0" style="height: 100%;">
-                        <div class="_3NyzKX9P_0"><a class="price-item" href="  " title="黑白单页 A4">
-                            黑白单页 一张价格</a><p>{{normalSingle}} 元</p> <span class="_3z8_4BsD_0">打印</span>
+                        <div class="_3NyzKX9P_0"><a class="price-item" href=" " title="黑白单页 A4">
+                            黑白单页 一张价格</a><p>{{normalSingle | onService}}</p> <span class="_3z8_4BsD_0">打印</span>
                         </div>
                         <div class="_3NyzKX9P_0"><a data-seo="" class="price-item" href="" title="01 | 频率视角下的机器学习">
-                            彩色单页 一张价格 </a><p> {{colorfulSingle}} 元</p> <span class="_3z8_4BsD_0">打印</span>
+                            彩色单页 一张价格 </a><p> {{colorfulSingle | onService}}</p> <span class="_3z8_4BsD_0">打印</span>
                         </div>
                         <div class="_3NyzKX9P_0"><a class="price-item" href="  " title="黑白单页 A4">
-                            黑白双页 一张价格</a><p> {{normalDouble}} 元</p> <span class="_3z8_4BsD_0">打印</span>
+                            黑白双页 一张价格</a><p> {{normalDouble | onService}}</p> <span class="_3z8_4BsD_0">打印</span>
                         </div>
                         <div class="_3NyzKX9P_0"><a class="price-item" href="  " title="黑白单页 A4">
-                            彩色双页  一张价格</a><p> {{colorfulDouble}} 元</p> <span class="_3z8_4BsD_0">打印</span>
+                            彩色双页  一张价格</a><p> {{colorfulDouble | onService}}</p> <span class="_3z8_4BsD_0">打印</span>
                         </div>
                         <!-- <div class="_3NyzKX9P_0 eBjXVH68_0"><a data-seo="" class="price-item" href="" title="黑白单页">
                                 计算学习理论</a>
@@ -52,10 +52,11 @@
                         <div class="more-price">
                             <div class="more-price-title">其他规格</div>
                             <p>以上陈列的价格全部为 A4 大小尺寸纸张的价格，如果需要其他纸张规格参数请阅读下方说明：</p>
-                            <p>● A0尺寸 ～ A10尺寸、4A0尺寸、0A0尺寸规格的 <span class="more-price-strong">单页非彩印</span> 的价格依次为：<span v-for="(item, index) in otherSizePriceList" :key="index">item</span>。</p>
-                            <p>● A0尺寸 ～ A10尺寸、4A0尺寸、0A0尺寸的 <span class="more-price-strong">单页彩印</span>  的价格是在 单页非彩印 价格的基础上乘以 {{colorfulVariable}}，便可得到每个纸张尺寸的 单页彩印 的价格。</p>
-                            <p>● A0尺寸 ～ A10尺寸、4A0尺寸、0A0尺寸的 <span class="more-price-strong">双页非彩印</span>  的价格是在 单页非彩印 价格的基础上乘以 {{doubleVariable}}，便可得到每个纸张尺寸的 双页非彩印 的价格。</p>
-                            <p>● A0尺寸 ～ A10尺寸、4A0尺寸、0A0尺寸的 <span class="more-price-strong">双页彩印</span>  的价格是在 单页非彩印 价格的基础上乘以 {{doubleColorfulVariable}}，便可得到每个纸张尺寸的 双页彩印 的价格。</p>
+                            <p>● A0尺寸 ～ A10尺寸、4A0尺寸、0A0尺寸规格的 <span class="more-price-strong">单页非彩印</span> 的价格依次为：
+                                <span v-for="(item, index) in otherSizePriceList" :key="index">{{item | onSizeService}}、</span>。</p>
+                            <p>● A0尺寸 ～ A10尺寸、4A0尺寸、0A0尺寸的 <span class="more-price-strong">单页彩印</span>  的价格: {{colorfulVariable | onOtherSizeService}}</p>
+                            <p>● A0尺寸 ～ A10尺寸、4A0尺寸、0A0尺寸的 <span class="more-price-strong">双页非彩印</span>  的价格: {{doubleVariable | onOtherSizeService}}</p>
+                            <p>● A0尺寸 ～ A10尺寸、4A0尺寸、0A0尺寸的 <span class="more-price-strong">双页彩印</span>  的价格: {{doubleColorfulVariable | onOtherSizeService}}</p>
                         </div>
                     </div>
                 </section>

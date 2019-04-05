@@ -1,5 +1,7 @@
 package com.wrq.service;
 
+import com.wrq.pojo.User;
+import com.wrq.vo.FormVo;
 import com.wrq.vo.PriceVo;
 
 import java.math.BigDecimal;
@@ -18,5 +20,7 @@ public interface IShopPriceService {
     BigDecimal getColorfulSingle (Integer shopId);
 
     PriceVo getPriceVoByShopId (Integer shopId);
+
+    FormVo getFormVoByShopId (Integer shopId, User user);
 
 }

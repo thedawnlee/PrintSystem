@@ -41,6 +41,15 @@ var vue = new Vue({
             util.errorTips( res.msg )
         }
     },
+    filters: {
+        onService: function ( value ) {
+            if (value != "-1"){
+                return value + "元";
+            }else {
+                return "无此服务";
+            }
+        }
+    },
     created: function () {
         this.getShopList();
     }

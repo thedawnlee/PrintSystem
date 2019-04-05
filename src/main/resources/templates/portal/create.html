@@ -2,16 +2,18 @@
 <head>
 	<meta charset="utf-8">
 	<title>创建订单</title>
+	<#include "portal/common/meta.html"/>
 	<link href="${basePath}/css/common.css" rel="stylesheet" type="text/css" />
 	<link href="${basePath}/css/create.css" rel="stylesheet" type="text/css" />
+	<#include "portal/common/js.html"/>
 </head>
 <body>
-<div id="app">
+<div>
 	<div data-v-80b91726>
 
 		<#include "portal/common/page/header.html"/>
 
-		<div data-v-80b91726 class="content-block">
+		<div data-v-80b91726 class="content-block" id="create">
 
 			<#include "portal/create/shop.html"/>
 
@@ -29,10 +31,7 @@
 		<#include "portal/common/page/footer.html"/>
 
 	</div>
-
 </div>
-<!-- 引入脚本 -->
-<#include "portal/common/js.html"/>
-<script src="/service/create/index.js"></script>
+<script src="${basePath}/service/create/index.js"></script>
 </body>
 </html>

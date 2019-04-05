@@ -89,4 +89,11 @@
     where shop_id = #{shopId,jdbcType=INTEGER} and size_type = #{pageSize,jdbcType=INTEGER}
   </select>
 
+  <select id="getPageSizeByShopId"  parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from page_size_info
+    where shop_id = #{shopId,jdbcType=INTEGER}
+  </select>
+
 </mapper>

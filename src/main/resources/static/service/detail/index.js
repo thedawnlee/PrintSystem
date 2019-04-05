@@ -42,7 +42,7 @@ var vue = new Vue({
                 this.doubleVariable = res.data.doubleVariable;
                 this.normalDouble = res.data.normalDouble;
                 this.normalSingle = res.data.normalSingle;
-                this.otherSizePrice = res.data.otherSizePrice;
+                this.otherSizePriceList = res.data.otherSizePrice;
                 //this.shopId = res.data.shopId;
                 console.log(res.data)
             }else {
@@ -66,7 +66,6 @@ var vue = new Vue({
             this.priceActive = false;
         },
         getOtherShopList: function () {
-            console.log(this.id)
             this.$http.get('/shop/other_shop.do', {params: {id: this.shopId}}).then(this.otherSuccessCallback, this.otherErrorCallback);
         },
         otherSuccessCallback: function( res ){
@@ -78,8 +77,32 @@ var vue = new Vue({
                 util.errorTips( res.msg )
             }
         },
-        otherErrorCallback: function (  ) {
+        otherErrorCallback: function ( ) {
             util.errorTips(" 获取其他店铺出现错误！ ")
+        }
+    },
+    filters: {
+        onService: function ( value ) {
+            if (value != "-1"){
+                return value + "元";
+            }else {
+                return "无此服务";
+            }
+        },
+        onOtherSizeService: function( value ){
+            if (value != "-1"){
+                return  "在 单页非彩印 价格的基础上 * " + value;
+            }else {
+                return "暂时不提供此规格的服务，可通过上方店铺联系方式联系店主。";
+            }
+
+        },
+        onSizeService: function( value ){
+            if (value != "无服务"){
+                return  value + "元";
+            }else {
+                return "无服务";
+            }
         }
     },
     mounted: function () {

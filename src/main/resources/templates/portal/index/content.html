@@ -30,16 +30,16 @@
                         <a class="shop-list-price" :href="'/shop/detail/' + item.shopId">
                         <div data-v-637a7fc8="" class="column-row"><em data-v-637a7fc8="" class="preview">
                             [详情]
-                        </em> <i data-v-637a7fc8="" class="iconfont"></i><span data-v-637a7fc8="" class="column-title">普通黑白A4尺寸 {{item.normalSingle}}
-												元</span></div>
+                        </em> <i data-v-637a7fc8="" class="iconfont"></i><span data-v-637a7fc8="" class="column-title">普通黑白A4尺寸 {{item.normalSingle | onService}}
+												</span></div>
                         </a>
                     </li>
                     <li data-v-637a7fc8="">
                         <a  class="shop-list-price" :href="'/shop/detail/' + item.shopId">
                         <div data-v-637a7fc8="" class="column-row"><em data-v-637a7fc8="" class="preview">
                             [详情]
-                        </em> <i data-v-637a7fc8="" class="iconfont"></i> <span data-v-637a7fc8="" class="column-title">普通彩印A4尺寸 {{item.colorfulSingle}}
-												元</span></div>
+                        </em> <i data-v-637a7fc8="" class="iconfont"></i> <span data-v-637a7fc8="" class="column-title">普通彩印A4尺寸 {{item.colorfulSingle | onService}}
+												</span></div>
                         </a>
                     </li>
                     <li data-v-637a7fc8="">
@@ -47,15 +47,15 @@
                         <div data-v-637a7fc8="" class="column-row"><em data-v-637a7fc8="" class="preview">
                             [详情]
                         </em> <i data-v-637a7fc8="" class="iconfont"></i> <span data-v-637a7fc8="" class="column-title">黑白双面A4尺寸
-												{{item.normalDouble}} 元</span></div>
+												{{item.normalDouble | onService}} </span></div>
                         </a>
                     </li>
                     <li data-v-637a7fc8="">
                         <a class="shop-list-price" :href="'/shop/detail/' + item.shopId">
                         <div data-v-637a7fc8="" class="column-row"><em data-v-637a7fc8="" class="preview">
                             [详情]
-                        </em> <i data-v-637a7fc8="" class="iconfont"></i> <span data-v-637a7fc8="" class="column-title">彩色双面A4尺寸 {{item.colorfulDouble}}
-												元</span></div>
+                        </em> <i data-v-637a7fc8="" class="iconfont"></i> <span data-v-637a7fc8="" class="column-title">彩色双面A4尺寸 {{item.colorfulDouble | onService}}
+												</span></div>
                         </a>
                     </li>
                     <li data-v-637a7fc8="">
@@ -87,4 +87,4 @@
     加载更多
 </button>
 <!--引入js-->
-<script src="/service/index/index.js"></script>
+<script src="${basePath}/service/index/index.js"></script>
