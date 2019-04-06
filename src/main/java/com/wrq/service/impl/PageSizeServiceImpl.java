@@ -4,10 +4,12 @@ import com.wrq.dao.PageSizeMapper;
 import com.wrq.pojo.PageSize;
 import com.wrq.service.IPageSizeService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 /**
  * Created by wangqian on 2019/4/1.
  */
+@Service("iPageSizeService")
 public class PageSizeServiceImpl implements IPageSizeService {
 
     @Autowired

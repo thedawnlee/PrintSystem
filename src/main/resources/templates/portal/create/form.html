@@ -15,11 +15,11 @@
                     <div data-v-0ef69fa0 class="label">请上传文件：</div>
                     <div data-v-0ef69fa0 class="list-content">
                         <div class="file-upload">
-                            <form name="form1" action="/manage/product/upload.do" method="post" enctype="multipart/form-data">
+                            <form name="form1" @submit.prevent="handleUploadSubmitClick" method="post" enctype="multipart/form-data">
                                 <div class="file-upload-wrapper">
                                     <div class="file-upload-view">
                                         <a class="update-file-input">
-                                            <input @change="handleFileUpload" ref="fileUploadInput" type="file" name=""> <p v-html="fileText"></p>
+                                            <input @change="handleFileUpload($event)"  ref="fileUploadInput" type="file" name=""> <p v-html="fileText"></p>
                                         </a>
                                         <div class="file-upload-name" v-html="fileName"></div>
                                     </div>
@@ -37,16 +37,16 @@
                     <div data-v-0ef69fa0 class="label">选择单双页：</div>
                     <div data-v-0ef69fa0 class="list-content">
                         <div data-v-0ef69fa0 class="platforom-radio-pc">
-                            <div data-v-0ef69fa0  class="platform-item-pc" :class="{display: !single}">
+                            <div data-v-0ef69fa0 @click="handleSingleClick" :class="{'platform-item-pc': true, 'active': singleActive, 'display': !single}">
                                 单页
                                 <span data-v-0ef69fa0>(打印一面)</span>
                                 <span data-v-0ef69fa0 class="corner"><i data-v-0ef69fa0 class="iconfont"></i></span>
                             </div>
-                            <div class="not-service" class="platform-item-pc" :class="{display: single}">
+                            <div class="not-service"  class="platform-item-pc" :class="{display: single}">
                                 单页
                                 <span class="not-service-tip">(无此服务)</span>
                             </div>
-                            <div data-v-0ef69fa0  class="platform-item-pc" :class="{display: !double}">
+                            <div data-v-0ef69fa0  @click="handleDoubleClick"  :class="{'platform-item-pc': true, 'active': doubleActive, 'display': !double}">
                                 双页
                                 <span data-v-0ef69fa0>(正反打印)</span>
                                 <span data-v-0ef69fa0  class="corner"><i data-v-0ef69fa0 class="iconfont"></i></span>
@@ -62,15 +62,15 @@
                     <div data-v-0ef69fa0 class="label">选择打印参数：</div>
                     <div data-v-0ef69fa0 class="list-content">
                         <div data-v-0ef69fa0 class="platforom-radio-pc">
-                                <div data-v-0ef69fa0 class="platform-item-pc active" :class="{display: !black}">
+                                <div data-v-0ef69fa0 @click="handleBlackClick" :class="{'platform-item-pc': true, 'active': blackActive, 'display': !black}">
                                     黑白
                                     <span data-v-0ef69fa0 class="corner"><i data-v-0ef69fa0 class="iconfont"></i></span>
                                 </div>
-                                <div class="not-service" class="platform-item-pc" :class="{display: black}">
+                                <div  class="not-service" class="platform-item-pc" :class="{display: black}">
                                     黑白
                                     <span class="not-service-tip">(无此服务)</span>
                                 </div>
-                                <div data-v-0ef69fa0 class="platform-item-pc active" :class="{display: !color}">
+                                <div data-v-0ef69fa0 @click="handleColorClick" :class="{'platform-item-pc': true, 'active': colorActive, 'display': !color}">
                                     彩印
                                     <span data-v-0ef69fa0 class="corner"><i data-v-0ef69fa0 class="iconfont"></i></span>
                                 </div>
@@ -86,35 +86,37 @@
                     <div data-v-0ef69fa0 class="label">请选择打印尺寸：</div>
                     <div data-v-0ef69fa0 class="list-content">
                         <div class="file-size-wrapper">
-                            <select name="file_size" data-v-0ef69fa0 class="input error">
+                            <!--error 加在 input 后面-->
+                            <select name="file_size" data-v-0ef69fa0 class="input" @change="handleFileSizeChange">
 
                                 <option :value="index" v-for="(item, index) in pageSizeList" :key="index">{{item}}</option>
 
                             </select>
                             <span data-v-0ef69fa0 class="file-size-tag">﹀</span>
                         </div>
-                        <p data-v-0ef69fa0 class="error-text"><i data-v-0ef69fa0 class="iconfont"></i>
-                            请输入充值码
-                        </p>
+                        <!--<p data-v-0ef69fa0 class="error-text"><i data-v-0ef69fa0 class="iconfont"></i>-->
+                            <!--请输入充值码-->
+                        <!--</p>-->
                     </div>
                 </li>
                 <li data-v-0ef69fa0 class="flex-start">
                     <div data-v-0ef69fa0 class="label">选择打印份数:</div>
-                    <div data-v-0ef69fa0 class="list-content"><input data-v-0ef69fa0 type="text" maxlength="10" placeholder="请输入打印份数"
-                                                                     class="input error">
-                        <p data-v-0ef69fa0 class="error-text"><i data-v-0ef69fa0 class="iconfont"></i>
-                            请输入充值码
-                        </p>
+                    <div data-v-0ef69fa0 class="list-content">
+                        <input data-v-0ef69fa0 type="text" @change="handleQuantityChange" maxlength="10" placeholder="请输入打印份数"
+                                                                     class="input">
+                        <!--<p data-v-0ef69fa0 class="error-text"><i data-v-0ef69fa0 class="iconfont"></i>-->
+                            <!--请输入充值码-->
+                        <!--</p>-->
                     </div>
                 </li>
                 <li data-v-0ef69fa0 class="flex-start">
                     <div data-v-0ef69fa0 class="label">请输入备注:</div>
                     <div data-v-0ef69fa0 class="list-content">
-												<textarea class="description-area" rows="5" cols="55">  备注你想说的话，如：PPT 一面排9张...
+												<textarea @change="handleTextAreaChange" class="description-area" rows="5" cols="55">  备注你想说的话，如：PPT 一面排9张...
 												</textarea>
-                        <p data-v-0ef69fa0 class="error-text"><i data-v-0ef69fa0 class="iconfont"></i>
-                            请输入充值码
-                        </p>
+                        <!--<p data-v-0ef69fa0 class="error-text"><i data-v-0ef69fa0 class="iconfont"></i>-->
+                            <!--请输入充值码-->
+                        <!--</p>-->
                     </div>
                 </li>
                 <li data-v-0ef69fa0  style="margin-top: 10px;">
