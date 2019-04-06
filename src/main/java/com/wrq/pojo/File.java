@@ -23,7 +23,9 @@ public class File {
 
     private Date updateTime;
 
-    public File(Integer id, String fileName, Integer userId, String fileSpec, Integer pageNum, Integer share, Integer integral, String description, Date createTime, Date updateTime) {
+    private String newName;
+
+    public File(Integer id, String fileName, Integer userId, String fileSpec, Integer pageNum, Integer share, Integer integral, String description, Date createTime, Date updateTime, String newName) {
         this.id = id;
         this.fileName = fileName;
         this.userId = userId;
@@ -34,6 +36,7 @@ public class File {
         this.description = description;
         this.createTime = createTime;
         this.updateTime = updateTime;
+        this.newName = newName;
     }
 
     public File() {
@@ -118,5 +121,13 @@ public class File {
 
     public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
+    }
+
+    public String getNewName() {
+        return newName;
+    }
+
+    public void setNewName(String newName) {
+        this.newName = newName == null ? null : newName.trim();
     }
 }

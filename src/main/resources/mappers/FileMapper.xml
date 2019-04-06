@@ -13,11 +13,12 @@
       <arg column="description" javaType="java.lang.String" jdbcType="VARCHAR" />
       <arg column="create_time" javaType="java.util.Date" jdbcType="TIMESTAMP" />
       <arg column="update_time" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+      <arg column="new_name" javaType="java.lang.String" jdbcType="VARCHAR" />
     </constructor>
   </resultMap>
   <sql id="Base_Column_List">
     id, file_name, user_id, file_spec, page_num, share, integral, description, create_time, 
-    update_time
+    update_time, new_name
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
@@ -33,11 +34,11 @@
     insert into file (id, file_name, user_id, 
       file_spec, page_num, share, 
       integral, description, create_time, 
-      update_time)
+      update_time, new_name)
     values (#{id,jdbcType=INTEGER}, #{fileName,jdbcType=VARCHAR}, #{userId,jdbcType=INTEGER}, 
       #{fileSpec,jdbcType=VARCHAR}, #{pageNum,jdbcType=INTEGER}, #{share,jdbcType=INTEGER}, 
       #{integral,jdbcType=INTEGER}, #{description,jdbcType=VARCHAR}, now(),
-      now())
+       now(), #{newName,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.wrq.pojo.File">
     insert into file
@@ -72,6 +73,9 @@
       <if test="updateTime != null">
         update_time,
       </if>
+      <if test="newName != null">
+        new_name,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -103,6 +107,9 @@
       </if>
       <if test="updateTime != null">
         now(),
+      </if>
+      <if test="newName != null">
+        #{newName,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -136,6 +143,9 @@
       <if test="updateTime != null">
         update_time = now(),
       </if>
+      <if test="newName != null">
+        new_name = #{newName,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -149,7 +159,8 @@
       integral = #{integral,jdbcType=INTEGER},
       description = #{description,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP},
-      update_time = now()
+      update_time = now(),
+      new_name = #{newName,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>
