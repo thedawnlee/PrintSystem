@@ -8,10 +8,14 @@ var vue = new Vue({
         single: false, /* 根据此字段判断用户是否有单页服务 */
         black: false, /* 根据此字段判断用户是否有黑白服务 */
         double: false, /* 根据此字段判断用户是否有双页服务 */
-        colorActive: false, /* 点击彩打，通过此字段来激活样式 */
+        colorActive: false,
+        fileUploadDisplay: false,/* 未选择文件时候，上传不能点击 */
         singleActive: false, /* 点击单页，通过此字段来激活样式 */
         blackActive: false, /* 点击黑白，通过此字段来激活样式 */
         doubleActive: false, /* 点击双页，通过此字段来激活样式 */
+        singleOrDoubleErrorText: true,/* 用户没选择单双页就提交 */
+        colorOrBlackErrorText: true,/* 用户没选择彩打就提交 */
+        createActive: true, /* 创建订单按钮样式控制 */
         fileText: "点击浏览本地文件", /* 控制选择上传文件的样式 */
         fileName: "", /* 控制选择上传文件的样式 */
         shopId: "",
@@ -21,10 +25,13 @@ var vue = new Vue({
         username: "",
         file: '',
         singleOrDouble: null, /* 提交表单时，选择的是单页还是双页 */
-        PageSize: null, /* 提交表单时，选择的页面尺寸 */
+        pageSize: 4, /* 提交表单时，选择的页面尺寸 */
         colorOrBlack: null, /* 提交表单时，选择的颜色 */
-        userDesc: "", /* 缓存用户评论 */
-        fileQuantity: null, /* 文件份数 */
+        userDesc: "备注你想说的话，如：老板辛苦啦，急~", /* 缓存用户评论 */
+        fileQuantity: "1", /* 文件份数 */
+        filePageCount: null,
+        fileNewName: null,
+        isUpload: false, /* 是否上传？ */
     },
     methods: {
         getFormInfo: function () {
@@ -51,10 +58,10 @@ var vue = new Vue({
             util.errorTips("获取 店铺服务 时出现错误！")
         },
         handleFileUpload: function(event) {
+            /* 监听 file input，发生改变获取上传的文件以及改变样式！ */
             this.file = event.target.files[0]; // get input file object
-            console.log("get input file object", this.file);
             var filePath = this.$refs.fileUploadInput.value;
-            if ( this.checkFileType(filePath) ) {
+            if ( util.checkFileType(filePath.toLowerCase())) {
                 var arr = filePath.split('\\');
                 var fileName = arr[arr.length - 1];
                 this.fileText = "更改选择文件";
@@ -63,16 +70,18 @@ var vue = new Vue({
                 this.fileName = "请选择正确的文件格式！";
                 return false
             }
-        },
-        checkFileType: function(filePath) {
-            if (filePath.indexOf("jpg") != -1 || filePath.indexOf("png") != -1 || filePath.indexOf("pdf") != -1 ||
-                filePath.indexOf("doc") != -1 || filePath.indexOf("docx") != -1) {
-                return true;
-            } else {
-                return false;
+
+            if ( this.isUpload ){
+                if (confirm("文件已经上传成功，是否更改文件？")){
+                    location.reload();
+                }
+            }else {
+                this.fileUploadDisplay = true;
             }
+
         },
         handleUploadSubmitClick: function () {
+            /* form标签上面 @submit.prevent 触发的事件 */
             var file = this.file;
             var formData = new FormData();
             formData.append("upload_file", file);
@@ -83,43 +92,95 @@ var vue = new Vue({
         fileUploadSuccessCallback: function ( res ) {
             res = res.body;
             if( res.data && res.status == 0 ){
+                this.isUpload = true;
+                this.filePageCount = res.data.pageNum;
+                this.fileNewName = res.data.fileName;
+                this.fileUploadDisplay = false;
+                this.$refs.fileUploadButtonText.value = "上传成功";
                 console.log(res.data);
-                alert("成功");
             }else {
                 util.errorTips( res.msg );
             }
         },
         fileUploadErrorCallback: function () {
-            util.errorTips( "上传文件发送错误！" );
+            util.errorTips( "发生错误, 请选择文件重新上传！" );
         },
-        handleSingleClick: function () {
-            this.doubleActive = false;
-            this.singleActive = true;
-            this.singleOrDouble = 0;
+        handleSingleOrDoubleClick: function ( type ) {
+            if ( this.isUpload ){
+                if ( type == "single"){
+                    this.doubleActive = false;
+                    this.singleActive = true;
+                    this.singleOrDouble = 0;
+                }else {
+                    this.singleActive = false;
+                    this.doubleActive = true;
+                    this.singleOrDouble = 1;
+                }
+                this.singleOrDoubleErrorText = true;
+            }else {
+                util.errorTips("请上传文件后操作！");
+                return
+            }
         },
-        handleDoubleClick: function () {
-            this.singleActive = false;
-            this.doubleActive = true;
-            this.singleOrDouble = 1;
+        handleBlackOrColorClick: function ( type ) {
+            if ( this.isUpload ){
+                if ( type == "color" ){
+                    this.blackActive = false;
+                    this.colorActive = true;
+                    this.colorOrBlack = 1;
+                }else {
+                    this.colorActive = false;
+                    this.blackActive = true;
+                    this.colorOrBlack = 0;
+                }
+                this.colorOrBlackErrorText = true;
+            }else{
+                util.errorTips("请上传文件后操作！");
+                return
+            }
+            /* 选择单双页就要获取当前的价格 */
+            this.getOrderPriceInfo();
         },
-        handleColorClick: function () {
-            this.blackActive = false;
-            this.colorActive = true;
-            this.colorOrBlack = 1;
+        handleFileSizeChange: function (event){
+           this.pageSize = event.target.value;
         },
-        handleBlackClick: function () {
-            this.colorActive = false;
-            this.blackActive = true;
-            this.colorOrBlack = 0;
-        },
-        handleFileSizeChange: function (){
+        handleOrderCreate: function () {
+            if ( this.checkParamBeforeCreate() ){
 
+                /* 通过验证！ */
+            }else {
+                /* 没有通过验证，直接返回 */
+                return
+            }
         },
-        handleQuantityChange: function (){
-
+        checkParamBeforeCreate: function (){
+            if ( !this.isUpload ){
+                util.errorTips("未上传打印文件！");
+                return false
+            }else if ( !this.singleActive && !this.doubleActive ){
+                this.singleOrDoubleErrorText = false;
+                return false
+            }else if (  !this.blackActive && !this.colorActive ){
+                this.colorOrBlackErrorText = false;
+                return false
+            }else {
+                return true
+            }
         },
-        handleTextAreaChange: function (){
-
+        getOrderPriceInfo: function (){
+            this.$http.get('/price/get_price.do', {params: {pageNum: pageNum, pageSize: pageSize}}).then(this.getPriceSuccessCallback, this.getPriceErrorCallback);
+        },
+        getPriceSuccessCallback: function ( res ) {
+            res = res.body;
+            if( res.data && res.status == 0){
+                this.createActive = false;
+                console.log("price:" +  res.data);
+            }else {
+                util.errorTips( res.msg )
+            }
+        },
+        getPriceErrorCallback: function () {
+            
         }
     },
     mounted: function () {

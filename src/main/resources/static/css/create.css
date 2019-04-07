@@ -1,3 +1,16 @@
+.not-upload-file{
+	width: 90px;
+	height: 40px;
+	line-height: 40px;
+	text-align: center;
+	background: #F9AF5F;
+	color: #fff;
+	font-size: 16px;
+	border: 1px solid #F9AF5F;
+	border-radius: 3%;
+	font-weight: 500;
+	cursor: no-drop;
+}
 .not-service{
 	box-sizing: border-box;
 	cursor: no-drop;
@@ -276,7 +289,7 @@ position: relative;
 				font-size: 14px;
 				font-weight: 300;
 				text-indent: 12px;
-				margin-top: 5px
+				margin-top: -5px
 			}
 
 			.error-text .iconfont[data-v-0ef69fa0] {
@@ -654,7 +667,6 @@ position: relative;
 			@media (min-width:768px) {
 				.error-text[data-v-0ef69fa0] {
 					text-indent: 12px;
-					padding-bottom: 18px
 				}
 
 				.error-text .iconfont[data-v-0ef69fa0] {

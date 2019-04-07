@@ -7,6 +7,7 @@ import com.wrq.commons.ServerResponse;
 import com.wrq.config.ParameterConfig;
 import com.wrq.pojo.User;
 import com.wrq.service.IFileService;
+import com.wrq.vo.FileVo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -18,6 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.HashMap;
 
 /**
  * Created by wangqian on 2019/4/6.
@@ -49,8 +51,7 @@ public class FileController {
         }
 
         String path = request.getSession().getServletContext().getRealPath("upload");
-        String targetFileName = iFileService.upload(file,path);
 
-        return ServerResponse.createBySuccess("文件上传成功！",targetFileName);
+        return iFileService.upload(file, path, user.getId());
     }
 }

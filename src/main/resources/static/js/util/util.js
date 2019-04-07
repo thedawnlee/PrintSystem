@@ -49,5 +49,13 @@ var util = {
     },
     pageSize: function () {
         return 6;
-    }
+    },
+    checkFileType: function(filePath) {
+        if (filePath.indexOf("jpg") != -1 || filePath.indexOf("png") != -1 || filePath.indexOf("pdf") != -1 ||
+            filePath.indexOf("doc") != -1  || filePath.indexOf("xlsx") != -1 || filePath.indexOf("docx") != -1 || filePath.indexOf("ppt") != -1 ) {
+            return true;
+        } else {
+            return false;
+        }
+    },
 }

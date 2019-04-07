@@ -1,5 +1,7 @@
 package com.wrq.service;
 
+import com.wrq.commons.ServerResponse;
+import com.wrq.vo.FileVo;
 import org.springframework.web.multipart.MultipartFile;
 
 /**
@@ -7,6 +9,6 @@ import org.springframework.web.multipart.MultipartFile;
  */
 public interface IFileService {
 
-    String upload(MultipartFile file, String path);
+    ServerResponse<FileVo> upload(MultipartFile file, String path, Integer userId);
 
 }
