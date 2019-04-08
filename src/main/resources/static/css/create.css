@@ -75,6 +75,20 @@
 	border: 1px solid #FCDBB8;
 	cursor: no-drop;
 }
+
+.submit-active{
+	display: inline-block;
+	width: 140px;
+	height: 40px;
+	line-height: 40px;
+	text-align: center;
+	background: #f6751f;
+	color: #fff;
+	font-size: 16px;
+	border: 1px solid #f6751f;
+	cursor: pointer;
+}
+
 .input-select{
 	height: 40px;
     background: #fff;

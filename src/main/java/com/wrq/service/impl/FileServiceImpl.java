@@ -40,7 +40,9 @@ public class FileServiceImpl implements IFileService {
 
         int pageCount = 0;
 
-        //扩展名
+        int fileId = 0;
+
+                //扩展名
         String fileExtensionName = fileName.substring(fileName.lastIndexOf(".")+1);
         String uploadFileName = UUID.randomUUID().toString()+"."+fileExtensionName;
 
@@ -79,7 +81,9 @@ public class FileServiceImpl implements IFileService {
             uploadFile.setNewName(uploadFileName);
             uploadFile.setPageNum(pageCount);
             uploadFile.setShare(ShareEnum.NOT_SHARE.getCode());
+            /* 返回file Id */
             fileMapper.insert(uploadFile);
+            fileId = uploadFile.getId();
 
             // 上传完后，删除upload下面的文件
             targetFile.delete();
@@ -94,6 +98,7 @@ public class FileServiceImpl implements IFileService {
 
         fileVo.setFileName(targetFile.getName());
         fileVo.setPageNum(pageCount);
+        fileVo.setFileId(fileId);
 
         return ServerResponse.createBySuccess(fileVo);
     }

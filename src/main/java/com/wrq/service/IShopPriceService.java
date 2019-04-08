@@ -1,5 +1,7 @@
 package com.wrq.service;
 
+import com.wrq.commons.ServerResponse;
+import com.wrq.form.GetPriceForm;
 import com.wrq.pojo.User;
 import com.wrq.vo.FormVo;
 import com.wrq.vo.PriceVo;
@@ -22,5 +24,7 @@ public interface IShopPriceService {
     PriceVo getPriceVoByShopId (Integer shopId);
 
     FormVo getFormVoByShopId (Integer shopId, User user);
+
+    ServerResponse getOrderPrice(GetPriceForm form);
 
 }

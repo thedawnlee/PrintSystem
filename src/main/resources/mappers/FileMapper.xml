@@ -30,7 +30,7 @@
     delete from file
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.wrq.pojo.File">
+  <insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="com.wrq.pojo.File">
     insert into file (id, file_name, user_id, 
       file_spec, page_num, share, 
       integral, description, create_time, 

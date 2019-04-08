@@ -31,7 +31,6 @@
                                 </div>
                             </form>
                         </div>
-
                     </div>
                 </li>
                 <li data-v-0ef69fa0>
@@ -109,8 +108,7 @@
                 <li data-v-0ef69fa0 class="flex-start">
                     <div data-v-0ef69fa0 class="label">选择打印份数:</div>
                     <div data-v-0ef69fa0 class="list-content">
-                        <input data-v-0ef69fa0 type="number" v-model="fileQuantity"  placeholder="请输入打印份数"
-                                                                     class="input">
+                        <input data-v-0ef69fa0 type="number" v-model="fileQuantity" min="1" placeholder="请输入打印份数" class="input">
                         <!--<p data-v-0ef69fa0 class="error-text"><i data-v-0ef69fa0 class="iconfont"></i>-->
                             <!--请输入充值码-->
                         <!--</p>-->
@@ -129,17 +127,16 @@
                 <li data-v-0ef69fa0  style="margin-top: 10px;">
                     <div data-v-0ef69fa0  class="label">订单价格：</div>
                     <div data-v-0ef69fa0  class="content">
-                        <div class="file-price">
+                        <div class="file-price" v-text = "orderPrice">
                             ￥500
                         </div>
                         <div data-v-0ef69fa0  class="btn-wrap">
-                            <a data-v-0ef69fa0  href="javascript:;" @click="handleOrderCreate" :class="{'not-active': createActive, 'active': !createActive}">
+                            <a data-v-0ef69fa0  href="javascript:;" @click="handleOrderCreate" :class="{'not-active': createActive, 'submit-active': !createActive}">
                                 前去支付
                             </a>
                         </div>
                     </div>
                 </li>
-
             </ul>
         </div>
     </div>

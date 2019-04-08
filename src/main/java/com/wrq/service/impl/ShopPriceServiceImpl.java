@@ -1,6 +1,7 @@
 package com.wrq.service.impl;
 
 import com.google.common.collect.Lists;
+import com.wrq.commons.ServerResponse;
 import com.wrq.dao.BonusMapper;
 import com.wrq.dao.ColorMapper;
 import com.wrq.dao.PageSizeMapper;
@@ -9,24 +10,26 @@ import com.wrq.enums.ColorTypeEnum;
 import com.wrq.enums.PageSizePriceEnum;
 import com.wrq.enums.PageTypeEnum;
 import com.wrq.enums.ServiceNotExistEnum;
+import com.wrq.form.GetPriceForm;
 import com.wrq.pojo.*;
 import com.wrq.service.IShopPriceService;
 import com.wrq.utils.BigDecimalUtil;
 import com.wrq.vo.FormVo;
 import com.wrq.vo.PriceVo;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
 
 /**
  * Created by wangqian on 2019/3/30.
  */
 @Service("iShopPriceStandard")
+@Slf4j
 public class ShopPriceServiceImpl implements IShopPriceService {
 
     @Autowired
@@ -169,7 +172,7 @@ public class ShopPriceServiceImpl implements IShopPriceService {
         /* Bonus */
         Bonus bonus = bonusMapper.selectBonusByShopId(shopId);
         if ( bonus == null){
-            priceVo.setBonusDescription("此店铺没有优惠活动！");
+            priceVo.setBonusDescription("此店铺没有优惠活动信息！");
         }else {
             priceVo.setBonusThreshold(bonus.getThreshold());
             priceVo.setBonusDescription(bonus.getDescription());
@@ -284,6 +287,86 @@ public class ShopPriceServiceImpl implements IShopPriceService {
         formVo.setUsername(user.getUsername());
 
         return formVo;
+    }
+
+    /**
+     * 当用户选择创建订单表单参数时，获取价格！
+     * @param form
+     * @return
+     */
+    public ServerResponse getOrderPrice(GetPriceForm form){
+
+        BigDecimal price = new BigDecimal(BigInteger.ZERO);
+
+
+        /* 1.判断彩印或者黑白 */
+
+        Integer blackOrColor = form.getBlackOrColor();
+
+        if ( blackOrColor.equals(ColorTypeEnum.BLACK.getCode()) ){
+            Color black = colorMapper.selectBlackOrColorByShopId(form.getShopId(), ColorTypeEnum.BLACK.getCode());
+            price = black.getPrice();
+        }else {
+            Color color = colorMapper.selectBlackOrColorByShopId(form.getShopId(), ColorTypeEnum.COLORFUL.getCode());
+            price = color.getPrice();
+        }
+
+
+        /* 2.判断单或者双 */
+
+        Integer singleOrDouble = form.getSingleOrDouble();
+
+        if ( singleOrDouble.equals( PageTypeEnum.SINGLE.getCode() ) ){
+            SingleDouble single = singleDoubleMapper.selectSingleOrDoubleByShopId(form.getShopId(), PageTypeEnum.SINGLE.getCode());
+            price = BigDecimalUtil.mul(Double.valueOf(single.getVariable()), price.doubleValue());
+        }else {
+            SingleDouble doubleVariable = singleDoubleMapper.selectSingleOrDoubleByShopId(form.getShopId(), PageTypeEnum.DOUBLE.getCode());
+            price = BigDecimalUtil.mul(Double.valueOf(doubleVariable.getVariable()), price.doubleValue());
+        }
+
+        /* 4.判断打印尺寸 */
+
+        Integer pageSize = form.getPageSize();
+
+        PageSize pageSizeVariable = pageSizeMapper.getPageSizeByShopIdAndSize(form.getShopId(), pageSize);
+
+        price = BigDecimalUtil.mul(Double.valueOf(pageSizeVariable.getVariable()), price.doubleValue());
+
+        /* 5. 数量  */
+
+        Integer pageCount = form.getPageCount();
+
+        Integer fileQuantity = form.getFileQuantity();
+
+        Integer pageNum = pageCount * fileQuantity;
+
+        Double finalPageNum = pageNum.doubleValue();
+
+        if ( singleOrDouble.equals(PageTypeEnum.DOUBLE.getCode()) ){
+            finalPageNum = finalPageNum / 2 ;
+        }
+
+        /* 6. 活动 */
+
+        Bonus bonus = bonusMapper.selectBonusByShopId(form.getShopId());
+
+        if ( StringUtils.isEmpty(bonus.getBonus()) ){
+            price = BigDecimalUtil.mul(finalPageNum, price.doubleValue());
+        }else {
+            String threshold = bonus.getThreshold();
+            if ( finalPageNum >= Double.valueOf(threshold) ){
+                BigDecimal bonusBeforePrice = BigDecimalUtil.mul(finalPageNum, price.doubleValue());
+                String bonusVariable = bonus.getBonus();
+                price = BigDecimalUtil.mul(bonusBeforePrice.doubleValue(), Double.valueOf(bonusVariable));
+            }else {
+                price = BigDecimalUtil.mul(finalPageNum, price.doubleValue());
+            }
+        }
+
+        /* 保留两位小数， 四舍五入 */
+        price = price.setScale(2, BigDecimal.ROUND_HALF_UP);
+
+        return ServerResponse.createBySuccess(price);
     }
 
 }

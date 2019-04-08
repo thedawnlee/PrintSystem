@@ -28,10 +28,13 @@ var vue = new Vue({
         pageSize: 4, /* 提交表单时，选择的页面尺寸 */
         colorOrBlack: null, /* 提交表单时，选择的颜色 */
         userDesc: "备注你想说的话，如：老板辛苦啦，急~", /* 缓存用户评论 */
-        fileQuantity: "1", /* 文件份数 */
+        fileQuantity: 1, /* 文件份数 */
         filePageCount: null,
         fileNewName: null,
+        fileId: null,
         isUpload: false, /* 是否上传？ */
+        orderPrice: "", /* 用来展示 */
+        fileOrderPrice: "" /* 用来给后端 */
     },
     methods: {
         getFormInfo: function () {
@@ -95,6 +98,7 @@ var vue = new Vue({
                 this.isUpload = true;
                 this.filePageCount = res.data.pageNum;
                 this.fileNewName = res.data.fileName;
+                this.fileId = res.data.fileId;
                 this.fileUploadDisplay = false;
                 this.$refs.fileUploadButtonText.value = "上传成功";
                 console.log(res.data);
@@ -116,6 +120,11 @@ var vue = new Vue({
                     this.doubleActive = true;
                     this.singleOrDouble = 1;
                 }
+
+                /* 当用户选择单页、彩页后重新选择了双页，也要发起请求 */
+                if ( this.blackActive || this.colorActive ) {
+                    this.getOrderPriceInfo();
+                }
                 this.singleOrDoubleErrorText = true;
             }else {
                 util.errorTips("请上传文件后操作！");
@@ -123,7 +132,14 @@ var vue = new Vue({
             }
         },
         handleBlackOrColorClick: function ( type ) {
+
             if ( this.isUpload ){
+
+                /* 首先选择单双页才可以选择彩打 */
+                if ( !this.singleActive && !this.doubleActive ){
+                    this.singleOrDoubleErrorText = false;
+                    return
+                }
                 if ( type == "color" ){
                     this.blackActive = false;
                     this.colorActive = true;
@@ -134,24 +150,47 @@ var vue = new Vue({
                     this.colorOrBlack = 0;
                 }
                 this.colorOrBlackErrorText = true;
+
+                this.getOrderPriceInfo();
             }else{
                 util.errorTips("请上传文件后操作！");
                 return
             }
-            /* 选择单双页就要获取当前的价格 */
-            this.getOrderPriceInfo();
         },
         handleFileSizeChange: function (event){
-           this.pageSize = event.target.value;
+            this.pageSize = parseInt(event.target.value);
+            this.getOrderPriceInfo();
         },
         handleOrderCreate: function () {
             if ( this.checkParamBeforeCreate() ){
-
                 /* 通过验证！ */
+                this.$http.post('/order/create_order.do', {
+                    shopId: parseInt(this.shopId),
+                    pageCount: parseInt(this.filePageCount),
+                    fileQuantity: parseInt(this.fileQuantity),
+                    singleOrDouble: parseInt(this.singleOrDouble),
+                    blackOrColor: parseInt(this.colorOrBlack),
+                    pageSize: parseInt(this.pageSize),
+                    orderPrice: this.fileOrderPrice,
+                    userDes: this.userDes,
+                    fileId: parseInt(this.fileId)
+                },{emulateJSON:true}).then(this.createOrderSuccessCallback, this.createOrderErrorCallback);
             }else {
                 /* 没有通过验证，直接返回 */
                 return
             }
+        },
+        createOrderSuccessCallback: function ( res ) {
+            res = res.body;
+            if( res.data && res.status == 0 ){
+                location.href = "/index";
+                console.log(res.data);
+            }else {
+                util.errorTips( res.msg );
+            }
+        },
+        createOrderErrorCallback: function () {
+            util.errorTips( "创建订单失败！" );
         },
         checkParamBeforeCreate: function (){
             if ( !this.isUpload ){
@@ -168,23 +207,34 @@ var vue = new Vue({
             }
         },
         getOrderPriceInfo: function (){
-            this.$http.get('/price/get_price.do', {params: {pageNum: pageNum, pageSize: pageSize}}).then(this.getPriceSuccessCallback, this.getPriceErrorCallback);
+            this.$http.post('/order/get_price.do', {
+                shopId: parseInt(this.shopId),
+                pageCount: parseInt(this.filePageCount),
+                fileQuantity: parseInt(this.fileQuantity),
+                singleOrDouble: parseInt(this.singleOrDouble),
+                blackOrColor: parseInt(this.colorOrBlack),
+                pageSize: parseInt(this.pageSize)
+            }, {emulateJSON:true}).then(this.getPriceSuccessCallback, this.getPriceErrorCallback);
         },
         getPriceSuccessCallback: function ( res ) {
             res = res.body;
             if( res.data && res.status == 0){
                 this.createActive = false;
-                console.log("price:" +  res.data);
+                this.fileOrderPrice = res.data;
+                this.orderPrice = "￥ " + res.data;
             }else {
                 util.errorTips( res.msg )
             }
         },
         getPriceErrorCallback: function () {
-            
+            util.errorTips( "计算订单价格时发生了错误！" );
         }
     },
     mounted: function () {
         this.shopId = this.$refs.shopIdRef.value;
         this.getFormInfo();
+    },
+    watch:{
+        fileQuantity:function(){this.getOrderPriceInfo();}
     }
 });

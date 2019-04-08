@@ -12,4 +12,6 @@ public class FileVo {
 
     private Integer pageNum;
 
+    private Integer fileId;
+
 }

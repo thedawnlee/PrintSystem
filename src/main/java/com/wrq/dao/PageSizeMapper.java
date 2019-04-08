@@ -21,4 +21,5 @@ public interface PageSizeMapper {
     PageSize getPageSizeByShopIdAndSize(@Param("shopId") Integer shopId, @Param("pageSize") Integer pageSize);
 
     List<PageSize> getPageSizeByShopId(Integer shopId);
+
 }

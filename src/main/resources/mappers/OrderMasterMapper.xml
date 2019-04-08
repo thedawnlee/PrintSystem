@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.wrq.dao.OrderMapper">
-  <resultMap id="BaseResultMap" type="com.wrq.pojo.Order">
+<mapper namespace="com.wrq.dao.OrderMasterMapper">
+  <resultMap id="BaseResultMap" type="com.wrq.pojo.OrderMaster">
     <constructor>
       <idArg column="order_no" javaType="java.lang.String" jdbcType="VARCHAR" />
       <arg column="shop_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
@@ -16,36 +16,37 @@
       <arg column="create_time" javaType="java.util.Date" jdbcType="TIMESTAMP" />
       <arg column="update_time" javaType="java.util.Date" jdbcType="TIMESTAMP" />
       <arg column="refuse_reason" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="get_key" javaType="java.lang.String" jdbcType="VARCHAR" />
     </constructor>
   </resultMap>
   <sql id="Base_Column_List">
     order_no, shop_id, buyer_id, buyer_name, buyer_phone, buyer_email, payment, payment_type, 
-    order_status, pay_status, create_time, update_time, refuse_reason
+    order_status, pay_status, create_time, update_time, refuse_reason, get_key
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from order
+    from order_master
     where order_no = #{orderNo,jdbcType=VARCHAR}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
-    delete from order
+    delete from order_master
     where order_no = #{orderNo,jdbcType=VARCHAR}
   </delete>
-  <insert id="insert" parameterType="com.wrq.pojo.Order">
-    insert into order (order_no, shop_id, buyer_id, 
+  <insert id="insert" parameterType="com.wrq.pojo.OrderMaster">
+    insert into order_master (order_no, shop_id, buyer_id,
       buyer_name, buyer_phone, buyer_email, 
       payment, payment_type, order_status, 
       pay_status, create_time, update_time, 
-      refuse_reason)
+      refuse_reason, get_key)
     values (#{orderNo,jdbcType=VARCHAR}, #{shopId,jdbcType=INTEGER}, #{buyerId,jdbcType=INTEGER}, 
       #{buyerName,jdbcType=VARCHAR}, #{buyerPhone,jdbcType=VARCHAR}, #{buyerEmail,jdbcType=VARCHAR}, 
       #{payment,jdbcType=DECIMAL}, #{paymentType,jdbcType=INTEGER}, #{orderStatus,jdbcType=INTEGER}, 
       #{payStatus,jdbcType=INTEGER}, now(), now(),
-      #{refuseReason,jdbcType=VARCHAR})
+      #{refuseReason,jdbcType=VARCHAR}, #{getKey,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.wrq.pojo.Order">
-    insert into order
+  <insert id="insertSelective" parameterType="com.wrq.pojo.OrderMaster">
+    insert into order_master
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="orderNo != null">
         order_no,
@@ -85,6 +86,9 @@
       </if>
       <if test="refuseReason != null">
         refuse_reason,
+      </if>
+      <if test="getKey != null">
+        get_key,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -127,10 +131,13 @@
       <if test="refuseReason != null">
         #{refuseReason,jdbcType=VARCHAR},
       </if>
+      <if test="getKey != null">
+        #{getKey,jdbcType=VARCHAR},
+      </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.wrq.pojo.Order">
-    update order
+  <update id="updateByPrimaryKeySelective" parameterType="com.wrq.pojo.OrderMaster">
+    update order_master
     <set>
       <if test="shopId != null">
         shop_id = #{shopId,jdbcType=INTEGER},
@@ -168,11 +175,14 @@
       <if test="refuseReason != null">
         refuse_reason = #{refuseReason,jdbcType=VARCHAR},
       </if>
+      <if test="getKey != null">
+        get_key = #{getKey,jdbcType=VARCHAR},
+      </if>
     </set>
     where order_no = #{orderNo,jdbcType=VARCHAR}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.wrq.pojo.Order">
-    update order
+  <update id="updateByPrimaryKey" parameterType="com.wrq.pojo.OrderMaster">
+    update order_master
     set shop_id = #{shopId,jdbcType=INTEGER},
       buyer_id = #{buyerId,jdbcType=INTEGER},
       buyer_name = #{buyerName,jdbcType=VARCHAR},
@@ -184,7 +194,8 @@
       pay_status = #{payStatus,jdbcType=INTEGER},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       update_time = now(),
-      refuse_reason = #{refuseReason,jdbcType=VARCHAR}
+      refuse_reason = #{refuseReason,jdbcType=VARCHAR},
+      get_key = #{getKey,jdbcType=VARCHAR}
     where order_no = #{orderNo,jdbcType=VARCHAR}
   </update>
 </mapper>
