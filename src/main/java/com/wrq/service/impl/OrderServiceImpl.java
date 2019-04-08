@@ -1,5 +1,6 @@
 package com.wrq.service.impl;
 
+import com.google.common.collect.Lists;
 import com.wrq.commons.ServerResponse;
 import com.wrq.dao.*;
 import com.wrq.enums.OrderStatusEnum;
@@ -10,12 +11,15 @@ import com.wrq.pojo.*;
 import com.wrq.service.IOrderService;
 import com.wrq.utils.KeyUtil;
 import com.wrq.vo.OrderVo;
+import com.wrq.vo.ShopVo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 /**
  * Created by wangqian on 2019/4/4.
@@ -42,12 +46,14 @@ public class OrderServiceImpl implements IOrderService {
     @Autowired
     private FileMapper fileMapper;
 
+
     /**
      * 创建订单
      * @param form 订单
      * @param user 用户
      * @return 创建订单
      */
+    @Transactional
     public ServerResponse create( CreateOrderForm form, User user) {
 
         OrderMaster orderMaster = new OrderMaster();
@@ -76,9 +82,6 @@ public class OrderServiceImpl implements IOrderService {
         orderMaster.setOrderStatus(OrderStatusEnum.NOY_PAY.getCode());
 
 
-
-
-
         orderMaster.setPayment( price );
         orderMaster.setShopId(shopId);
         orderMaster.setPayStatus(PayStatusEnum.WAIT.getCode());
@@ -98,18 +101,15 @@ public class OrderServiceImpl implements IOrderService {
 
         orderItem.setOrderNo(orderNo);
 
-        Color color = colorMapper.selectBlackOrColorByShopId(shopId, form.getBlackOrColor());
 
-        orderItem.setColorInfoId(color.getId());
+        orderItem.setColorInfoType(form.getBlackOrColor());
         orderItem.setFileId(form.getFileId());
         orderItem.setFileQuantity(form.getFileQuantity());
 
-        PageSize pageSize = pageSizeMapper.getPageSizeByShopIdAndSize(shopId, form.getPageSize());
-        orderItem.setSizeInfoId(pageSize.getId());
+        orderItem.setSizeInfoType(form.getPageSize());
 
 
-        SingleDouble singleDouble = singleDoubleMapper.selectSingleOrDoubleByShopId(shopId, form.getSingleOrDouble());
-        orderItem.setPageInfoId(singleDouble.getId());
+        orderItem.setPageInfoType(form.getSingleOrDouble());
 
         orderItem.setTotalPrice(price);
         orderItem.setUserDes( form.getUserDesc() );
@@ -126,16 +126,55 @@ public class OrderServiceImpl implements IOrderService {
 
 
     /**
-     * 创建订单之后跳转值支付页面获取订单的信息
-     * @param form
-     * @param user
+     * 点击去支付，跳转至支付页面！
+     * @param orderNo
      * @return
      */
-    public ServerResponse getOrderBeforePay( CreateOrderForm form, User user) {
+    public ServerResponse getOrderBeforePay( String orderNo ) {
 
-       return null;
+        Integer fileId;
+
+        String fileName;
+
+        String fileExtensionName;
+
+        List<OrderItem> orderItemList = orderItemMapper.selectOrderItemByOrderNo(orderNo);
+
+        List<OrderVo> orderVoList = Lists.newArrayList();
+
+        for(OrderItem orderItem : orderItemList){
+
+            OrderVo orderVo = new OrderVo();
+
+            if ( orderItem == null ){
+                return ServerResponse.createBySuccess("获取待支付订单错误！");
+            }else {
+                fileId = orderItem.getFileId();
+            }
+
+            File file = fileMapper.selectByPrimaryKey(fileId);
+            if ( file == null ){
+                return ServerResponse.createBySuccess("获取上传的打印文件失败，请稍后再试！");
+            }else {
+                fileName = file.getFileName();
+            }
+
+            fileExtensionName = fileName.substring(fileName.lastIndexOf(".")+1);
+            orderVo.setFileType( fileExtensionName );
+            orderVo.setOrderNo( orderNo );
+            orderVo.setFileName(fileName);
+
+            orderVo.setColorOrBlack(orderItem.getColorInfoType());
+            orderVo.setFileQuantity(orderItem.getFileQuantity());
+            orderVo.setOrderPrice(orderItem.getTotalPrice());
+            orderVo.setPageSize(orderItem.getSizeInfoType());
+            orderVo.setSingleOrDouble(orderItem.getPageInfoType());
+
+            orderVoList.add(orderVo);
+        }
+
+       return ServerResponse.createBySuccess(orderVoList);
 
     }
-
 
 }

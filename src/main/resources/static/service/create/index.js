@@ -34,7 +34,7 @@ var vue = new Vue({
         fileId: null,
         isUpload: false, /* 是否上传？ */
         orderPrice: "", /* 用来展示 */
-        fileOrderPrice: "" /* 用来给后端 */
+        fileOrderPrice: "", /* 用来给后端 */
     },
     methods: {
         getFormInfo: function () {
@@ -183,8 +183,7 @@ var vue = new Vue({
         createOrderSuccessCallback: function ( res ) {
             res = res.body;
             if( res.data && res.status == 0 ){
-                location.href = "/index";
-                console.log(res.data);
+                location.href = "/order/get_order.do?orderNo=" + res.data.data;
             }else {
                 util.errorTips( res.msg );
             }

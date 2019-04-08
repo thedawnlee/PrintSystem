@@ -12,6 +12,7 @@ import com.wrq.service.IShopService;
 import com.wrq.vo.DetailVo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jmx.export.annotation.ManagedOperation;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -111,6 +112,13 @@ public class OrderController {
         }
     }
 
+    /**
+     * 上传文件页面点击 去支付 创建订单！
+     * @param form
+     * @param bindingResult
+     * @param session
+     * @return
+     */
     @RequestMapping(value = "create_order.do", method = RequestMethod.POST)
     @ResponseBody
     public ServerResponse createOrder(@Valid CreateOrderForm form , BindingResult bindingResult, HttpSession session) {
@@ -127,6 +135,39 @@ public class OrderController {
             return ServerResponse.createByErrorMessage(ResponseCode.NEED_LOGON_FOR_CREATE.getDesc());
         }else {
             return ServerResponse.createBySuccess(iOrderService.create(form, user));
+        }
+    }
+
+    /**
+     * 当创建订单完毕，去支付页面时，通过此方法跳转！
+     * @param orderNo
+     * @param session
+     * @param map
+     * @return
+     */
+    @RequestMapping(value = "get_order.do", method = RequestMethod.GET)
+    public ModelAndView getOrder(@RequestParam("orderNo") String orderNo, HttpSession session, Map<String, Object> map) {
+
+        log.info("请求了 /order/get_order.do 接口");
+
+        User user = (User)session.getAttribute(Const.CURRENT_USER);
+
+        if(user == null){
+            map.put("msg", ResponseCode.NEED_LOGON_FOR_CREATE.getDesc());
+            map.put("url", "/order/get_order.do?orderNo=" + orderNo);
+            return new ModelAndView("portal/login" , map);
+        }else {
+
+            ServerResponse result = iOrderService.getOrderBeforePay(orderNo);
+
+            if ( result.isSuccess() ) {
+                map.put("orderInfo", result.getData());
+                return new ModelAndView("portal/pay" , map);
+            }else {
+                map.put("msg", result.getMsg());
+                map.put("url", "/index");
+                return new ModelAndView("portal/common/page/error" , map);
+            }
         }
     }
 

@@ -198,4 +198,5 @@
       get_key = #{getKey,jdbcType=VARCHAR}
     where order_no = #{orderNo,jdbcType=VARCHAR}
   </update>
+
 </mapper>

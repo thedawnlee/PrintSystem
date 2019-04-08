@@ -9,17 +9,17 @@
       <arg column="file_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
       <arg column="file_quantity" javaType="java.lang.Integer" jdbcType="INTEGER" />
       <arg column="total_price" javaType="java.math.BigDecimal" jdbcType="DECIMAL" />
-      <arg column="size_info_id" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="size_info_type" javaType="java.lang.Integer" jdbcType="VARCHAR" />
       <arg column="user_des" javaType="java.lang.String" jdbcType="VARCHAR" />
       <arg column="create_time" javaType="java.util.Date" jdbcType="TIMESTAMP" />
       <arg column="update_time" javaType="java.util.Date" jdbcType="TIMESTAMP" />
-      <arg column="color_info_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
-      <arg column="page_info_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="color_info_type" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="page_info_type" javaType="java.lang.Integer" jdbcType="INTEGER" />
     </constructor>
   </resultMap>
   <sql id="Base_Column_List">
-    id, order_no, user_id, file_id, file_quantity, total_price, size_info_id, user_des, 
-    create_time, update_time, color_info_id, page_info_id
+    id, order_no, user_id, file_id, file_quantity, total_price, size_info_type, user_des, 
+    create_time, update_time, color_info_type, page_info_type
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
@@ -34,12 +34,12 @@
   <insert id="insert" parameterType="com.wrq.pojo.OrderItem">
     insert into order_item (id, order_no, user_id, 
       file_id, file_quantity, total_price, 
-      size_info_id, user_des, create_time, 
-      update_time, color_info_id, page_info_id)
-    values (#{id,jdbcType=INTEGER}, #{orderId,jdbcType=VARCHAR}, #{userId,jdbcType=INTEGER}, 
+      size_info_type, user_des, create_time, 
+      update_time, color_info_type, page_info_type)
+    values (#{id,jdbcType=INTEGER}, #{orderNo,jdbcType=VARCHAR}, #{userId,jdbcType=INTEGER},
       #{fileId,jdbcType=INTEGER}, #{fileQuantity,jdbcType=INTEGER}, #{totalPrice,jdbcType=DECIMAL}, 
-      #{sizeInfoId,jdbcType=VARCHAR}, #{userDes,jdbcType=VARCHAR}, now(),
-      now(), #{colorInfoId,jdbcType=INTEGER}, #{pageInfoId,jdbcType=INTEGER})
+      #{sizeInfoType,jdbcType=INTEGER}, #{userDes,jdbcType=VARCHAR}, now(),
+      now(), #{colorInfoType,jdbcType=INTEGER}, #{pageInfoType,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.wrq.pojo.OrderItem">
     insert into order_item
@@ -47,7 +47,7 @@
       <if test="id != null">
         id,
       </if>
-      <if test="orderId != null">
+      <if test="orderNo != null">
         order_no,
       </if>
       <if test="userId != null">
@@ -62,8 +62,8 @@
       <if test="totalPrice != null">
         total_price,
       </if>
-      <if test="sizeInfoId != null">
-        size_info_id,
+      <if test="sizeInfoType != null">
+        size_info_type,
       </if>
       <if test="userDes != null">
         user_des,
@@ -74,19 +74,19 @@
       <if test="updateTime != null">
         update_time,
       </if>
-      <if test="colorInfoId != null">
-        color_info_id,
+      <if test="colorInfoType != null">
+        color_info_type,
       </if>
-      <if test="pageInfoId != null">
-        page_info_id,
+      <if test="pageInfoType != null">
+        page_info_type,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
         #{id,jdbcType=INTEGER},
       </if>
-      <if test="orderId != null">
-        #{orderId,jdbcType=VARCHAR},
+      <if test="orderNo != null">
+        #{orderNo,jdbcType=VARCHAR},
       </if>
       <if test="userId != null">
         #{userId,jdbcType=INTEGER},
@@ -100,8 +100,8 @@
       <if test="totalPrice != null">
         #{totalPrice,jdbcType=DECIMAL},
       </if>
-      <if test="sizeInfoId != null">
-        #{sizeInfoId,jdbcType=VARCHAR},
+      <if test="sizeInfoType != null">
+        #{sizeInfoType,jdbcType=VARCHAR},
       </if>
       <if test="userDes != null">
         #{userDes,jdbcType=VARCHAR},
@@ -112,19 +112,19 @@
       <if test="updateTime != null">
         now(),
       </if>
-      <if test="colorInfoId != null">
-        #{colorInfoId,jdbcType=INTEGER},
+      <if test="colorInfoType != null">
+        #{colorInfoType,jdbcType=INTEGER},
       </if>
-      <if test="pageInfoId != null">
-        #{pageInfoId,jdbcType=INTEGER},
+      <if test="pageInfoType != null">
+        #{pageInfoType,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.wrq.pojo.OrderItem">
     update order_item
     <set>
-      <if test="orderId != null">
-        order_no = #{orderId,jdbcType=VARCHAR},
+      <if test="orderNo != null">
+        order_no = #{orderNo,jdbcType=VARCHAR},
       </if>
       <if test="userId != null">
         user_id = #{userId,jdbcType=INTEGER},
@@ -138,8 +138,8 @@
       <if test="totalPrice != null">
         total_price = #{totalPrice,jdbcType=DECIMAL},
       </if>
-      <if test="sizeInfoId != null">
-        size_info_id = #{sizeInfoId,jdbcType=VARCHAR},
+      <if test="sizeInfoType != null">
+        size_info_type = #{sizeInfoType,jdbcType=VARCHAR},
       </if>
       <if test="userDes != null">
         user_des = #{userDes,jdbcType=VARCHAR},
@@ -150,28 +150,35 @@
       <if test="updateTime != null">
         update_time = now(),
       </if>
-      <if test="colorInfoId != null">
-        color_info_id = #{colorInfoId,jdbcType=INTEGER},
+      <if test="colorInfoType != null">
+        color_info_type = #{colorInfoType,jdbcType=INTEGER},
       </if>
-      <if test="pageInfoId != null">
-        page_info_id = #{pageInfoId,jdbcType=INTEGER},
+      <if test="pageInfoType != null">
+        page_info_type = #{pageInfoType,jdbcType=INTEGER},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.wrq.pojo.OrderItem">
     update order_item
-    set order_no = #{orderId,jdbcType=VARCHAR},
+    set order_no = #{orderNo,jdbcType=VARCHAR},
       user_id = #{userId,jdbcType=INTEGER},
       file_id = #{fileId,jdbcType=INTEGER},
       file_quantity = #{fileQuantity,jdbcType=INTEGER},
       total_price = #{totalPrice,jdbcType=DECIMAL},
-      size_info_id = #{sizeInfoId,jdbcType=VARCHAR},
+      size_info_type = #{sizeInfoType,jdbcType=VARCHAR},
       user_des = #{userDes,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       update_time = now(),
-      color_info_id = #{colorInfoId,jdbcType=INTEGER},
-      page_info_id = #{pageInfoId,jdbcType=INTEGER}
+      color_info_type = #{colorInfoType,jdbcType=INTEGER},
+      page_info_type = #{pageInfoType,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <select id="selectOrderItemByOrderNo" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from order_item
+    where order_no = #{orderNo,jdbcType=VARCHAR}
+  </select>
+
 </mapper>
