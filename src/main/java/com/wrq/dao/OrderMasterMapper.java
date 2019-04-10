@@ -1,6 +1,7 @@
 package com.wrq.dao;
 
 import com.wrq.pojo.OrderMaster;
+import org.apache.ibatis.annotations.Param;
 
 public interface OrderMasterMapper {
     int deleteByPrimaryKey(String orderNo);
@@ -14,4 +15,6 @@ public interface OrderMasterMapper {
     int updateByPrimaryKeySelective(OrderMaster record);
 
     int updateByPrimaryKey(OrderMaster record);
+
+    OrderMaster selectByUserIdAndOrderNo(@Param("userId") Integer userId, @Param("orderNo") String orderNo);
 }

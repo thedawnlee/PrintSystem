@@ -62,8 +62,8 @@ public class FileServiceImpl implements IFileService {
             file.transferTo(targetFile);
 
 
-            // targetFile上传到FTP服务器
-            FTPUtil.uploadFile(Lists.newArrayList(targetFile));
+            // targetFile上传到FTP服务器,file文件夹
+            FTPUtil.uploadFile(Lists.newArrayList(targetFile), "file");
 
             //  获取文件的页数
             try {
@@ -107,19 +107,19 @@ public class FileServiceImpl implements IFileService {
      * 得到文件页数
      * @param filePath 路径
      * @param fileName 名字
-     * @param type doc、ppt、pdf
+     * @param  fileType、doc、ppt、pdf
      * @return 文件页数
      * @throws Exception
      */
-    private int getFilePageCount(String filePath, String fileName, String type) throws Exception {
+    private int getFilePageCount(String filePath, String fileName, String fileType) throws Exception {
 
         String fileLocation = "static" + "/" + filePath + "/" + fileName;
 
         int pageCount = -1;
 
-        log.info("获取文件页数，filePath = {}, fileName = {}, type = {}, fileLocation = {}",filePath, fileName, type, fileLocation);
+        log.info("获取文件页数，filePath = {}, fileName = {}, type = {}, fileLocation = {}",filePath, fileName, fileType, fileLocation);
 
-        switch ( type.toLowerCase() ){
+        switch ( fileType ){
             case "doc":
                 return PageCountUtil.getDocCount(fileLocation);
             case "docx":

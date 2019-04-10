@@ -14,4 +14,6 @@ public class ParameterConfig {
 
     private String imageHost;
 
+    private String alipayCallbackUrl;
+
 }

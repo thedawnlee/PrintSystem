@@ -16,7 +16,7 @@ public class OrderItem {
 
     private Integer fileQuantity;
 
-    private BigDecimal totalPrice;
+    private BigDecimal currentPrice;
 
     private Integer sizeInfoType;
 
@@ -30,13 +30,13 @@ public class OrderItem {
 
     private Integer pageInfoType;
 
-    public OrderItem(Integer id, String orderNo, Integer userId, Integer fileId, Integer fileQuantity, BigDecimal totalPrice, Integer sizeInfoType, String userDes, Date createTime, Date updateTime, Integer colorInfoType, Integer pageInfoType) {
+    public OrderItem(Integer id, String orderNo, Integer userId, Integer fileId, Integer fileQuantity, BigDecimal currentPrice, Integer sizeInfoType, String userDes, Date createTime, Date updateTime, Integer colorInfoType, Integer pageInfoType) {
         this.id = id;
         this.orderNo = orderNo;
         this.userId = userId;
         this.fileId = fileId;
         this.fileQuantity = fileQuantity;
-        this.totalPrice = totalPrice;
+        this.currentPrice = currentPrice;
         this.sizeInfoType = sizeInfoType;
         this.userDes = userDes;
         this.createTime = createTime;
@@ -89,12 +89,12 @@ public class OrderItem {
         this.fileQuantity = fileQuantity;
     }
 
-    public BigDecimal getTotalPrice() {
-        return totalPrice;
+    public BigDecimal getCurrentPrice() {
+        return currentPrice;
     }
 
-    public void setTotalPrice(BigDecimal totalPrice) {
-        this.totalPrice = totalPrice;
+    public void setCurrentPrice(BigDecimal currentPrice) {
+        this.currentPrice = currentPrice;
     }
 
     public Integer getSizeInfoType() {

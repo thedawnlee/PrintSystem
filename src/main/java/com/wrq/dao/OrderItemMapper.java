@@ -1,6 +1,7 @@
 package com.wrq.dao;
 
 import com.wrq.pojo.OrderItem;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -18,4 +19,6 @@ public interface OrderItemMapper {
     int updateByPrimaryKey(OrderItem record);
 
     List<OrderItem> selectOrderItemByOrderNo(String orderNo);
+
+    List<OrderItem> getOrderItemByOrderNoUserId( @Param("orderNo") String orderNo, @Param("userId") Integer userId );
 }

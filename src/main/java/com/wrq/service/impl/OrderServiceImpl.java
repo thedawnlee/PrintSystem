@@ -2,15 +2,16 @@ package com.wrq.service.impl;
 
 import com.google.common.collect.Lists;
 import com.wrq.commons.ServerResponse;
+import com.wrq.config.ParameterConfig;
 import com.wrq.dao.*;
-import com.wrq.enums.OrderStatusEnum;
-import com.wrq.enums.PayPlatformEnum;
-import com.wrq.enums.PayStatusEnum;
+import com.wrq.enums.*;
 import com.wrq.form.CreateOrderForm;
 import com.wrq.pojo.*;
 import com.wrq.service.IOrderService;
+import com.wrq.utils.EnumUtil;
 import com.wrq.utils.KeyUtil;
 import com.wrq.vo.OrderVo;
+import com.wrq.vo.OrderVoList;
 import com.wrq.vo.ShopVo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,16 +36,10 @@ public class OrderServiceImpl implements IOrderService {
     private OrderItemMapper orderItemMapper;
 
     @Autowired
-    private PageSizeMapper pageSizeMapper;
-
-    @Autowired
-    private SingleDoubleMapper singleDoubleMapper;
-
-    @Autowired
-    private ColorMapper colorMapper;
-
-    @Autowired
     private FileMapper fileMapper;
+
+    @Autowired
+    private ParameterConfig parameterConfig;
 
 
     /**
@@ -79,12 +74,11 @@ public class OrderServiceImpl implements IOrderService {
         orderMaster.setBuyerName(user.getUsername());
         orderMaster.setBuyerPhone(user.getPhone());
 
-        orderMaster.setOrderStatus(OrderStatusEnum.NOY_PAY.getCode());
+        orderMaster.setOrderStatus(OrderStatusEnum.NO_PAY.getCode());
 
 
         orderMaster.setPayment( price );
         orderMaster.setShopId(shopId);
-        orderMaster.setPayStatus(PayStatusEnum.WAIT.getCode());
         orderMaster.setPaymentType(PayPlatformEnum.ALIPAY.getCode());
 
         /* 3. 订单主表 */
@@ -111,7 +105,7 @@ public class OrderServiceImpl implements IOrderService {
 
         orderItem.setPageInfoType(form.getSingleOrDouble());
 
-        orderItem.setTotalPrice(price);
+        orderItem.setCurrentPrice(price);
         orderItem.setUserDes( form.getUserDesc() );
         orderItem.setUserId( user.getId() );
 
@@ -130,7 +124,13 @@ public class OrderServiceImpl implements IOrderService {
      * @param orderNo
      * @return
      */
-    public ServerResponse getOrderBeforePay( String orderNo ) {
+    public ServerResponse getOrderBeforePay( User user, String orderNo ) {
+
+        OrderMaster order = orderMasterMapper.selectByUserIdAndOrderNo(user.getId(), orderNo);
+
+        if (order == null) {
+            return ServerResponse.createByErrorMessage("用户没有该订单");
+        }
 
         Integer fileId;
 
@@ -160,21 +160,48 @@ public class OrderServiceImpl implements IOrderService {
             }
 
             fileExtensionName = fileName.substring(fileName.lastIndexOf(".")+1);
-            orderVo.setFileType( fileExtensionName );
-            orderVo.setOrderNo( orderNo );
+            orderVo.setFileTypeImg( parameterConfig.getImageHost()  + "/" + fileExtensionName + ".png" );
             orderVo.setFileName(fileName);
 
-            orderVo.setColorOrBlack(orderItem.getColorInfoType());
+            /* 获取当前订单明细的订单是彩印还是黑白 */
+            String colorOrBlackResult = EnumUtil.getByCode(orderItem.getColorInfoType(), ColorTypeEnum.class).getMessage();
+
+            orderVo.setColorOrBlack(colorOrBlackResult);
+
+
             orderVo.setFileQuantity(orderItem.getFileQuantity());
-            orderVo.setOrderPrice(orderItem.getTotalPrice());
-            orderVo.setPageSize(orderItem.getSizeInfoType());
-            orderVo.setSingleOrDouble(orderItem.getPageInfoType());
+            orderVo.setOrderPrice(orderItem.getCurrentPrice());
+
+            /* 获取当前订单明细的订单尺寸 */
+            String pageSizeResult = EnumUtil.getByCode(orderItem.getSizeInfoType(), PageSizePriceEnum.class).getMessage();
+
+            orderVo.setPageSize(pageSizeResult);
+
+            /* 获取当前订单明细的订单是单页还是双页 */
+            String pageTypeResult = EnumUtil.getByCode(orderItem.getPageInfoType(), PageTypeEnum.class).getMessage();
+
+            orderVo.setSingleOrDouble(pageTypeResult);
 
             orderVoList.add(orderVo);
         }
 
-       return ServerResponse.createBySuccess(orderVoList);
+        OrderVoList orderList = new OrderVoList();
 
+        orderList.setOrderVoList(orderVoList);
+
+        OrderMaster orderMaster = orderMasterMapper.selectByPrimaryKey(orderNo);
+
+        if ( orderMaster == null ){
+            return ServerResponse.createBySuccess("此订单不存在！");
+        }
+
+        BigDecimal payment = orderMaster.getPayment();
+
+        orderList.setTotalPrice(payment);
+        orderList.setOrderNo(orderNo);
+        orderList.setPhone(user.getPhone());
+
+       return ServerResponse.createBySuccess(orderList);
     }
 
 }

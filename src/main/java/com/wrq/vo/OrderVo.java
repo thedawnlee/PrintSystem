@@ -11,17 +11,15 @@ import java.math.BigDecimal;
 @Data
 public class OrderVo {
 
-    private String fileType;
-
-    private String orderNo;
+    private String fileTypeImg;
 
     private String fileName;
 
-    private Integer singleOrDouble;
+    private String singleOrDouble;
 
-    private Integer colorOrBlack;
+    private String colorOrBlack;
 
-    private Integer pageSize;
+    private String pageSize;
 
     private Integer fileQuantity;
 

@@ -3,7 +3,7 @@ package com.wrq.enums;
 /**
  * Created by wangqian on 2019/3/30.
  */
-public enum PageTypeEnum {
+public enum PageTypeEnum implements CodeEnum {
 
     SINGLE(0, "单页"),
     DOUBLE(1, "双页"),

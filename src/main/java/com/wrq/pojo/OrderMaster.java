@@ -24,7 +24,7 @@ public class OrderMaster {
 
     private Integer orderStatus;
 
-    private Integer payStatus;
+    private Date paymentTime;
 
     private Date createTime;
 
@@ -34,7 +34,7 @@ public class OrderMaster {
 
     private String getKey;
 
-    public OrderMaster(String orderNo, Integer shopId, Integer buyerId, String buyerName, String buyerPhone, String buyerEmail, BigDecimal payment, Integer paymentType, Integer orderStatus, Integer payStatus, Date createTime, Date updateTime, String refuseReason, String getKey) {
+    public OrderMaster(String orderNo, Integer shopId, Integer buyerId, String buyerName, String buyerPhone, String buyerEmail, BigDecimal payment, Integer paymentType, Integer orderStatus, Date paymentTime, Date createTime, Date updateTime, String refuseReason, String getKey) {
         this.orderNo = orderNo;
         this.shopId = shopId;
         this.buyerId = buyerId;
@@ -44,7 +44,7 @@ public class OrderMaster {
         this.payment = payment;
         this.paymentType = paymentType;
         this.orderStatus = orderStatus;
-        this.payStatus = payStatus;
+        this.paymentTime = paymentTime;
         this.createTime = createTime;
         this.updateTime = updateTime;
         this.refuseReason = refuseReason;
@@ -127,12 +127,12 @@ public class OrderMaster {
         this.orderStatus = orderStatus;
     }
 
-    public Integer getPayStatus() {
-        return payStatus;
+    public Date getPaymentTime() {
+        return paymentTime;
     }
 
-    public void setPayStatus(Integer payStatus) {
-        this.payStatus = payStatus;
+    public void setPaymentTime(Date paymentTime) {
+        this.paymentTime = paymentTime;
     }
 
     public Date getCreateTime() {
@@ -165,5 +165,25 @@ public class OrderMaster {
 
     public void setGetKey(String getKey) {
         this.getKey = getKey;
+    }
+
+    @Override
+    public String toString() {
+        return "OrderMaster{" +
+                "orderNo='" + orderNo + '\'' +
+                ", shopId=" + shopId +
+                ", buyerId=" + buyerId +
+                ", buyerName='" + buyerName + '\'' +
+                ", buyerPhone='" + buyerPhone + '\'' +
+                ", buyerEmail='" + buyerEmail + '\'' +
+                ", payment=" + payment +
+                ", paymentType=" + paymentType +
+                ", orderStatus=" + orderStatus +
+                ", paymentTime=" + paymentTime +
+                ", createTime=" + createTime +
+                ", updateTime=" + updateTime +
+                ", refuseReason='" + refuseReason + '\'' +
+                ", getKey='" + getKey + '\'' +
+                '}';
     }
 }

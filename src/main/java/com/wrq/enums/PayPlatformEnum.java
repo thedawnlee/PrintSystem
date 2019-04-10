@@ -8,7 +8,7 @@ public enum PayPlatformEnum {
         ALIPAY(0,"支付宝");
         private  String value;
         private  int code;
-        PayPlatformEnum(int code,String value){
+        PayPlatformEnum(Integer code,String value){
             this.code   = code;
             this.value  = value;
         }
@@ -17,7 +17,7 @@ public enum PayPlatformEnum {
             return value;
         }
 
-        public int getCode() {
+        public Integer getCode() {
             return code;
         }
 

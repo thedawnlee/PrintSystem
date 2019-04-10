@@ -1,13 +1,10 @@
 package com.wrq.controller.portal;
 
-import com.google.common.collect.Maps;
 import com.wrq.commons.Const;
 import com.wrq.commons.ResponseCode;
 import com.wrq.commons.ServerResponse;
-import com.wrq.config.ParameterConfig;
 import com.wrq.pojo.User;
 import com.wrq.service.IFileService;
-import com.wrq.vo.FileVo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

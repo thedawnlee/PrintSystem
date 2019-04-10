@@ -8,13 +8,14 @@ import lombok.Getter;
 @Getter
 public enum OrderStatusEnum implements CodeEnum{
 
-    NEW(0, "新订单"), /* 支付成功后便是新订单 */
-    FINISHED(1, "完结"), /* 用户对店铺进行评价后完结 */
-    CANCEL(2, "已取消"), /* 用户取消订单，退款 */
-    NOY_PAY(3, "未支付"), /* 创建订单未支付时 */
-    REFUSE_ORDER(4, "已拒绝"), /* 用户取消订单，退款 */
-    PROCESSING_ORDER(5, "正在处理")
-    ;
+    /* 40 50 60 70 都是支付完毕后的状态 */
+    CANCELED(0,"已取消"),
+    NO_PAY(10,"未支付"),
+    PAID(20,"已付款"),
+    PROCESSING_ORDER(40,"正在处理"),
+    ORDER_REFUSED(50,"订单被拒绝"),
+    ORDER_SUCCESS(60,"订单关闭"),
+    ORDER_CLOSE(70 , "订单关闭");
 
     /* 状态码 */
     private Integer code;

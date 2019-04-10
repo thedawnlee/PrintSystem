@@ -158,7 +158,7 @@ public class OrderController {
             return new ModelAndView("portal/login" , map);
         }else {
 
-            ServerResponse result = iOrderService.getOrderBeforePay(orderNo);
+            ServerResponse result = iOrderService.getOrderBeforePay(user, orderNo);
 
             if ( result.isSuccess() ) {
                 map.put("orderInfo", result.getData());

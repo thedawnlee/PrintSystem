@@ -37,8 +37,8 @@ var vue = new Vue({
                 util.errorTips( res.msg )
             }
         },
-        errorCallback: function ( res ) {
-            util.errorTips( res.msg )
+        errorCallback: function ( ) {
+            util.errorTips( "请求店铺列表发生错误！" )
         }
     },
     filters: {

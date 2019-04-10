@@ -1,20 +1,11 @@
 <div data-v-715e15c5 class="order" style="min-height: 937px;">
-    <h1 data-v-715e15c5 class="title">| 结算台</h1>
-    <ul data-v-715e15c5 class="order-list">
-        <li data-v-715e15c5><img data-v-715e15c5 src="" alt="cover">
-            <dl data-v-715e15c5 style="justify-content: space-around;"><dt data-v-715e15c5>考研资料.doc</dt>
-
-                <dd data-v-715e15c5 class="item-price"><span data-v-715e15c5 class="price iconfont">￥ 99</span><span
-                        data-v-715e15c5 class="item-count">x1</span></dd>
-            </dl>
-        </li>
-    </ul>
+    <h1 data-v-715e15c5 class="title">| <span style="color: #555;">结算台</span></h1>
+    <input type="hidden" value="${orderInfo.orderNo}" ref="orderNoRef">
     <div data-v-715e15c5 class="order-list-pc">
         <table data-v-715e15c5>
             <thead data-v-715e15c5>
             <tr data-v-715e15c5>
                 <th data-v-715e15c5>文件名</th>
-                <th data-v-715e15c5>订单号</th>
                 <th data-v-715e15c5>单双页</th>
                 <th data-v-715e15c5>类型</th>
                 <th data-v-715e15c5>尺寸</th>
@@ -23,59 +14,24 @@
             </tr>
             </thead>
             <tbody data-v-715e15c5>
-            <tr data-v-715e15c5>
-                <td data-v-715e15c5 class="order-img"><img data-v-715e15c5 src="../../img/doc.png" alt="cover">
-                    <p data-v-715e15c5>考研资料.doc</p>
-                </td>
-                <td data-v-715e15c5>￥ 99</td>
-                <td data-v-715e15c5>1</td>
-                <td data-v-715e15c5>￥ 99</td>
-                <td data-v-715e15c5>￥ 99</td>
-                <td data-v-715e15c5>￥ 99</td>
-                <td data-v-715e15c5>￥ 99</td>
-            </tr>
-            <tr data-v-715e15c5>
-                <td data-v-715e15c5 class="order-img"><img data-v-715e15c5 src="../../img/docx.png" alt="cover">
-                    <p data-v-715e15c5>考研资料.doc</p>
-                </td>
-                <td data-v-715e15c5>￥ 99</td>
-                <td data-v-715e15c5>1</td>
-                <td data-v-715e15c5>￥ 99</td>
-                <td data-v-715e15c5>￥ 99</td>
-                <td data-v-715e15c5>￥ 99</td>
-                <td data-v-715e15c5>￥ 99</td>
-            </tr>
-            <tr data-v-715e15c5>
-                <td data-v-715e15c5 class="order-img"><img data-v-715e15c5 src="../../img/ppt.png" alt="cover">
-                    <p data-v-715e15c5>考研资料.doc</p>
-                </td>
-                <td data-v-715e15c5>￥ 99</td>
-                <td data-v-715e15c5>1</td>
-                <td data-v-715e15c5>￥ 99</td>
-                <td data-v-715e15c5>￥ 99</td>
-                <td data-v-715e15c5>￥ 99</td>
-                <td data-v-715e15c5>￥ 99</td>
-            </tr>
-            <tr data-v-715e15c5>
-                <td data-v-715e15c5 class="order-img"><img data-v-715e15c5 src="../../img/pdf.png" alt="cover">
-                    <p data-v-715e15c5>考研资料.doc</p>
-                </td>
-                <td data-v-715e15c5>￥ 99</td>
-                <td data-v-715e15c5>1</td>
-                <td data-v-715e15c5>￥ 99</td>
-                <td data-v-715e15c5>￥ 99</td>
-                <td data-v-715e15c5>￥ 99</td>
-                <td data-v-715e15c5>￥ 99</td>
-            </tr>
-            </tbody>
+            <#list orderInfo.orderVoList as order>
+                <tr data-v-715e15c5>
+                    <td data-v-715e15c5 class="order-img"><img data-v-715e15c5 src="${order.fileTypeImg}" alt="cover">
+                        <p data-v-715e15c5>${order.fileName}</p>
+                    </td>
+                    <td data-v-715e15c5>${order.singleOrDouble}</td>
+                    <td data-v-715e15c5>${order.colorOrBlack}</td>
+                    <td data-v-715e15c5>${order.pageSize}</td>
+                    <td data-v-715e15c5>${order.fileQuantity}</td>
+                    <td data-v-715e15c5>￥ ${order.orderPrice}</td>
+                </tr>
+            </#list>
+                </tbody>
         </table>
     </div>
     <div data-v-715e15c5 class="info">
-        <!-- <div data-v-715e15c5 class="info-coupon"><span data-v-715e15c5>礼券</span> <span data-v-715e15c5 style="color: rgb(136, 136, 136); cursor: pointer;">
-                无可用礼券
-                <i data-v-715e15c5  style="color: rgb(136, 136, 136);"></i></span></div> -->
-        <div data-v-715e15c5 class="info-price"><!-- <span data-v-715e15c5 class="info-price-count">共 1 件商品</span> --><span
-                data-v-715e15c5 class="info-price-count">价格:</span> <span data-v-715e15c5 class="orange ">$ 99</span></div>
+        <div data-v-715e15c5 class="info-price"><span data-v-715e15c5 class="order-no-class">订单号：${orderInfo.orderNo}</span><span
+                data-v-715e15c5 class="info-price-count">价格:</span> <span data-v-715e15c5 class="orange ">￥ ${orderInfo.totalPrice}</span></div>
     </div>
     <h3 data-v-715e15c5 class="pay-method-h3">请选择支付方式</h3>
     <div data-v-715e15c5 class="pay-methods">
@@ -90,23 +46,26 @@
 									<span data-v-715e15c5 class="pay-method-text iconfont">支付宝支付</span></span>
                     <div data-v-715e15c5 class="checkbox" value="weixin">暂不支持</div>
                 </div>
-                <div data-v-715e15c5   class="paybox-qr" style="display: none;">
-                    <div data-v-715e15c5  ><img class="qr-img-class" src="../../img/qr.png" ></div>
+                <div data-v-715e15c5   :class="{'paybox-qr': true, display: getQr}">
+                    <div data-v-715e15c5  ><img class="qr-img-class" :src="qrUrl"></div>
                     <p data-v-715e15c5  >使用微信扫码支付</p>
+                </div>
+                <div  data-v-715e15c5 class="current-user">
+                    <span data-v-715e15c5>确认手机号：${orderInfo.phone} <a data-v-715e15c5>更换号码</a></span>
+                    <div  data-v-715e15c5 class="current-user-warn"> 注意：手机号请务必填写正确！</div>
                 </div>
             </div>
         </div>
     </div>
-    <!-- <p data-v-715e15c5 class="coupon-rules">· 本商品为虚拟内容，购买后不支持退换、转让</p> -->
-    <p data-v-715e15c5 class="current-user"><span data-v-715e15c5>当前登录账号：178****6692 <a data-v-715e15c5>切换账号</a></span></p>
-    <div data-v-715e15c5 class="bottom"><a data-v-715e15c5 class="button-primary iconfont">99 确认支付</a></div>
+    <div data-v-715e15c5 class="bottom"><a @click="handlePayClick" data-v-715e15c5 class="button-primary">￥ ${orderInfo.totalPrice} 确认支付</a></div>
 
-    <!-- <div data-v-a05d844a data-v-715e15c5 class="notice-wrap">
+    <div data-v-a05d844a data-v-715e15c5 :class="{'notice-wrap': true, 'display': paySuccess}">
         <div data-v-a05d844a class="notice-info"><i data-v-a05d844a class="iconfont"></i>
             <h1 data-v-a05d844a>支付成功</h1>
-            <p data-v-a05d844a>感谢你的购买</p>
-            <div data-v-a05d844a class="btns"><button data-v-a05d844a>查看详情</button></div>
+            <p data-v-a05d844a>是否去分享文件赚取积分？</p>
+            <div data-v-a05d844a class="btns"><button class="btn-go-share" data-v-a05d844a>前去分享</button>
+                <button @click="handleGoIndex" class="btn-go-index" data-v-a05d844a>回到首页</button></div>
         </div>
-    </div> -->
+    </div>
 
 </div>

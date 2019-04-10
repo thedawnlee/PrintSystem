@@ -26,10 +26,10 @@ public class FTPUtil {
     }
 
     //对面开放的upload方法
-    public static boolean uploadFile(List<File> fileList) throws IOException {
+    public static boolean uploadFile(List<File> fileList, String fileLocation) throws IOException {
         FTPUtil ftpUtil = new FTPUtil(ftpServerIp,21,ftpUser,ftpPass);
         log.info("开始连接ftp服务器");
-        boolean result = ftpUtil.uploadFile("file",fileList);
+        boolean result = ftpUtil.uploadFile(fileLocation, fileList);
         log.info("开始连接ftp服务器，结束上传，上传结果:{}",result);
         return result;
     }

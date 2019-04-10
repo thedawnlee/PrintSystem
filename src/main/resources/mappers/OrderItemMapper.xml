@@ -8,8 +8,8 @@
       <arg column="user_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
       <arg column="file_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
       <arg column="file_quantity" javaType="java.lang.Integer" jdbcType="INTEGER" />
-      <arg column="total_price" javaType="java.math.BigDecimal" jdbcType="DECIMAL" />
-      <arg column="size_info_type" javaType="java.lang.Integer" jdbcType="VARCHAR" />
+      <arg column="current_price" javaType="java.math.BigDecimal" jdbcType="DECIMAL" />
+      <arg column="size_info_type" javaType="java.lang.Integer" jdbcType="INTEGER" />
       <arg column="user_des" javaType="java.lang.String" jdbcType="VARCHAR" />
       <arg column="create_time" javaType="java.util.Date" jdbcType="TIMESTAMP" />
       <arg column="update_time" javaType="java.util.Date" jdbcType="TIMESTAMP" />
@@ -18,7 +18,7 @@
     </constructor>
   </resultMap>
   <sql id="Base_Column_List">
-    id, order_no, user_id, file_id, file_quantity, total_price, size_info_type, user_des, 
+    id, order_no, user_id, file_id, file_quantity, current_price, size_info_type, user_des, 
     create_time, update_time, color_info_type, page_info_type
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
@@ -33,11 +33,11 @@
   </delete>
   <insert id="insert" parameterType="com.wrq.pojo.OrderItem">
     insert into order_item (id, order_no, user_id, 
-      file_id, file_quantity, total_price, 
+      file_id, file_quantity, current_price, 
       size_info_type, user_des, create_time, 
       update_time, color_info_type, page_info_type)
     values (#{id,jdbcType=INTEGER}, #{orderNo,jdbcType=VARCHAR}, #{userId,jdbcType=INTEGER},
-      #{fileId,jdbcType=INTEGER}, #{fileQuantity,jdbcType=INTEGER}, #{totalPrice,jdbcType=DECIMAL}, 
+      #{fileId,jdbcType=INTEGER}, #{fileQuantity,jdbcType=INTEGER}, #{currentPrice,jdbcType=DECIMAL}, 
       #{sizeInfoType,jdbcType=INTEGER}, #{userDes,jdbcType=VARCHAR}, now(),
       now(), #{colorInfoType,jdbcType=INTEGER}, #{pageInfoType,jdbcType=INTEGER})
   </insert>
@@ -59,8 +59,8 @@
       <if test="fileQuantity != null">
         file_quantity,
       </if>
-      <if test="totalPrice != null">
-        total_price,
+      <if test="currentPrice != null">
+        current_price,
       </if>
       <if test="sizeInfoType != null">
         size_info_type,
@@ -97,11 +97,11 @@
       <if test="fileQuantity != null">
         #{fileQuantity,jdbcType=INTEGER},
       </if>
-      <if test="totalPrice != null">
-        #{totalPrice,jdbcType=DECIMAL},
+      <if test="currentPrice != null">
+        #{currentPrice,jdbcType=DECIMAL},
       </if>
       <if test="sizeInfoType != null">
-        #{sizeInfoType,jdbcType=VARCHAR},
+        #{sizeInfoType,jdbcType=INTEGER},
       </if>
       <if test="userDes != null">
         #{userDes,jdbcType=VARCHAR},
@@ -135,11 +135,11 @@
       <if test="fileQuantity != null">
         file_quantity = #{fileQuantity,jdbcType=INTEGER},
       </if>
-      <if test="totalPrice != null">
-        total_price = #{totalPrice,jdbcType=DECIMAL},
+      <if test="currentPrice != null">
+        current_price = #{currentPrice,jdbcType=DECIMAL},
       </if>
       <if test="sizeInfoType != null">
-        size_info_type = #{sizeInfoType,jdbcType=VARCHAR},
+        size_info_type = #{sizeInfoType,jdbcType=INTEGER},
       </if>
       <if test="userDes != null">
         user_des = #{userDes,jdbcType=VARCHAR},
@@ -165,8 +165,8 @@
       user_id = #{userId,jdbcType=INTEGER},
       file_id = #{fileId,jdbcType=INTEGER},
       file_quantity = #{fileQuantity,jdbcType=INTEGER},
-      total_price = #{totalPrice,jdbcType=DECIMAL},
-      size_info_type = #{sizeInfoType,jdbcType=VARCHAR},
+      current_price = #{currentPrice,jdbcType=DECIMAL},
+      size_info_type = #{sizeInfoType,jdbcType=INTEGER},
       user_des = #{userDes,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       update_time = now(),
@@ -179,6 +179,14 @@
     <include refid="Base_Column_List" />
     from order_item
     where order_no = #{orderNo,jdbcType=VARCHAR}
+  </select>
+
+  <select id="getOrderItemByOrderNoUserId" resultMap="BaseResultMap" parameterType="map">
+    SELECT
+    <include refid="Base_Column_List"/>
+    from order_item
+    where order_no = #{orderNo}
+    and user_id = #{userId}
   </select>
 
 </mapper>

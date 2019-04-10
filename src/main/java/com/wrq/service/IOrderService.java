@@ -12,6 +12,6 @@ public interface IOrderService {
 
     ServerResponse create(CreateOrderForm form, User user);
 
-    ServerResponse getOrderBeforePay(String orderNo );
+    ServerResponse getOrderBeforePay(User user, String orderNo );
 
 }

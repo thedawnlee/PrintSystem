@@ -12,7 +12,7 @@
       <arg column="payment" javaType="java.math.BigDecimal" jdbcType="DECIMAL" />
       <arg column="payment_type" javaType="java.lang.Integer" jdbcType="INTEGER" />
       <arg column="order_status" javaType="java.lang.Integer" jdbcType="INTEGER" />
-      <arg column="pay_status" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="payment_time" javaType="java.util.Date" jdbcType="TIMESTAMP" />
       <arg column="create_time" javaType="java.util.Date" jdbcType="TIMESTAMP" />
       <arg column="update_time" javaType="java.util.Date" jdbcType="TIMESTAMP" />
       <arg column="refuse_reason" javaType="java.lang.String" jdbcType="VARCHAR" />
@@ -21,7 +21,7 @@
   </resultMap>
   <sql id="Base_Column_List">
     order_no, shop_id, buyer_id, buyer_name, buyer_phone, buyer_email, payment, payment_type, 
-    order_status, pay_status, create_time, update_time, refuse_reason, get_key
+    order_status, payment_time, create_time, update_time, refuse_reason, get_key
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
@@ -37,12 +37,12 @@
     insert into order_master (order_no, shop_id, buyer_id,
       buyer_name, buyer_phone, buyer_email, 
       payment, payment_type, order_status, 
-      pay_status, create_time, update_time, 
+      payment_time, create_time, update_time, 
       refuse_reason, get_key)
     values (#{orderNo,jdbcType=VARCHAR}, #{shopId,jdbcType=INTEGER}, #{buyerId,jdbcType=INTEGER}, 
       #{buyerName,jdbcType=VARCHAR}, #{buyerPhone,jdbcType=VARCHAR}, #{buyerEmail,jdbcType=VARCHAR}, 
       #{payment,jdbcType=DECIMAL}, #{paymentType,jdbcType=INTEGER}, #{orderStatus,jdbcType=INTEGER}, 
-      #{payStatus,jdbcType=INTEGER}, now(), now(),
+      #{paymentTime,jdbcType=TIMESTAMP}, now(), now(),
       #{refuseReason,jdbcType=VARCHAR}, #{getKey,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.wrq.pojo.OrderMaster">
@@ -75,8 +75,8 @@
       <if test="orderStatus != null">
         order_status,
       </if>
-      <if test="payStatus != null">
-        pay_status,
+      <if test="paymentTime != null">
+        payment_time,
       </if>
       <if test="createTime != null">
         create_time,
@@ -119,8 +119,8 @@
       <if test="orderStatus != null">
         #{orderStatus,jdbcType=INTEGER},
       </if>
-      <if test="payStatus != null">
-        #{payStatus,jdbcType=INTEGER},
+      <if test="paymentTime != null">
+        #{paymentTime,jdbcType=TIMESTAMP},
       </if>
       <if test="createTime != null">
         now(),
@@ -163,8 +163,8 @@
       <if test="orderStatus != null">
         order_status = #{orderStatus,jdbcType=INTEGER},
       </if>
-      <if test="payStatus != null">
-        pay_status = #{payStatus,jdbcType=INTEGER},
+      <if test="paymentTime != null">
+        payment_time = #{paymentTime,jdbcType=TIMESTAMP},
       </if>
       <if test="createTime != null">
         create_time = #{createTime,jdbcType=TIMESTAMP},
@@ -191,12 +191,20 @@
       payment = #{payment,jdbcType=DECIMAL},
       payment_type = #{paymentType,jdbcType=INTEGER},
       order_status = #{orderStatus,jdbcType=INTEGER},
-      pay_status = #{payStatus,jdbcType=INTEGER},
+      payment_time = #{paymentTime,jdbcType=TIMESTAMP},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       update_time = now(),
       refuse_reason = #{refuseReason,jdbcType=VARCHAR},
       get_key = #{getKey,jdbcType=VARCHAR}
     where order_no = #{orderNo,jdbcType=VARCHAR}
   </update>
+
+  <select id="selectByUserIdAndOrderNo" resultMap="BaseResultMap" parameterType="map">
+    SELECT
+    <include refid="Base_Column_List"/>
+    from order_master
+    where order_no = #{orderNo}
+    and buyer_id = #{userId}
+  </select>
 
 </mapper>

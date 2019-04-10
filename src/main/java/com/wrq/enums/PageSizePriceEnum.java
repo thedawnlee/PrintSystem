@@ -1,9 +1,12 @@
 package com.wrq.enums;
 
+import lombok.Getter;
+
 /**
  * Created by wangqian on 2019/4/1.
  */
-public enum PageSizePriceEnum {
+@Getter
+public enum PageSizePriceEnum implements CodeEnum{
 
     SIZE_A0(0, "A0"),
     SIZE_A1(1, "A1"),
@@ -22,14 +25,6 @@ public enum PageSizePriceEnum {
 
     /* 状态码 */
     private Integer code;
-
-    public Integer getCode() {
-        return code;
-    }
-
-    public String getMessage() {
-        return message;
-    }
 
     private String message;
 

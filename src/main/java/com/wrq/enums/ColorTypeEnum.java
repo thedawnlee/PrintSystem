@@ -1,9 +1,12 @@
 package com.wrq.enums;
 
+import lombok.Getter;
+
 /**
  * Created by wangqian on 2019/3/30.
  */
-public enum ColorTypeEnum {
+@Getter
+public enum ColorTypeEnum implements CodeEnum{
 
     BLACK(0, "黑白"),
     COLORFUL(1, "彩色"),
@@ -11,14 +14,6 @@ public enum ColorTypeEnum {
 
     /* 状态码 */
     private Integer code;
-
-    public Integer getCode() {
-        return code;
-    }
-
-    public String getMessage() {
-        return message;
-    }
 
     private String message;
 
