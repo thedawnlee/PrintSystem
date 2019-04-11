@@ -163,4 +163,13 @@
       new_name = #{newName,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+  <select id="selectFileByUserId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from file
+    where user_id = #{userId}
+  </select>
+
+
 </mapper>

@@ -51,4 +51,25 @@ public class FileController {
 
         return iFileService.upload(file, path, user.getId());
     }
+
+    /**
+     * 个人中心 文件列表
+     * @param pageNum
+     * @param pageSize
+     * @param session
+     * @return
+     */
+    @RequestMapping(value = "get_file_list.do",method = RequestMethod.GET)
+    @ResponseBody
+    public ServerResponse getOrderInfo(@RequestParam(value = "pageNum",defaultValue = "1") int pageNum, @RequestParam(value = "pageSize",defaultValue = "10") int pageSize,HttpSession session){
+
+        log.info("请求了 get_file_list 接口");
+
+        User user = (User)session.getAttribute(Const.CURRENT_USER);
+
+        if(user != null){
+            return iFileService.getFileList(user.getId(), pageNum, pageSize);
+        }
+        return  ServerResponse.createByErrorMessage("用户未登录，无法获取当前用户信息");
+    }
 }

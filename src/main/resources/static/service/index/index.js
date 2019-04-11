@@ -39,6 +39,9 @@ var vue = new Vue({
         },
         errorCallback: function ( ) {
             util.errorTips( "请求店铺列表发生错误！" )
+        },
+        handleOrderClick: function () {
+            window.location.href = "/order/info";
         }
     },
     filters: {

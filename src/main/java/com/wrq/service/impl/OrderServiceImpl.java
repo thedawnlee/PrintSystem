@@ -1,5 +1,7 @@
 package com.wrq.service.impl;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.google.common.collect.Lists;
 import com.wrq.commons.ServerResponse;
 import com.wrq.config.ParameterConfig;
@@ -10,6 +12,7 @@ import com.wrq.pojo.*;
 import com.wrq.service.IOrderService;
 import com.wrq.utils.EnumUtil;
 import com.wrq.utils.KeyUtil;
+import com.wrq.vo.OrderListVo;
 import com.wrq.vo.OrderVo;
 import com.wrq.vo.OrderVoList;
 import com.wrq.vo.ShopVo;
@@ -17,7 +20,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.StringUtils;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -37,6 +39,9 @@ public class OrderServiceImpl implements IOrderService {
 
     @Autowired
     private FileMapper fileMapper;
+
+    @Autowired
+    private ShopMapper shopMapper;
 
     @Autowired
     private ParameterConfig parameterConfig;
@@ -160,7 +165,7 @@ public class OrderServiceImpl implements IOrderService {
             }
 
             fileExtensionName = fileName.substring(fileName.lastIndexOf(".")+1);
-            orderVo.setFileTypeImg( parameterConfig.getImageHost()  + "/" + fileExtensionName + ".png" );
+            orderVo.setFileTypeImg( parameterConfig.getImageHost() + fileExtensionName + ".png" );
             orderVo.setFileName(fileName);
 
             /* 获取当前订单明细的订单是彩印还是黑白 */
@@ -202,6 +207,65 @@ public class OrderServiceImpl implements IOrderService {
         orderList.setPhone(user.getPhone());
 
        return ServerResponse.createBySuccess(orderList);
+    }
+
+    /**
+     * 获取 订单列表
+     * @param userId
+     * @param pageSize
+     * @param pageNum
+     * @return
+     */
+    @Override
+    public ServerResponse<PageInfo> getOrderList(Integer userId, Integer pageNum, Integer pageSize) {
+
+        PageHelper.startPage(pageNum, pageSize);
+
+        List<OrderMaster> orderMasterList = orderMasterMapper.selectOrderListByUserId(userId);
+
+        List<OrderListVo> result = assembleOrderListVo(orderMasterList);
+
+        PageInfo pageResult = new PageInfo(orderMasterList);
+
+        pageResult.setList(result);
+
+        return ServerResponse.createBySuccess(pageResult);
+    }
+
+    /**
+     * orderMasterList(数据库订单主表信息) -> OrderListVo集合（个人中心订单列表展示）
+     * @param orderMasterList
+     * @return
+     */
+    private List<OrderListVo> assembleOrderListVo( List<OrderMaster> orderMasterList){
+        List<OrderListVo> orderList = Lists.newArrayList();
+        for(OrderMaster orderMaster : orderMasterList){
+
+            OrderListVo orderListVo = new OrderListVo();
+
+            Integer shopId = orderMaster.getShopId();
+
+            orderListVo.setOrderNo(orderMaster.getOrderNo());
+            orderListVo.setGetKey(orderMaster.getGetKey());
+            String orderStatus = EnumUtil.getByCode(orderMaster.getOrderStatus(), OrderStatusEnum.class).getMessage();
+            orderListVo.setOrderStatus(orderStatus);
+            orderListVo.setPayment(orderMaster.getPayment());
+            orderListVo.setRefuseReason(orderMaster.getRefuseReason());
+            orderListVo.setShopId(shopId);
+
+            Shop shop = shopMapper.selectByPrimaryKey(shopId);
+
+            if (shop == null){
+                orderListVo.setShopImg(parameterConfig.getImageHost() + parameterConfig.getShopNotFound());
+            }else {
+                orderListVo.setShopImg(parameterConfig.getImageHost() + shop.getMiniImg());
+            }
+
+            orderListVo.setUpdateTime(orderMaster.getUpdateTime());
+
+            orderList.add(orderListVo);
+        }
+        return orderList;
     }
 
 }

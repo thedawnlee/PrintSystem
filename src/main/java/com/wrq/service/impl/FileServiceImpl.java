@@ -1,13 +1,23 @@
 package com.wrq.service.impl;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.google.common.collect.Lists;
 import com.wrq.commons.ServerResponse;
+import com.wrq.config.ParameterConfig;
 import com.wrq.dao.FileMapper;
+import com.wrq.enums.OrderStatusEnum;
 import com.wrq.enums.ShareEnum;
+import com.wrq.pojo.OrderMaster;
+import com.wrq.pojo.Shop;
 import com.wrq.service.IFileService;
+import com.wrq.utils.DateTimeUtil;
+import com.wrq.utils.EnumUtil;
 import com.wrq.utils.FTPUtil;
 import com.wrq.utils.PageCountUtil;
+import com.wrq.vo.FileListVo;
 import com.wrq.vo.FileVo;
+import com.wrq.vo.OrderListVo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,6 +25,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -27,6 +38,9 @@ public class FileServiceImpl implements IFileService {
 
     @Autowired
     private FileMapper fileMapper;
+
+    @Autowired
+    private ParameterConfig parameterConfig;
 
     /**
      * 文件上传
@@ -103,6 +117,8 @@ public class FileServiceImpl implements IFileService {
         return ServerResponse.createBySuccess(fileVo);
     }
 
+
+
     /**
      * 得到文件页数
      * @param filePath 路径
@@ -135,6 +151,51 @@ public class FileServiceImpl implements IFileService {
             default:
                 return 1;
         }
+    }
+
+    @Override
+    public ServerResponse getFileList(Integer userId, Integer pageNum, Integer pageSize) {
+
+        PageHelper.startPage(pageNum, pageSize);
+
+        List<com.wrq.pojo.File> fileList = fileMapper.selectFileByUserId(userId);
+
+        List<FileListVo> result = assembleFileVoList(fileList);
+
+        PageInfo pageResult = new PageInfo(fileList);
+
+        pageResult.setList(result);
+
+        return ServerResponse.createBySuccess(pageResult);
+    }
+
+    /**
+     * orderMasterList(数据库订单主表信息) -> OrderListVo集合（个人中心订单列表展示）
+     * @param fileList
+     * @return
+     */
+    private List<FileListVo> assembleFileVoList(List<com.wrq.pojo.File> fileList ){
+        List<FileListVo> targetFileList = Lists.newArrayList();
+        for(com.wrq.pojo.File file : fileList){
+
+           FileListVo fileListVo = new FileListVo();
+
+            fileListVo.setCreateTime(DateTimeUtil.dateToStr(file.getCreateTime(), "yyyy-MM-dd HH:mm"));
+            fileListVo.setFileId(file.getId());
+
+            String fileName = file.getFileName();
+
+            String fileExtensionName = fileName.substring(fileName.lastIndexOf(".")+1);
+            fileListVo.setFileTypeImg( parameterConfig.getImageHost() + fileExtensionName + ".png" );
+
+            fileListVo.setFileName(fileName);
+            fileListVo.setFileNewName(file.getNewName());
+            fileListVo.setIntegral(file.getIntegral());
+            fileListVo.setShare(file.getShare());
+
+            targetFileList.add(fileListVo);
+        }
+        return targetFileList;
     }
 
 }

@@ -207,4 +207,12 @@
     and buyer_id = #{userId}
   </select>
 
+  <select id="selectOrderListByUserId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from order_master
+    where buyer_id = #{userId}
+  </select>
+
+
 </mapper>

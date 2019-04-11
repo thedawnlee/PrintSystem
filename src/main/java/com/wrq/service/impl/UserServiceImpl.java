@@ -2,6 +2,7 @@ package com.wrq.service.impl;
 
 import com.wrq.commons.Const;
 import com.wrq.commons.ServerResponse;
+import com.wrq.config.ParameterConfig;
 import com.wrq.dao.UserMapper;
 import com.wrq.pojo.User;
 import com.wrq.service.IUserService;
@@ -18,6 +19,9 @@ public class UserServiceImpl implements IUserService {
 
     @Autowired
     private UserMapper userMapper;
+
+    @Autowired
+    private ParameterConfig parameterConfig;
 
     /**
      * 登陆
@@ -36,7 +40,7 @@ public class UserServiceImpl implements IUserService {
         if(user == null){
             return  ServerResponse.createByErrorMessage("密码错误");
         }
-
+        user.setHeaderPic( parameterConfig.getImageHost() + user.getHeaderPic());
         user.setPassword(StringUtils.EMPTY);
         return  ServerResponse.createBySuccess("登陆成功",user);
     }

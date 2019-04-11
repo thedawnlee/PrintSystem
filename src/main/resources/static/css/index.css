@@ -14,7 +14,8 @@
 /*}*/
 .page-home[data-v-637a7fc8] {
 				padding-top: 66px;
-				background: #f7f8f8
+				background: #f7f8f8;
+	padding-bottom: 45px;
 			}
 .shop-list-price{
 	color: #8a8a8a;
@@ -330,7 +331,7 @@
 			}
 
 			.column-list[data-v-637a7fc8] {
-				padding-top: 50px
+				padding-top: 30px
 			}
 
 			.column-list>li[data-v-637a7fc8] {
@@ -562,7 +563,7 @@
 
 			.next-page-btn[data-v-637a7fc8] {
 				width: 237px;
-				margin: 60px auto
+				margin: 0px auto
 			}
 
 			.ui-btn[data-v-637a7fc8] {

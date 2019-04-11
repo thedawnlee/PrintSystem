@@ -199,7 +199,7 @@ public class PayServiceImpl implements IPayService {
                 targetFile.delete();
 
                 log.info("qrPath:" + qrPath);
-                String qrUrl = parameterConfig.getImageHost() + "/" + targetFile.getName();
+                String qrUrl = parameterConfig.getImageHost() + targetFile.getName();
                 resultMap.put("qrUrl", qrUrl);
 
                 return ServerResponse.createBySuccess(resultMap);

@@ -16,4 +16,6 @@ public class ParameterConfig {
 
     private String alipayCallbackUrl;
 
+    private String shopNotFound;
+
 }

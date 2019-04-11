@@ -1,6 +1,7 @@
 package com.wrq.controller.portal;
 
 import com.wrq.commons.Const;
+import com.wrq.commons.ResponseCode;
 import com.wrq.commons.ServerResponse;
 import com.wrq.pojo.User;
 import com.wrq.service.IUserService;
@@ -10,8 +11,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpSession;
+import java.util.Map;
 
 /**
  * Created by wangqian on 2019/3/29.
@@ -23,6 +26,7 @@ public class UserController {
 
     @Autowired
     private IUserService iUserService;
+
 
     /**
      * 登陆
@@ -70,6 +74,28 @@ public class UserController {
         log.info("请求了 logout.do 接口");
         session.removeAttribute(Const.CURRENT_USER);
         return ServerResponse.createBySuccess();
+    }
+
+    /**
+     * 跳转到 user 界面
+     * @param session
+     * @param map
+     * @return
+     */
+    @RequestMapping(value = "info", method = RequestMethod.GET)
+    public ModelAndView user( HttpSession session, Map<String, Object> map ){
+
+        log.info("请求了 /user/info 接口");
+
+        User user = (User)session.getAttribute(Const.CURRENT_USER);
+        if(user == null){
+            map.put("msg", ResponseCode.NEED_LOGON_FOR_USER_INFO.getDesc());
+            map.put("url", "/user/info" );
+            return new ModelAndView("portal/login" , map);
+        }else {
+            map.put("item", "user");
+            return new ModelAndView("portal/user", map);
+        }
     }
 
 }

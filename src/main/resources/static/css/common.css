@@ -1136,6 +1136,7 @@ a:hover {
 .common-header .common-header-wrapper .info .menu a[data-v-702109a0] {
 	padding: .5rem 1rem;
 	font-weight: 400;
+	color: #555;
 	-webkit-transition: color .2s ease;
 	transition: color .2s ease
 }

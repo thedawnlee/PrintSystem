@@ -1,0 +1,63 @@
+<div data-v-a5d53ce8 :class="{'account-main': true,'is-hidden': dealItem}">
+    <div data-v-e4d24c94 class="right-section">
+        <h1 data-v-e4d24c94 class="title">交易记录</h1>
+        <div data-v-e4d24c94 class="tag-wrapper">
+            <ul data-v-e4d24c94>
+                <li data-v-e4d24c94 :class="{selected: orderDeal}" @click="handleOrderSelect">
+                    订单记录
+                </li>
+                <li data-v-e4d24c94 :class="{selected: !orderDeal}" @click="handleIntegralSelect">
+                    积分记录
+                </li>
+            </ul>
+        </div>
+
+        <ul data-v-e4d24c94 :class="{'goods-list': true, 'is-hidden': !orderDeal}">
+            <li data-v-e4d24c94 v-for="item in list" :key="item.orderNo">
+                <div data-v-e4d24c94 class="goods-image"><img data-v-e4d24c94 class="shop-img" :src="item.shopImg"></div>
+                <div data-v-e4d24c94 class="goods-info">
+                    <p data-v-e4d24c94>价格：￥ {{item.payment}}</p>
+                    <p data-v-e4d24c94>单号：{{item.orderNo}}</p>
+                    <p data-v-e4d24c94>时间：{{item.updateTime}}</p>
+                </div>
+                <div data-v-e4d24c94 class="order-info">
+                    <p data-v-e4d24c94>订单状态：<span class="order-status-tips">{{item.orderStatus}}</span> </p>
+                    <p data-v-e4d24c94>{{item.getKey | getKeyFilter}}</p>
+                    <p data-v-e4d24c94>{{item.refuseReason | refuseReasonFilter}}</p>
+                </div>
+                <div data-v-e4d24c94 class="btn-wrapper">
+                    <div data-v-e4d24c94 class="ui-btn white-btn" @click="handleOrderDetailClick(item.orderNo)">详 情</div>
+                    <div data-v-e4d24c94 class="ui-btn white-btn" @click="handleOrderDetailClick(item.orderStatus)">{{ item.orderStatus | orderStatusFilter }}</div>
+                </div>
+            </li>
+        </ul>
+
+        <ul data-v-e4d24c94 :class="{'goods-list': true, 'is-hidden': orderDeal}">
+            <li data-v-e4d24c94>
+                <div data-v-e4d24c94 class="goods-image"><img data-v-e4d24c94 class="file-img" src></div>
+                <div data-v-e4d24c94 class="goods-info">
+                    <p data-v-e4d24c94>考研资料.doc</p>
+                    <p data-v-e4d24c94>积分：66</p>
+                    <p data-v-e4d24c94>时间：2019-04-09 01:19</p>
+                </div>
+                <div data-v-e4d24c94 class="update-info">提供者：<span data-v-e4d24c94>jack</span> </div>
+                <div data-v-e4d24c94 class="btn-wrapper">
+                    <div data-v-e4d24c94 class="ui-btn white-btn">详情</div>
+                    <div data-v-e4d24c94 class="ui-btn white-btn">下载</div>
+                </div>
+            </li>
+        </ul>
+
+
+        <div data-v-e4d24c94 :class="{'empty-list': true, 'is-hidden': noOrder}">暂无订单</div>
+
+        <div data-v-360910dd data-v-101d3828 :class="{none: true, 'is-hidden': noIntegral }"><img data-v-360910dd src="${basePath}/img/no-order.png"
+                                                               alt="none">
+            <p data-v-360910dd>暂无交易</p>
+        </div>
+        <button data-v-637a7fc8 class="next-page-btn ui-btn orange-btn">
+            加载更多
+        </button>
+        <div data-v-e4d24c94 class="bottom-paging"></div>
+    </div>
+</div>

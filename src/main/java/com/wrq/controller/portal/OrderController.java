@@ -66,7 +66,7 @@ public class OrderController {
     }
 
     /**
-     * 获取 此店铺创建订单表单的相关参数
+     * 获取 此店铺创建订单表单的 相关参数,此店面支不支持彩打？双页？
      * @param id
      * @param session
      * @return
@@ -169,6 +169,47 @@ public class OrderController {
                 return new ModelAndView("portal/common/page/error" , map);
             }
         }
+    }
+
+    /**
+     * 跳转个人中心的 订单页面
+     * @param session
+     * @param map
+     * @return
+     */
+    @RequestMapping(value = "info", method = RequestMethod.GET)
+    public ModelAndView user( HttpSession session, Map<String, Object> map ){
+
+        log.info("请求了 /order/info 接口");
+
+        User user = (User)session.getAttribute(Const.CURRENT_USER);
+        if(user == null){
+            map.put("msg", ResponseCode.NEED_LOGON_FOR_CREATE.getDesc());
+            map.put("url", "/order/info" );
+            return new ModelAndView("portal/login" , map);
+        }else {
+            map.put("item", "dealOrder");
+            return new ModelAndView("portal/user", map);
+        }
+    }
+
+    /**
+     * 个人中心 获取用户的订单列表
+     * @param session
+     * @return
+     */
+    @RequestMapping(value = "get_order_list.do",method = RequestMethod.GET)
+    @ResponseBody
+    public ServerResponse getOrderInfo(@RequestParam(value = "pageNum",defaultValue = "1") int pageNum, @RequestParam(value = "pageSize",defaultValue = "10") int pageSize,HttpSession session){
+
+        log.info("请求了 get_order_list 接口");
+
+        User user = (User)session.getAttribute(Const.CURRENT_USER);
+
+        if(user != null){
+            return iOrderService.getOrderList(user.getId(), pageNum, pageSize);
+        }
+        return  ServerResponse.createByErrorMessage("用户未登录，无法获取当前用户信息");
     }
 
 }

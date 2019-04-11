@@ -12,7 +12,12 @@ var vue = new Vue({
         },
         isShow: false,
         username: "",
-        phone: ""
+        phone: "",
+        owner: false,
+        select: true,
+        userCenter: false,
+        help: false,
+        share: false
     },
     methods: {
         getUserInfo: function () {
@@ -35,7 +40,16 @@ var vue = new Vue({
             util.errorTips()
         },
         handleUserClick: function () {
-            this.isShow = !this.isShow
+            this.isShow = !this.isShow;
+        },
+        handleUserCenterClick: function () {
+            console.log("click userCenter")
+            localStorage.nav = "userCenter";
+            location.href = "/user/info";
+        },
+        handleIndexCenterClick: function () {
+            localStorage.nav = "select";
+            location.href = "/index";
         },
         handleLoginOut: function () {
             this.$http.post('/user/logout.do',{emulateJSON:true}).then(this.outSuccessCallback, this.errorCallback)
@@ -48,9 +62,38 @@ var vue = new Vue({
             }else {
                 util.errorTips( res.msg )
             }
+        },
+        resetSelectStatus: function () {
+            this.owner = false;
+            this.select = false;
+            this.userCenter = false;
+            this.help = false;
+            this.share = false;
+        },
+        selectCurrentNav: function ( value ) {
+            if ( value == "owner" ) {
+                this.resetSelectStatus();
+                this.owner = true;
+            }else if ( value == "select" ) {
+                this.resetSelectStatus();
+                this.select = true;
+            }else if ( value == "userCenter" ) {
+                this.resetSelectStatus();
+                this.userCenter = true;
+            }else if ( value == "help" ){
+                this.resetSelectStatus();
+                this.help = true;
+            }else if ( value == "share" ){
+                this.resetSelectStatus();
+                this.share = true;
+            }
         }
     },
     mounted: function () {
+        var select = localStorage.nav;
+        console.log(select);
+        this.selectCurrentNav(select);
         this.getUserInfo();
-    }
-})
+    },
+
+});

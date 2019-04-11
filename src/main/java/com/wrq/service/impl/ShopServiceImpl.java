@@ -51,7 +51,7 @@ public class ShopServiceImpl implements IShopService {
     public ServerResponse<PageInfo> getShopListByCreditSort(int pageNum, int pageSize) {
         PageHelper.startPage(pageNum,pageSize);
         List<Shop> shopList = shopMapper.selectShopListByCreditSort();
-        List<ShopVo> shopVoList = assembleOrderVoList(shopList);
+        List<ShopVo> shopVoList = assembleShopVoList(shopList);
         PageInfo pageResult = new PageInfo(shopList);
         pageResult.setList(shopVoList);
         return  ServerResponse.createBySuccess(pageResult);
@@ -62,7 +62,7 @@ public class ShopServiceImpl implements IShopService {
      * @param shopList shopList
      * @return shopVoList
      */
-    private List<ShopVo> assembleOrderVoList(List<Shop> shopList){
+    private List<ShopVo> assembleShopVoList(List<Shop> shopList){
         List<ShopVo> shopVoList = Lists.newArrayList();
         for(Shop shop : shopList){
             ShopVo shopVo = new ShopVo();
@@ -76,7 +76,7 @@ public class ShopServiceImpl implements IShopService {
             shopVo.setColorfulDouble(iShopPriceService.getColorfulDouble(shop.getId()));
             shopVo.setColorfulSingle(iShopPriceService.getColorfulSingle(shop.getId()));
             shopVo.setStatus(shop.getStatus());
-            shopVo.setImgAddress(paramConfig.getImageHost() + "/" + shop.getSubImg());
+            shopVo.setImgAddress(paramConfig.getImageHost() + shop.getSubImg());
             shopVoList.add(shopVo);
         }
         return shopVoList;
@@ -108,7 +108,7 @@ public class ShopServiceImpl implements IShopService {
         DetailVo detailVo = new DetailVo();
 
         BeanUtils.copyProperties(shop, detailVo);
-        detailVo.setMiniImage(paramConfig.getImageHost() + "/" + shop.getMiniImg());
+        detailVo.setMiniImage(paramConfig.getImageHost() + shop.getMiniImg());
         detailVo.setOwnerAddress(user.getAnswer());
         detailVo.setOwnerPhone(user.getPhone());
         detailVo.setOwnerEmail(user.getEmail());
@@ -148,7 +148,7 @@ public class ShopServiceImpl implements IShopService {
             otherShopVo.setShopAddress(shop.getShopAddress());
             otherShopVo.setShopId(shop.getId());
             otherShopVo.setShopName(shop.getShopName());
-            otherShopVo.setMiniAddress( paramConfig.getImageHost() + "/" + shop.getMiniImg());
+            otherShopVo.setMiniAddress( paramConfig.getImageHost() + shop.getMiniImg());
 
             otherShopList.add(otherShopVo);
         }

@@ -11,4 +11,5 @@ public interface IFileService {
 
     ServerResponse<FileVo> upload(MultipartFile file, String path, Integer userId);
 
+    ServerResponse getFileList(Integer userId,Integer pageNum, Integer pageSize);
 }
