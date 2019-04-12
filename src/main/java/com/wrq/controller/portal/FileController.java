@@ -5,6 +5,7 @@ import com.wrq.commons.ResponseCode;
 import com.wrq.commons.ServerResponse;
 import com.wrq.pojo.User;
 import com.wrq.service.IFileService;
+import com.wrq.utils.FTPUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -15,7 +16,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.*;
 import java.util.HashMap;
 
 /**
@@ -50,6 +53,40 @@ public class FileController {
         String path = request.getSession().getServletContext().getRealPath("upload");
 
         return iFileService.upload(file, path, user.getId());
+    }
+
+    /***
+     *
+     * @param name file 新名字
+     * @param session
+     * @param request
+     * @param response
+     * @return
+     */
+    @RequestMapping(value = "download", method = RequestMethod.GET)
+    @ResponseBody
+    public ServerResponse download(String file, HttpSession session,  HttpServletRequest request, HttpServletResponse response){
+
+        User user = (User)session.getAttribute(Const.CURRENT_USER);
+
+        if(user == null){
+            return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(),"用户未登录，请先登陆");
+        }
+
+        String path = request.getSession().getServletContext().getRealPath("upload");
+
+        ServerResponse result = null;
+        try {
+            result = iFileService.download(path, file, user.getId(), response);
+        } catch (UnsupportedEncodingException e) {
+            log.error(" 文件名编码失败 ");
+        }
+
+        if ( !result.isSuccess() ){
+            return result;
+        }
+
+        return ServerResponse.createBySuccess("下载成功");
     }
 
     /**

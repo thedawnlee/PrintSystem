@@ -1,6 +1,7 @@
 package com.wrq.dao;
 
 import com.wrq.pojo.File;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -18,4 +19,6 @@ public interface FileMapper {
     int updateByPrimaryKey(File record);
 
     List<File> selectFileByUserId(Integer userId);
+
+    File selectFileByUserIdFileNewName(@Param(value = "userId") Integer userId, @Param(value = "fileName") String fileName);
 }

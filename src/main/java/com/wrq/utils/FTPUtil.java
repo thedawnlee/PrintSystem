@@ -3,9 +3,7 @@ package com.wrq.utils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.net.ftp.FTPClient;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
+import java.io.*;
 import java.util.List;
 
 /**
@@ -17,6 +15,7 @@ public class FTPUtil {
     private  static  String ftpServerIp = "127.0.0.1";
     private  static  String ftpUser = "wangqian";
     private  static  String ftpPass = "wangqian";
+
 
     public  FTPUtil(String ip,int port,String user,String pwd){
         this.ip     =  ip;
@@ -34,10 +33,19 @@ public class FTPUtil {
         return result;
     }
 
+    //对面开放的upload方法
+    public static boolean downloadFile(String remotePath, String newFileName, String targetFilePath) throws IOException {
+        FTPUtil ftpUtil = new FTPUtil(ftpServerIp,21,ftpUser,ftpPass);
+        log.info("开始连接ftp服务器");
+        boolean result = ftpUtil.download(remotePath, newFileName, targetFilePath);
+        log.info("开始连接ftp服务器，结束下载，下载结果:{}",result);
+        return result;
+    }
+
     private  boolean uploadFile(String remotePath,List<File> fileList) throws IOException {
         boolean uploaded = true;
         FileInputStream fis = null;
-        //连接ftp服务器
+
         if(connectServer(this.ip,this.port,this.user,this.pwd)){
             try {
                 ftpClient.changeWorkingDirectory(remotePath);
@@ -61,7 +69,38 @@ public class FTPUtil {
         return  uploaded;
     }
 
-    //链接ftp
+    private boolean  download(String remotePath, String newFileName, String targetFilePath) throws IOException {
+        boolean download = true;
+        FileOutputStream fos = null;
+
+        if(connectServer(this.ip,this.port,this.user,this.pwd)){
+            try {
+
+            ftpClient.changeWorkingDirectory(remotePath);
+            ftpClient.setBufferSize(1024);
+            ftpClient.setControlEncoding("UTF-8");
+            ftpClient.setFileType(FTPClient.BINARY_FILE_TYPE);
+            ftpClient.enterLocalPassiveMode();
+
+            //设置要下载到的目录： "/upload/54848484.doc"
+            File localFile = new File(targetFilePath);
+            //得到输出
+            fos = new FileOutputStream(localFile);
+            ftpClient.retrieveFile(newFileName, fos); //开始下载文件
+
+            } catch (IOException e) {
+                log.error("从ftp服务器下载文件异常",e);
+                download  = false;
+                e.printStackTrace();
+            }finally {
+                fos.close();
+                ftpClient.disconnect();
+            }
+        }
+        return  download;
+    }
+
+    //连接ftp
     private boolean connectServer(String ip,int port,String user,String pwd){
         boolean isSuccess = false;
         ftpClient = new FTPClient();

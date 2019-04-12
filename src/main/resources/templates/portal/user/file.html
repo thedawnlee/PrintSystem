@@ -11,7 +11,9 @@
                 </div>
                 <div data-v-e4d24c94 class="update-info"></div>
                 <div data-v-e4d24c94 class="btn-wrapper">
-                    <div data-v-e4d24c94 class="ui-btn white-btn">下载</div>
+                    <a :href=" '/file/download?file=' +item.fileNewName ">
+                     <div data-v-e4d24c94   class="ui-btn white-btn">下载</div>
+                    </a>
                     <div data-v-e4d24c94 @click="handleShareClick(item.share)" class="ui-btn white-btn">{{item.share | fileShareButtonFilter}}</div>
                 </div>
             </li>

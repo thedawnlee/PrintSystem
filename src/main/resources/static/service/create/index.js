@@ -152,6 +152,7 @@ var vue = new Vue({
                 this.colorOrBlackErrorText = true;
 
                 this.getOrderPriceInfo();
+
             }else{
                 util.errorTips("请上传文件后操作！");
                 return

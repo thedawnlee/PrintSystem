@@ -7,7 +7,7 @@ public enum  ResponseCode {
     NEED_LOGIN(10,"NEED_LOGIN"),
     ILLEGAL_ARGUMENT(2,"ILLEGAL_ARGUMENT"),
     NEED_LOGON_FOR_CREATE(3, "登陆后即可申请打印"),
-    NEED_LOGON_FOR_USER_INFO(3, "登陆后即可查看个人中心")
+    NEED_LOGON_FOR_USER_INFO(4, "登陆后即可查看个人中心")
     ;
 
     private  final  int code;

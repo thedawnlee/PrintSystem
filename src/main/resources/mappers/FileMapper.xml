@@ -172,4 +172,11 @@
   </select>
 
 
+  <select id="selectFileByUserIdFileNewName" parameterType="map" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from file
+    where new_name = #{fileName} and user_id = #{userId}
+  </select>
+
 </mapper>

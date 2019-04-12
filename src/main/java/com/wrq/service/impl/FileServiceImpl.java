@@ -23,8 +23,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
-import java.io.IOException;
+import javax.servlet.http.HttpServletResponse;
+import java.io.*;
+import java.net.URLEncoder;
 import java.util.List;
 import java.util.UUID;
 
@@ -56,7 +57,7 @@ public class FileServiceImpl implements IFileService {
 
         int fileId = 0;
 
-                //扩展名
+        //扩展名
         String fileExtensionName = fileName.substring(fileName.lastIndexOf(".")+1);
         String uploadFileName = UUID.randomUUID().toString()+"."+fileExtensionName;
 
@@ -117,6 +118,91 @@ public class FileServiceImpl implements IFileService {
         return ServerResponse.createBySuccess(fileVo);
     }
 
+
+    /**
+     * 文件下载
+     * @param path upload的文件夹
+     * @param file 文件UUID名字
+     * @param userId 请求下载的用户
+     * @param response 流处理
+     * @return 文件
+     * @throws UnsupportedEncodingException
+     */
+    public ServerResponse download(String path, String file, Integer userId, HttpServletResponse response) throws UnsupportedEncodingException {
+
+        com.wrq.pojo.File result = fileMapper.selectFileByUserIdFileNewName(userId, file);
+
+        if ( result == null ){
+            return ServerResponse.createByErrorMessage("此文件不属于该用户，无权操作！");
+        }
+
+        // 被下载的文件在服务器中的路径
+
+        String downloadFilePath = path + "/" + file;
+
+        try {
+            FTPUtil.downloadFile("file", file, downloadFilePath);
+        } catch (IOException e) {
+            log.error("FTP服务器文件下载失败", e);
+            return ServerResponse.createByErrorMessage("从文件服务器下载文件失败");
+        }
+
+        File targetFile = new File(downloadFilePath);
+
+        if ( targetFile.exists() ) {
+
+            response.setContentType("application/force-download");// 设置强制下载不打开
+
+            response.addHeader("Content-Disposition", "attachment;fileName=" + URLEncoder.encode(result.getFileName(), "UTF-8"));
+
+            byte[] buffer = new byte[1024];
+
+            FileInputStream fis = null;
+
+            BufferedInputStream bis = null;
+
+            try {
+
+                fis = new FileInputStream(targetFile);
+
+                bis = new BufferedInputStream(fis);
+
+                OutputStream outputStream = response.getOutputStream();
+
+                int i = bis.read(buffer);
+
+                while (i != -1) {
+                    outputStream.write(buffer, 0, i);
+                    i = bis.read(buffer);
+                }
+
+                return ServerResponse.createBySuccessMessage("下载失败");
+
+            } catch (Exception e) {
+                log.error("文件下载失败");
+            } finally {
+
+                if ( bis != null ) {
+                    try {
+                        bis.close();
+                    } catch (IOException e) {
+                        log.error("BufferedInputStream 关闭失败");
+                    }
+                }
+                if (fis != null) {
+                    try {
+                        fis.close();
+                    } catch (IOException e) {
+                        log.error(" FileInputStream 关闭失败");
+                    }
+                }
+
+                targetFile.delete();
+            }
+        }
+
+        return ServerResponse.createByErrorMessage("下载失败");
+    }
 
 
     /**
