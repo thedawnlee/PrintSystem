@@ -168,7 +168,7 @@
     select
     <include refid="Base_Column_List" />
     from file
-    where user_id = #{userId}
+    where user_id = #{userId} order by create_time desc
   </select>
 
 

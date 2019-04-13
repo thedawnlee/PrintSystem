@@ -73,7 +73,9 @@ var vue = new Vue({
             })
         },
         handleOrderDetailClick: function ( value ) {
-            console.log("handleOrderDetailClick:", value)
+
+            location.href = "/order/detail/" + value;
+
         },
         handleShareClick: function ( value ) {
             console.log("点击去分享:", value)
@@ -154,6 +156,7 @@ var vue = new Vue({
             }
 
         },
+        /* 根据订单的状态来动态显示按钮的名字 */
         orderStatusFilter: function ( value ) {
 
             if ( value == "未支付" ){
@@ -167,6 +170,7 @@ var vue = new Vue({
             }
 
         },
+        /* 根据文件的分享状态来动态显示 */
         fileShareFilter: function ( value ) {
 
             if ( value == "0" ){
@@ -176,6 +180,7 @@ var vue = new Vue({
             }
 
         },
+        /* 根据文件的状态来动态显示 */
         fileShareButtonFilter: function ( value ) {
 
             if ( value == "0" ){

@@ -48,9 +48,25 @@ public class ShopServiceImpl implements IShopService {
      * @return 分页店面列表
      */
     @Override
-    public ServerResponse<PageInfo> getShopListByCreditSort(int pageNum, int pageSize) {
+    public ServerResponse<PageInfo> getShopListByTypeSort(int pageNum, int pageSize, String type) {
         PageHelper.startPage(pageNum,pageSize);
-        List<Shop> shopList = shopMapper.selectShopListByCreditSort();
+        List<Shop> shopList = shopMapper.selectShopListByTypeSort(type);
+        List<ShopVo> shopVoList = assembleShopVoList(shopList);
+        PageInfo pageResult = new PageInfo(shopList);
+        pageResult.setList(shopVoList);
+        return  ServerResponse.createBySuccess(pageResult);
+    }
+
+    /**
+     * 得到所有店面，默认按照 创建时间
+     * @param pageNum
+     * @param pageSize
+     * @return
+     */
+    @Override
+    public ServerResponse<PageInfo> getShopList(int pageNum, int pageSize) {
+        PageHelper.startPage(pageNum,pageSize);
+        List<Shop> shopList = shopMapper.selectAllShopByCredit();
         List<ShopVo> shopVoList = assembleShopVoList(shopList);
         PageInfo pageResult = new PageInfo(shopList);
         pageResult.setList(shopVoList);
@@ -82,15 +98,6 @@ public class ShopServiceImpl implements IShopService {
         return shopVoList;
     }
 
-    @Override
-    public ServerResponse<PageInfo> getShopListByDealNumSort(int pageNum, int pageSize) {
-        return null;
-    }
-
-    @Override
-    public ServerResponse<PageInfo> getShopListByCreateTimeSort(int pageNum, int pageSize) {
-        return null;
-    }
 
     /**
      * 获取店铺详情
@@ -132,6 +139,7 @@ public class ShopServiceImpl implements IShopService {
             return ServerResponse.createBySuccess(otherShopVos);
         }
     }
+
 
     /**
      * List<Shop> -> List<OtherShopVo>

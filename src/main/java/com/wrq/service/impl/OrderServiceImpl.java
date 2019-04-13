@@ -202,9 +202,12 @@ public class OrderServiceImpl implements IOrderService {
 
         BigDecimal payment = orderMaster.getPayment();
 
+        String orderStatus = EnumUtil.getByCode(orderMaster.getOrderStatus(), OrderStatusEnum.class).getMessage();
+
         orderList.setTotalPrice(payment);
         orderList.setOrderNo(orderNo);
         orderList.setPhone(user.getPhone());
+        orderList.setOrderStatus( orderStatus );
 
        return ServerResponse.createBySuccess(orderList);
     }

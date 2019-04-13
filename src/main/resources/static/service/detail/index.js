@@ -22,7 +22,9 @@ var vue = new Vue({
         normalSingle: null,
         otherSizePriceList: [],
         shopId: null,
-        otherShopList: []
+        otherShopList: [],
+        shopStatus: 1,
+        printBtnDisable: true
 
     },
     methods: {
@@ -79,6 +81,15 @@ var vue = new Vue({
         },
         otherErrorCallback: function ( ) {
             util.errorTips(" 获取其他店铺出现错误！ ")
+        },
+        handlePrintClick: function ( value ) {
+
+            if ( this.shopStatus == "0"){
+                location.href= "/order/create/" + value;
+            }else {
+                util.errorTips("此店已经打烊啦~")
+            }
+
         }
     },
     filters: {
@@ -90,6 +101,7 @@ var vue = new Vue({
             }
         },
         onOtherSizeService: function( value ){
+
             if (value != "-1"){
                 return  "在 单页非彩印 价格的基础上 * " + value;
             }else {
@@ -103,10 +115,21 @@ var vue = new Vue({
             }else {
                 return "无服务";
             }
+        },
+        shopStatusFilter: function ( value ) {
+
+            if ( value == "0" ){
+                this.printBtnDisable = false;
+                return "打印";
+            }else {
+                this.printBtnDisable = false;
+                return "已打烊";
+            }
         }
     },
     mounted: function () {
         this.shopId = this.$refs.shopIdRef.value;
+        this.shopStatus = this.$refs.shopStatusRef.value;
         this.getOtherShopList();
     }
 })

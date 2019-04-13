@@ -15,11 +15,19 @@ var vue = new Vue({
         navigatepageNums: [],
         imageList: [],
         total: null,
-        shopId: ""
+        shopId: "",
+        currentPageNum: 1,
+        currentPageSize: 5,
+        creditSelected: true,
+        dealSelected: false,
+        allSelected: false
     },
     methods: {
-        getShopList: function (pageNum, pageSize) {
-            this.$http.get('/shop/shop_list.do', {params: {pageNum: pageNum, pageSize: pageSize}}).then(this.successCallback, this.errorCallback);
+        getAllShopList: function ( pageNum, pageSize ) {
+            this.$http.get('/shop/get_all_shop.do', {params: {pageNum: pageNum, pageSize: pageSize}}).then(this.successCallback, this.errorCallback)
+        },
+        getShopList: function (pageNum, pageSize, type) {
+            this.$http.get('/shop/shop_list.do', {params: {pageNum: pageNum, pageSize: pageSize, type: type}}).then(this.successCallback, this.errorCallback);
         },
         successCallback: function ( res ) {
             res = res.body;
@@ -42,6 +50,24 @@ var vue = new Vue({
         },
         handleOrderClick: function () {
             window.location.href = "/order/info";
+        },
+        handleCreditClick: function () {
+            this.creditSelected = true;
+            this.dealSelected= false;
+            this.allSelected= false;
+            this.getShopList(this.currentPageNum, this.currentPageSize, "credit");
+        },
+        handleDealClick: function () {
+            this.creditSelected = false;
+            this.dealSelected= true;
+            this.allSelected= false;
+            this.getShopList(this.currentPageNum, this.currentPageSize, "deal_num");
+        },
+        handleAllClick: function () {
+            this.creditSelected = false;
+            this.dealSelected= false;
+            this.allSelected= true;
+            this.getAllShopList(this.currentPageNum, this.currentPageSize);
         }
     },
     filters: {
@@ -51,9 +77,18 @@ var vue = new Vue({
             }else {
                 return "无此服务";
             }
+        },
+        shopStatusFilter: function ( value ) {
+
+            if ( value == "0" ){
+                return "进店";
+            }else {
+                return "打烊";
+            }
+
         }
     },
     created: function () {
-        this.getShopList();
+        this.getShopList(this.currentPageNum, this.currentPageSize, "credit");
     }
 })

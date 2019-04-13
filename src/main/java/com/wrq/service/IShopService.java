@@ -12,14 +12,12 @@ import java.util.List;
  */
 public interface IShopService {
 
-    ServerResponse<PageInfo> getShopListByCreditSort(int pageNum, int pageSize);
-
-    ServerResponse<PageInfo> getShopListByDealNumSort(int pageNum, int pageSize);
-
-    ServerResponse<PageInfo> getShopListByCreateTimeSort(int pageNum, int pageSize);
+    ServerResponse<PageInfo> getShopListByTypeSort(int pageNum, int pageSize, String type);
 
     ServerResponse<DetailVo> getShopDetailById(Integer shopId);
 
     ServerResponse<List<OtherShopVo>> getOtherShopByShopId(Integer shopId);
+
+    ServerResponse<PageInfo> getShopList(int pageNum, int pageSize);
 
 }

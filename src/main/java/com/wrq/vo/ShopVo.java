@@ -40,5 +40,5 @@ public class ShopVo {
     private BigDecimal colorfulDouble;
 
     /* 0：在营业 1：不营业 */
-    private Integer Status;
+    private Integer status;
 }

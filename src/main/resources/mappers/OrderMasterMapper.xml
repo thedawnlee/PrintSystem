@@ -211,7 +211,7 @@
     select
     <include refid="Base_Column_List" />
     from order_master
-    where buyer_id = #{userId}
+    where buyer_id = #{userId}  order by create_time desc
   </select>
 
 

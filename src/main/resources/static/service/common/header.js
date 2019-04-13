@@ -43,9 +43,12 @@ var vue = new Vue({
             this.isShow = !this.isShow;
         },
         handleUserCenterClick: function () {
-            console.log("click userCenter")
             localStorage.nav = "userCenter";
             location.href = "/user/info";
+        },
+        handleOrderClick: function () {
+            localStorage.nav = "userCenter";
+            location.href = "/order/info";
         },
         handleIndexCenterClick: function () {
             localStorage.nav = "select";
@@ -94,6 +97,6 @@ var vue = new Vue({
         console.log(select);
         this.selectCurrentNav(select);
         this.getUserInfo();
-    },
+    }
 
 });

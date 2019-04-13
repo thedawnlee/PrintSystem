@@ -19,4 +19,6 @@ public class OrderVoList {
 
     private String phone;
 
+    private String orderStatus;
+
 }

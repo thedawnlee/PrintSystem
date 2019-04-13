@@ -6,10 +6,10 @@
     </div>
     <div data-v-637a7fc8 class="category-wrapper">
         <dl data-v-637a7fc8><dt data-v-637a7fc8>排序方式：</dt>
-            <dd data-v-637a7fc8 class="selected"><a data-v-637a7fc8 data-seo href>店铺评分</a></dd>
-            <dd data-v-637a7fc8 class><a data-v-637a7fc8 data-seo href>交易总量</a></dd>
+            <dd data-v-637a7fc8 @click="handleCreditClick" :class="{selected: creditSelected}"><a data-v-637a7fc8 data-seo>店铺评分</a></dd>
+            <dd data-v-637a7fc8 @click="handleDealClick" :class="{selected: dealSelected}"><a data-v-637a7fc8 data-seo >交易总量</a></dd>
             <!--<dd data-v-637a7fc8 class><a data-v-637a7fc8 data-seo href="//time.geekbang.org/library?category=3">创建时间</a></dd>-->
-            <dd data-v-637a7fc8 class><a data-v-637a7fc8 data-seo href>所有店铺</a></dd>
+            <dd data-v-637a7fc8 @click="handleAllClick" :class="{selected: allSelected}"><a data-v-637a7fc8 data-seo >所有店铺</a></dd>
             <dd data-v-637a7fc8 class="total_shop"> 共 {{total}} 家店面</dd>
         </dl>
     </div>
@@ -73,7 +73,7 @@
                     <div data-v-637a7fc8 class="column-btn-wrapper">
                         <a class="open-shop-btn" :href="'/shop/detail/' + item.shopId">
                         <div data-v-637a7fc8 class="ui-btn orange-btn"><i data-v-637a7fc8 class="iconfont"></i>
-                            进店
+                            {{ item.status | shopStatusFilter }}
                         </div>
                         </a>
                     </div>

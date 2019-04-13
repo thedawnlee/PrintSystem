@@ -212,4 +212,30 @@ public class OrderController {
         return  ServerResponse.createByErrorMessage("用户未登录，无法获取当前用户信息");
     }
 
+    @RequestMapping(value = "detail/{orderNo}", method = RequestMethod.GET)
+    public ModelAndView getOrder(@PathVariable("orderNo") String orderNo, Map<String, Object> map, HttpSession session) {
+
+        User user = (User)session.getAttribute(Const.CURRENT_USER);
+
+        if(user == null){
+            map.put("msg", ResponseCode.NEED_LOGON_FOR_ORDER_DETAIL_INFO.getDesc());
+            map.put("url", "/order/detail/" + orderNo);
+            return new ModelAndView("portal/login" , map);
+        }else {
+
+            ServerResponse result = iOrderService.getOrderBeforePay(user, orderNo);
+
+            if ( result.isSuccess() ) {
+                map.put("orderInfo", result.getData());
+                return new ModelAndView("portal/order" , map);
+            }else {
+                map.put("msg", result.getMsg());
+                map.put("url", "/index");
+                return new ModelAndView("portal/common/page/error" , map);
+            }
+
+        }
+    }
+
+
 }

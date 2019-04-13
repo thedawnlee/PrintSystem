@@ -36,8 +36,8 @@ public class ShopController {
      */
     @RequestMapping(value = "shop_list.do", method = RequestMethod.GET)
     @ResponseBody
-    public ServerResponse list(@RequestParam(value = "pageNum",defaultValue = "1") int pageNum, @RequestParam(value = "pageSize",defaultValue = "10") int pageSize){
-       return iShopService.getShopListByCreditSort(pageNum, pageSize);
+    public ServerResponse list(@RequestParam(value = "pageNum",defaultValue = "1") int pageNum, @RequestParam(value = "pageSize",defaultValue = "10") int pageSize, String type){
+       return iShopService.getShopListByTypeSort(pageNum, pageSize, type);
     }
 
     /**
@@ -80,6 +80,18 @@ public class ShopController {
     @ResponseBody
     public ServerResponse otherShop(@RequestParam(value = "id") int id) {
         return iShopService.getOtherShopByShopId(id);
+    }
+
+    /**
+     * 根据 评分 查询接单店铺列表
+     * @param pageNum 第几页
+     * @param pageSize 一页多少
+     * @return 店铺列表
+     */
+    @RequestMapping(value = "get_all_shop.do", method = RequestMethod.GET)
+    @ResponseBody
+    public ServerResponse all(@RequestParam(value = "pageNum",defaultValue = "1") int pageNum, @RequestParam(value = "pageSize",defaultValue = "10") int pageSize){
+        return iShopService.getShopList(pageNum, pageSize);
     }
 
 }

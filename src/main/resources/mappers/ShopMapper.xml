@@ -247,42 +247,27 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
 
-  <select id="selectShopListByCreateTimeSort" resultMap="BaseResultMap" parameterType="int">
+  <select id="selectShopListByTypeSort" resultMap="BaseResultMap" parameterType="java.lang.String">
     SELECT
     <include refid="Base_Column_List"/>
     from shop
     where status = 0
-    order by create_time desc
+    order by ${type} desc
   </select>
 
-  <select id="selectShopListByCreditSort" resultMap="BaseResultMap" parameterType="int">
-    SELECT
-    <include refid="Base_Column_List"/>
-    from shop
-    where status = 0
-    order by credit desc
-  </select>
-
-  <select id="selectShopListByDealNumSort" resultMap="BaseResultMap" parameterType="int">
-    SELECT
-    <include refid="Base_Column_List"/>
-    from shop
-    where status = 0
-    order by dealNum desc
-  </select>
 
   <select id="selectAllShopByCredit" resultMap="BaseResultMap" parameterType="int">
     SELECT
     <include refid="Base_Column_List"/>
     from shop
-    order by credit desc
+    order by create_time asc
   </select>
 
   <select id="selectOtherShopSortByCredit" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     SELECT
     <include refid="Base_Column_List"/>
     from shop
-    where id != #{shopId}
+    where id != #{shopId} and status = 0
     order by credit desc
   </select>
 
