@@ -18,6 +18,22 @@ public class TestDiv {
         log.info(" pricepricepricepricepricepricepricepricepricepricepricepricepricepricepricepricepricepricepricepriceprice = {}", price);
     }
 
+    @Test
+    public void string (){
+
+
+        String message = "1.1545455659545565";
+
+        String orderNo =  message.substring(message.lastIndexOf(".")+1);
+
+        String shopId = message.substring(0, message.lastIndexOf("."));
+
+        log.info("orderNo = {}", orderNo);
+
+        log.info("shopId = {}", shopId);
+    }
+
+
 
 
 }

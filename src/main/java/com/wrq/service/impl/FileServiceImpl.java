@@ -2,15 +2,18 @@ package com.wrq.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.github.pagehelper.PageRowBounds;
 import com.google.common.collect.Lists;
 import com.wrq.commons.ServerResponse;
 import com.wrq.config.ParameterConfig;
 import com.wrq.dao.FileMapper;
+import com.wrq.dao.ShopMapper;
 import com.wrq.enums.OrderStatusEnum;
 import com.wrq.enums.ShareEnum;
 import com.wrq.pojo.OrderMaster;
 import com.wrq.pojo.Shop;
 import com.wrq.service.IFileService;
+import com.wrq.service.IOrderService;
 import com.wrq.utils.DateTimeUtil;
 import com.wrq.utils.EnumUtil;
 import com.wrq.utils.FTPUtil;
@@ -128,13 +131,39 @@ public class FileServiceImpl implements IFileService {
      * @return 文件
      * @throws UnsupportedEncodingException
      */
-    public ServerResponse download(String path, String file, Integer userId, HttpServletResponse response) throws UnsupportedEncodingException {
+    public ServerResponse userDownload(String path, String file, Integer userId, HttpServletResponse response) throws UnsupportedEncodingException {
 
         com.wrq.pojo.File result = fileMapper.selectFileByUserIdFileNewName(userId, file);
 
         if ( result == null ){
-            return ServerResponse.createByErrorMessage("此文件不属于该用户，无权操作！");
+            return ServerResponse.createByErrorMessage("该用户无此文件，无权访问！");
         }
+
+        /* 进行下载 */
+        ServerResponse download = download(path, file, response, result.getFileName());
+
+        if ( !download.isSuccess() ){
+            return ServerResponse.createByErrorMessage("下载失败");
+        }
+
+        return ServerResponse.createBySuccess();
+    }
+
+
+    public ServerResponse backendDownload(String path, String file, HttpServletResponse response) throws UnsupportedEncodingException {
+
+        /* 进行下载 */
+        ServerResponse download = download(path, file, response, file);
+
+        if ( !download.isSuccess() ){
+            return ServerResponse.createByErrorMessage("下载失败");
+        }
+
+        return ServerResponse.createBySuccess();
+    }
+
+
+    private ServerResponse download ( String path, String file, HttpServletResponse response, String viewName )throws UnsupportedEncodingException  {
 
         // 被下载的文件在服务器中的路径
 
@@ -153,7 +182,7 @@ public class FileServiceImpl implements IFileService {
 
             response.setContentType("application/force-download");// 设置强制下载不打开
 
-            response.addHeader("Content-Disposition", "attachment;fileName=" + URLEncoder.encode(result.getFileName(), "UTF-8"));
+            response.addHeader("Content-Disposition", "attachment;fileName=" + URLEncoder.encode(viewName, "UTF-8"));
 
             byte[] buffer = new byte[1024];
 
@@ -176,7 +205,7 @@ public class FileServiceImpl implements IFileService {
                     i = bis.read(buffer);
                 }
 
-                return ServerResponse.createBySuccessMessage("下载失败");
+                return ServerResponse.createByErrorMessage("下载失败");
 
             } catch (Exception e) {
                 log.error("文件下载失败");
@@ -201,9 +230,8 @@ public class FileServiceImpl implements IFileService {
             }
         }
 
-        return ServerResponse.createByErrorMessage("下载失败");
+        return ServerResponse.createBySuccess();
     }
-
 
     /**
      * 得到文件页数
@@ -283,5 +311,6 @@ public class FileServiceImpl implements IFileService {
         }
         return targetFileList;
     }
+
 
 }

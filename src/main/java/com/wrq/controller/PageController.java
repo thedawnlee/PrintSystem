@@ -23,4 +23,17 @@ public class PageController {
         return "portal/login";
     }
 
+
+    /* backend */
+
+    @RequestMapping("/store/list")
+    public String list(){
+        return "backend/list";
+    }
+
+    @RequestMapping("/store/login")
+    public String storeLogin(){
+        return "backend/login";
+    }
+
 }

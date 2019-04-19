@@ -214,5 +214,13 @@
     where buyer_id = #{userId}  order by create_time desc
   </select>
 
+  <select id="selectOrderListByShopId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from order_master
+    where shop_id = #{shopId} and order_status between 11 and 69 -- 10 为未付款，而 70 为订单关闭，这些都是不应该展示给店家的
+    order by create_time desc
+  </select>
+
 
 </mapper>

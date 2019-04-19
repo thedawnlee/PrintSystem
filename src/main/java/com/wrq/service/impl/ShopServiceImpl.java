@@ -74,6 +74,23 @@ public class ShopServiceImpl implements IShopService {
     }
 
     /**
+     * 后端 加载的时候获取店铺信息
+     * @param userId
+     * @return
+     */
+    @Override
+    public ServerResponse getShopInfoByUserId(Integer userId) {
+
+        Shop shop = shopMapper.selectShopByUserId(userId);
+
+        if ( shop == null ){
+            return ServerResponse.createByErrorMessage("还未进行店铺登记，请联系官方人员进行登记！");
+        }
+
+        return ServerResponse.createBySuccess(shop);
+    }
+
+    /**
      * shopList -> shopVoList
      * @param shopList shopList
      * @return shopVoList

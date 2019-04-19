@@ -56,8 +56,7 @@ public class FileController {
     }
 
     /***
-     *
-     * @param name file 新名字
+     * @param file file 新名字
      * @param session
      * @param request
      * @param response
@@ -76,8 +75,9 @@ public class FileController {
         String path = request.getSession().getServletContext().getRealPath("upload");
 
         ServerResponse result = null;
+
         try {
-            result = iFileService.download(path, file, user.getId(), response);
+            result = iFileService.userDownload(path, file, user.getId(), response);
         } catch (UnsupportedEncodingException e) {
             log.error(" 文件名编码失败 ");
         }

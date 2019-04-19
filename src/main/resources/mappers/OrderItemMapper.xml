@@ -189,4 +189,11 @@
     and user_id = #{userId}
   </select>
 
+  <select id="selectByFileId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from order_item
+    where file_id = #{id,jdbcType=INTEGER}
+  </select>
+
 </mapper>

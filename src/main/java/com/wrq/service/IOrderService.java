@@ -15,4 +15,10 @@ public interface IOrderService {
     ServerResponse getOrderBeforePay(User user, String orderNo );
 
     ServerResponse getOrderList(Integer userId,Integer pageNum, Integer pageSize);
+
+    ServerResponse getOrderListForShop(Integer userId, Integer pageNum, Integer pageSize);
+
+    ServerResponse getOrderDetailForBackend( Integer userId, String orderNo );
+
+    ServerResponse checkOrderHasFile( Integer userId, String fileNewName );
 }

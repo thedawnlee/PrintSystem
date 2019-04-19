@@ -2,6 +2,10 @@
  * Created by wangqian on 2019/1/31.
  */
 var util = {
+
+    getHost: function(){
+        return "localhost:8083";
+    },
     //获取服务器的地址
     getServerUrl : function(path){
         return conf.serverHost + path;

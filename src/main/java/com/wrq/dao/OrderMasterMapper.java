@@ -21,4 +21,7 @@ public interface OrderMasterMapper {
     OrderMaster selectByUserIdAndOrderNo(@Param("userId") Integer userId, @Param("orderNo") String orderNo);
 
     List<OrderMaster> selectOrderListByUserId(Integer userId);
+
+    List<OrderMaster> selectOrderListByShopId(Integer shopId);
+
 }

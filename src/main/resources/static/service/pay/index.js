@@ -34,9 +34,7 @@ var vue = new Vue({
 
             this.paymentTimer = window.setInterval(function(){
                 _this.$http.get('/pay/query_order_pay_status.do', {params: {orderNo: _this.orderNo }}).then(function ( res ) {
-                    console.log( res );
                     res = res.body;
-                    console.log( res );
                     if( res.status == 0 ){
                         if ( res.data == true ){
                             console.log("closeTimer");
@@ -50,7 +48,8 @@ var vue = new Vue({
                         util.errorTips( res.msg )
                     }
                 }, function () {
-                    util.errorTips( "查询支付状态失败！" )
+                    util.errorTips( "查询支付状态失败！" );
+                    window.clearInterval(_this.paymentTimer);
                 });
             },5000);
 

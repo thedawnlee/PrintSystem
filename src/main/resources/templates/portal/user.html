@@ -7,6 +7,7 @@
     <link href="${basePath}/css/user.css" rel="stylesheet" type="text/css"/>
     <link rel="stylesheet" type="text/css" href="${basePath}/css/footer.css"/>
     <#include "portal/common/js.html"/>
+    <script src="${basePath}/service/user/index.js"></script>
 </head>
 <body>
 
@@ -17,7 +18,7 @@
 
         <div data-v-a5d53ce8 class="account">
             <div data-v-a5d53ce8 class="account-cover"></div>
-            <div data-v-a5d53ce8 class="container" id="user">
+            <div data-v-a5d53ce8 class="container" id="user" v-cloak>
 
                     <#include "portal/user/side.html"/>
 

@@ -21,4 +21,6 @@ public interface FileMapper {
     List<File> selectFileByUserId(Integer userId);
 
     File selectFileByUserIdFileNewName(@Param(value = "userId") Integer userId, @Param(value = "fileName") String fileName);
+
+    File selectFileByFileNewName(String fileName);
 }

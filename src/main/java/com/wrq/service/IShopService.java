@@ -20,4 +20,6 @@ public interface IShopService {
 
     ServerResponse<PageInfo> getShopList(int pageNum, int pageSize);
 
+    ServerResponse getShopInfoByUserId(Integer userId);
+
 }

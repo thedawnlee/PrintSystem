@@ -247,12 +247,12 @@ public class UserServiceImpl implements IUserService {
     //backend
 
     /**
-     * 校验是否是管理员
+     * 校验是否是店主
      * @param user
      * @return
      */
     public ServerResponse checkAdminRole(User user){
-        if(user != null && user.getRole().intValue() == Const.Role.ROLE_ADMIN){
+        if(user != null && user.getRole().intValue() == Const.Role.ROLE_STORE){
             return ServerResponse.createBySuccess();
         }
         return ServerResponse.createByError();

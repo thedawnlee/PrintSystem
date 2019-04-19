@@ -25,6 +25,7 @@ import com.wrq.pojo.OrderItem;
 import com.wrq.pojo.OrderMaster;
 import com.wrq.pojo.PayInfo;
 import com.wrq.service.IPayService;
+import com.wrq.service.WebSocket;
 import com.wrq.utils.BigDecimalUtil;
 import com.wrq.utils.DateTimeUtil;
 import com.wrq.utils.FTPUtil;
@@ -73,6 +74,9 @@ public class PayServiceImpl implements IPayService {
 
     @Autowired
     private PayInfoMapper payInfoMapper;
+
+    @Autowired
+    private WebSocket webSocket;
 
     /**
      * 支付，当前端【点击支付】的时候，就会调用 /pay/pay.do 接口，接口拿到订单号。我们要给前端返回生产的二维码的位置以及订单号！
@@ -248,6 +252,7 @@ public class PayServiceImpl implements IPayService {
         }
         /* 如果回调获得的交易状态是成功，则会更改orderMaster，如果回调获取的交易状态不是成功就不用更新orderMaster */
         if(Const.AlipayCallback.TRADE_STATUS_TRADE_SUCCESS.equals(tradeStatus)){
+
             order.setPaymentTime(DateTimeUtil.strToDate(params.get("gmt_payment")));
             order.setOrderStatus(OrderStatusEnum.PAID.getCode());
             orderMasterMapper.updateByPrimaryKeySelective(order);
@@ -283,7 +288,17 @@ public class PayServiceImpl implements IPayService {
             return ServerResponse.createByErrorMessage("用户没有该订单");
         }
         if( order.getOrderStatus() >= OrderStatusEnum.PAID.getCode() ){
+
             log.info("正在轮询, 判断已经支付！");
+
+            /* 支付成功，则提示店铺 */
+
+            String orderNoAndShopId = new StringBuilder().append(order.getShopId()).append(".").append(orderNo).toString();
+
+            webSocket.toStore(orderNoAndShopId);
+
+            /* webSocket提示 */
+
             return  ServerResponse.createBySuccess();
         }
         return ServerResponse.createByError();

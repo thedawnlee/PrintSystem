@@ -26,4 +26,6 @@ public interface ShopMapper {
 
     /* 查询除了此ID外的其他店铺 */
     List<Shop> selectOtherShopSortByCredit(Integer shopId);
+
+    Shop selectShopByUserId(Integer userId);
 }

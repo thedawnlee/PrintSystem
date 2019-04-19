@@ -271,4 +271,11 @@
     order by credit desc
   </select>
 
+  <select id="selectShopByUserId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List"/>
+    from shop
+    where owner_id = #{userId}
+  </select>
+
 </mapper>

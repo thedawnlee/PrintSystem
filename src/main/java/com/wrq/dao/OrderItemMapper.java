@@ -21,4 +21,6 @@ public interface OrderItemMapper {
     List<OrderItem> selectOrderItemByOrderNo(String orderNo);
 
     List<OrderItem> getOrderItemByOrderNoUserId( @Param("orderNo") String orderNo, @Param("userId") Integer userId );
+
+    OrderItem selectByFileId(Integer id);
 }

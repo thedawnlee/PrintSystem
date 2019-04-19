@@ -22,7 +22,7 @@ var vue = new Vue({
                 if ( this.url.length > 0 ){
                     window.location.href = this.url ;
                 }else {
-                    window.location.href = './index.html';
+                    window.location.href = '/index';
                 }
             }else {
                 util.errorTips( res.msg )

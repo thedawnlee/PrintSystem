@@ -201,6 +201,10 @@
 			<version>1.3</version>
 		</dependency>
 
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-websocket</artifactId>
+		</dependency>
 
 		 <!--自己配置的 支付宝 libs 中的Jar包-->
 		<dependency>

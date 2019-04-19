@@ -11,6 +11,8 @@ import java.math.BigDecimal;
 @Data
 public class OrderVo {
 
+    private String fileUniqueKey;
+
     private String fileTypeImg;
 
     private String fileName;
@@ -24,5 +26,9 @@ public class OrderVo {
     private Integer fileQuantity;
 
     private BigDecimal orderPrice;
+
+    private String userDesc;
+
+    private String fileNewName; /* 用来下载 */
 
 }
