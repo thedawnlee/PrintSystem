@@ -1,5 +1,8 @@
 package com.wrq.test;
 
+import com.wrq.dto.MessageParamDto;
+import com.wrq.enums.MessageTypeEnum;
+import com.wrq.utils.TencentMsgUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 
@@ -32,6 +35,38 @@ public class TestDiv {
 
         log.info("shopId = {}", shopId);
     }
+
+    @Test
+    public void stringTest (){
+
+        MessageParamDto messageParamDto = new MessageParamDto();
+
+        messageParamDto.setTemplateCode(MessageTypeEnum.SEND.getCode());
+
+        messageParamDto.setPhone("11111");
+
+
+        /* 您的文件打印完毕，请在在{1}前凭取件码{2}，至{3}取件，若有问题请联系店主{4}。 */
+
+        messageParamDto.setParam1("11111");
+
+        messageParamDto.setParam2("11111");
+
+        messageParamDto.setParam3("11111");
+
+        messageParamDto.setParam4("11111");
+
+        String[]  params = new String[]{messageParamDto.getParam1(), messageParamDto.getParam2(), messageParamDto.getParam3(), messageParamDto.getParam4()};
+
+
+        log.info("获取的参数：{} ", params);
+
+        log.info("获取的参数：{} ", params);
+    }
+
+
+
+
 
 
 

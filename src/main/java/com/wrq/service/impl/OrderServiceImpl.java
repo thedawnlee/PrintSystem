@@ -3,15 +3,18 @@ package com.wrq.service.impl;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.google.common.collect.Lists;
+import com.google.zxing.common.StringUtils;
 import com.wrq.commons.ServerResponse;
 import com.wrq.config.ParameterConfig;
 import com.wrq.dao.*;
+import com.wrq.dto.MessageParamDto;
 import com.wrq.enums.*;
 import com.wrq.form.CreateOrderForm;
 import com.wrq.pojo.*;
 import com.wrq.service.IOrderService;
 import com.wrq.utils.EnumUtil;
 import com.wrq.utils.KeyUtil;
+import com.wrq.utils.TencentMsgUtil;
 import com.wrq.vo.OrderListVo;
 import com.wrq.vo.OrderVo;
 import com.wrq.vo.OrderVoList;
@@ -428,7 +431,7 @@ public class OrderServiceImpl implements IOrderService {
      * @param fileNewName
      * @return
      */
-    public ServerResponse checkOrderHasFile(Integer userId, String fileNewName ){
+    public ServerResponse checkOrderHasFileForBackend(Integer userId, String fileNewName ){
 
         Shop shop = shopMapper.selectShopByUserId(userId);
 
@@ -462,6 +465,92 @@ public class OrderServiceImpl implements IOrderService {
             return ServerResponse.createByErrorMessage(" 此打印文件不属于当前店铺，请不要访问非本店铺文件！ ");
         }
         return ServerResponse.createBySuccess();
+    }
+
+    /**
+     * 店家端 点击通知取货， 发送后端 取货码和取货码
+      * @param user
+     * @param getKey
+     * @param orderNo
+     * @return
+     */
+    @Override
+    public ServerResponse noticePackingForBackend( User user,  String getKey ,String orderNo ) {
+
+        String shopAddress;
+
+        String closeTime;
+
+        String shopOwnerPhone = user.getPhone();
+
+        /* 1. 此店铺有没有此订单 */
+
+        Shop shop = shopMapper.selectShopByUserId(user.getId());
+
+        if ( shop == null ){
+            return ServerResponse.createByErrorMessage("当前用户的店铺还未登记，请联系官方人员进行登记");
+        }
+
+        shopAddress = shop.getShopAddress();
+
+        closeTime = shop.getCloseTime();
+
+        OrderMaster orderMaster = orderMasterMapper.checkByOrderNoAndShopId(shop.getId(), orderNo);
+
+        if ( orderMaster == null ){
+            return ServerResponse.createByErrorMessage("当前用户的店铺没有此订单，请核实后进行通知用户");
+        }
+
+        /* 2. 判断有没有取货码 */
+
+        OrderMaster order = orderMasterMapper.selectByPrimaryKey(orderNo);
+
+        if ( order == null ){
+            return ServerResponse.createByErrorMessage("当前操作的订单不存在，请核对后操作！");
+        }
+
+        String buyerPhone = order.getBuyerPhone();
+
+        if ( order.getGetKey() != null && !order.getGetKey().equals("") ){
+            return ServerResponse.createByErrorMessage("当前订单已经设置过取货码，请刷新订单详情页面。");
+        }
+        /* 3. 存储取货码,更改订单状态 */
+
+        int result = orderMasterMapper.updateOrderStatusAndGetKeyByPrimaryKey(getKey, OrderStatusEnum.PROCESSING_ORDER.getCode(), orderNo);
+
+        log.info(" result = {}", result);
+
+        if ( result <= 0 ){
+            return ServerResponse.createByErrorMessage("更新订单状态失败，请稍后再试");
+        }
+
+        /* 4. 通知用户 */
+
+        MessageParamDto messageParamDto = new MessageParamDto();
+
+        messageParamDto.setTemplateCode(MessageTypeEnum.SEND.getCode());
+
+        messageParamDto.setPhone(buyerPhone);
+
+
+        /* 您的文件打印完毕，请在在{1}前凭取件码{2}，至{3}取件，若有问题请联系店主{4}。 */
+
+        messageParamDto.setParam1(closeTime);
+
+        messageParamDto.setParam2(getKey);
+
+        messageParamDto.setParam3(shopAddress);
+
+        messageParamDto.setParam4(shopOwnerPhone);
+
+        boolean messageResult = TencentMsgUtil.sendMessage(messageParamDto);
+
+        if ( messageResult != true ){
+
+            return ServerResponse.createByErrorMessage(" 通知用户时，发送短信失败，请稍后重试！ ");
+        }
+
+        return ServerResponse.createBySuccess("通知用户成功！");
     }
 
 }

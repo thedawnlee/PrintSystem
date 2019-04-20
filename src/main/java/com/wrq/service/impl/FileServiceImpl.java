@@ -150,10 +150,13 @@ public class FileServiceImpl implements IFileService {
     }
 
 
-    public ServerResponse backendDownload(String path, String file, HttpServletResponse response) throws UnsupportedEncodingException {
+    public ServerResponse backendDownload(String path, String file,String orderNo, HttpServletResponse response) throws UnsupportedEncodingException {
 
         /* 进行下载 */
-        ServerResponse download = download(path, file, response, file);
+
+        String viewName = new StringBuilder().append("订单号：").append(orderNo).toString();
+
+        ServerResponse download = download(path, file, response, viewName);
 
         if ( !download.isSuccess() ){
             return ServerResponse.createByErrorMessage("下载失败");

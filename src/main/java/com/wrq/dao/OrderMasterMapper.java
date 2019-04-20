@@ -24,4 +24,8 @@ public interface OrderMasterMapper {
 
     List<OrderMaster> selectOrderListByShopId(Integer shopId);
 
+    OrderMaster checkByOrderNoAndShopId(@Param("shopId") Integer shopId, @Param("orderNo") String orderNo);
+
+    int updateOrderStatusAndGetKeyByPrimaryKey(@Param("getKey") String getKey ,@Param("orderStatus") Integer order_status, @Param("orderNo") String orderNo);
+
 }

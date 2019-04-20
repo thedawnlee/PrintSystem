@@ -20,5 +20,7 @@ public interface IOrderService {
 
     ServerResponse getOrderDetailForBackend( Integer userId, String orderNo );
 
-    ServerResponse checkOrderHasFile( Integer userId, String fileNewName );
+    ServerResponse checkOrderHasFileForBackend( Integer userId, String fileNewName );
+
+    ServerResponse noticePackingForBackend( User user,  String getKey ,String orderNo );
 }

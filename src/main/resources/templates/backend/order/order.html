@@ -1,5 +1,5 @@
 <div class="main-container" id="main-container">
-
+    <input type="hidden" value="${orderInfo.orderNo}" ref="orderNo">
     <div class="main-container-inner">
 
         <#include "backend/common/page/sidebar.html"/>
@@ -74,10 +74,31 @@
                                                     </li>
                                                     <li>
                                                         <i class="icon-caret-right blue"></i>
-                                                        拒绝理由:
-                                                        <b class="red">${orderInfo.refuseReason}</b>
-                                                    </li>
+                                                        取货码:
+                                                        <b class="red">
+                                                            <#if orderInfo.getKey == NULL >
+                                                                尚未接受此订单，无取货码
+                                                            </#if>
 
+                                                            <#if orderInfo.getKey != NULL >
+                                                                ${orderInfo.getKey}
+                                                            </#if>
+                                                        </b>
+                                                    </li>
+                                                    <li>
+                                                        <i class="icon-caret-right blue"></i>
+                                                        拒绝理由:
+                                                        <b class="red">
+                                                            <#if orderInfo.refuseReason == NULL >
+                                                                尚未拒绝此订单，无拒绝理由
+                                                            </#if>
+
+                                                            <#if orderInfo.refuseReason != NULL >
+                                                                ${orderInfo.refuseReason}
+                                                            </#if>
+
+                                                        </b>
+                                                    </li>
                                                 </ul>
                                             </div>
                                         </div><!-- /span -->
@@ -139,7 +160,7 @@
                                                         ${order.fileQuantity} 份
                                                     </td>
                                                     <td class="hidden-480">￥ ${order.orderPrice}</td>
-                                                    <td class="hidden-480"><a href="/store/file/download?file=${order.fileNewName} ">点击下载</a></td>
+                                                    <td class="hidden-480"><a href="/store/file/download?file=${order.fileNewName}&orderNo=${orderInfo.orderNo} ">点击下载</a></td>
                                                 </tr>
                                             </#list>
                                             </tbody>
@@ -152,11 +173,11 @@
                                         <div class="col-sm-5 pull-right">
                                             <div class="pull-right">
                                                 <#if orderInfo.orderStatus == "已付款" >
-                                                    <button class="btn btn-success">接受订单</button>
-                                                    <button class="btn btn-danger">拒绝订单</button>
+                                                    <button class="btn btn-success" @click="handleAcceptOrder">接受订单</button>
+                                                    <button class="btn btn-danger" @click="handleRefuseOrder">拒绝订单</button>
                                                 </#if>
                                                 <#if orderInfo.orderStatus == "待取货" >
-                                                    <button class="btn btn-inverse">通知取货</button>
+                                                    <button class="btn btn-inverse" @click="handleNoticePicking">通知取货</button>
                                                 </#if>
                                                 <#if orderInfo.orderStatus == "店主拒绝" >
                                                     <button class="btn">关闭订单</button>
@@ -168,6 +189,40 @@
                                         </div>
                                         <div class="col-sm-7 pull-left"> Extra Information </div>
                                     </div>
+
+                                    <div :class="{show: getKeyItem}" class="modal getKey"  tabindex="-1" role="dialog" aria-labelledby="gridSystemModalLabel">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <button type="button" @click="handleGetKeyItemClose" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                                    <h4 class="modal-title" id="gridSystemModalLabel">设置取货码</h4>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <div class="row">
+                                                        <div class="col-sm-9">
+                                                            设置取款码通知用户取货，如：12-5-8（12号架5层8号文件）：
+                                                            <div class="row">
+                                                                &nbsp;
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col-xs-2 col-sm-2">
+
+                                                                </div>
+                                                                <div class="col-xs-10 col-sm-8">
+                                                                    请输入取货码：<input type="text" v-model="getKey"  id="inputInfo" class="width-60">
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-primary" @click="handleGetFileCLick">通知取货</button>
+                                                    <button type="button" class="btn btn-default" @click="handleGetKeyItemClose" data-dismiss="modal">关闭</button>
+                                                </div>
+                                            </div><!-- /.modal-content -->
+                                        </div><!-- /.modal-dialog -->
+                                    </div><!-- /.modal -->
 
                                 </div>
                             </div>

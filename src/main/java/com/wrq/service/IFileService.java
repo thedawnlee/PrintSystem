@@ -16,7 +16,7 @@ public interface IFileService {
 
     ServerResponse userDownload(String path, String file,Integer userId, HttpServletResponse response) throws UnsupportedEncodingException;
 
-    ServerResponse backendDownload(String path, String file, HttpServletResponse response) throws UnsupportedEncodingException;
+    ServerResponse backendDownload(String path, String file, String orderNo, HttpServletResponse response) throws UnsupportedEncodingException;
 
     ServerResponse getFileList(Integer userId,Integer pageNum, Integer pageSize);
 

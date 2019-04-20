@@ -1,0 +1,55 @@
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>创建分享</title>
+		<link href="${basePath}/css/common.css" rel="stylesheet" type="text/css"/>
+		<link href="${basePath}/css/pay.css" rel="stylesheet" type="text/css"/>
+		<link rel="stylesheet" type="text/css" href="${basePath}/css/footer.css"/>
+		<link href="${basePath}/css/common.css" rel="stylesheet" type="text/css" />
+		<link href="${basePath}/css/share.css" rel="stylesheet" type="text/css" />
+		<link rel="stylesheet" href="${basePath}/editor/lib/css/editor.min.css">
+		<link rel="stylesheet" href="${basePath}/editor/lib/plugins/mathtype/mathtype.css">
+		<script src="${basePath}/editor/lib/js/editor.js"></script>
+		<script src="${basePath}/editor/lib/plugins/mathtype/index.js"></script>
+		<#include "portal/common/js.html"/>
+	</head>
+	<body>
+		<div id="app">
+			<div data-v-80b91726>
+
+				<#include "portal/common/page/header.html"/>
+
+				<div data-v-80b91726 class="content-block" id="share">
+
+					<#include "portal/share/editor.html"/>
+
+					<#include "portal/share/desc.html"/>
+
+				</div>
+
+			</div>
+
+		</div>
+
+		<script>
+			var options = ['code', '|', 'bold', 'italic', 'underline', 'strikethrough', 'forecolor', 'backcolor', 'removeformat',
+				'|', 'quotes', 'fontname', 'fontsize', 'heading', 'indent', 'outdent',
+				'insertorderedlist', 'insertunorderedlist', 'justifyleft', 'justifycenter', 'justifyright', 'justifyfull', '|',
+				'createlink', 'insertimage', 'insertvideo', 'insertcode'
+			];
+			var editor1 = Edit.getEditor('editor1', {
+				// toolbars: options,
+				focus: true,
+				events: {
+					contentchange: function(editor) {
+						console.log(editor.getPlainTxt())
+					}
+				},
+				resize: true
+			});
+		</script>
+
+		<script src="${basePath}/service/share/index.js"></script>
+
+	</body>
+</html>

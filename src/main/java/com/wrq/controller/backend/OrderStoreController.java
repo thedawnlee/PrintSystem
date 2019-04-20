@@ -5,6 +5,7 @@ import com.wrq.commons.ResponseCode;
 import com.wrq.commons.ServerResponse;
 import com.wrq.pojo.User;
 import com.wrq.service.IOrderService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -18,6 +19,7 @@ import java.util.Map;
  */
 @Controller
 @RequestMapping("/store/order")
+@Slf4j
 public class OrderStoreController {
 
 
@@ -84,6 +86,38 @@ public class OrderStoreController {
             map.put("url", "/store/order/list");
             return new ModelAndView("backend/common/page/error" , map);
         }
+
+    }
+
+    /**
+     * 店主端 输入取货码后 通知用户取货
+     * @param getKey
+     * @param orderNo
+     * @param session
+     * @return
+     */
+    @RequestMapping(value = "notice.do",method = RequestMethod.GET)
+    @ResponseBody
+    public ServerResponse notice(String getKey, String orderNo , HttpSession session){
+
+        log.info(" 请求 notice.do 接口，getKey = {}, orderNo = {} ",getKey, orderNo);
+
+        if ( getKey == null || getKey.equals("") ){
+            log.info("取货码为空");
+            return ServerResponse.createByErrorMessage("请输入取货码后再进行通知！");
+        }
+
+        User user = (User)session.getAttribute(Const.CURRENT_USER);
+
+        if(user == null){
+            return ServerResponse.createByErrorMessage(ResponseCode.NEED_LOGIN.getDesc());
+        }
+
+        if( user.getRole() != Const.Role.ROLE_STORE ){
+            return ServerResponse.createByErrorMessage("不是店主，无法操作！");
+        }
+
+        return  iOrderService.noticePackingForBackend( user, getKey,  orderNo);
 
     }
 

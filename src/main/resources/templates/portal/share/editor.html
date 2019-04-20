@@ -1,0 +1,110 @@
+<h4 data-v-715e15c5 @click = "handleBackIndex" class="back">《 <span style="color: #555;">返回主页</span></h4>
+
+<div data-v-0ef69fa0 data-v-80b91726 class="recharge-cont">
+
+    <div data-v-0ef69fa0 class="recharge-card">
+        <div data-v-0ef69fa0 class="login-rect-pc">
+            <div data-v-0ef69fa0 class="rect-list-pc">
+                <ul data-v-0ef69fa0>
+
+                    <div class="share-title">输入标题:</div>
+                    <li data-v-0ef69fa0 class="flex-start">
+                        <div data-v-0ef69fa0 class="list-content"><input v-model="title" data-v-0ef69fa0 type="text" placeholder="请输入标题，如：2019 考研资料，分享~"
+                                                                         class="input">
+                            <!-- <p data-v-0ef69fa0 class="error-text"><i data-v-0ef69fa0 class="iconfont"></i>
+                                请输入标题
+                            </p> -->
+                        </div>
+                    </li>
+
+                    <div class="share-title">输入描述:</div>
+                    <li data-v-0ef69fa0 class="flex-start">
+                        <div data-v-0ef69fa0 class="list-content">
+												<textarea v-model="desc" class="description-area" rows="4">   对分享的文件进行简要描述，如：本文件是自己考研期间用的复习资料~
+												</textarea>
+                            <!-- <p data-v-0ef69fa0 class="error-text"><i data-v-0ef69fa0 class="iconfont"></i>
+                                请输入描述
+                            </p> -->
+                        </div>
+                    </li>
+
+                    <div class="share-title">输入文件详情:</div>
+                    <li data-v-0ef69fa0 class="flex-start">
+                        <div data-v-0ef69fa0 class="list-content">
+                            <div id="editor1" class="editor">
+                                <p>初始化内容</p>
+                            </div>
+                        </div>
+                    </li>
+
+                    <div class="file-select-item">
+                        <div class="share-title">选择文件:&nbsp;&nbsp;&nbsp; <span @click="selectUploadFile" :class="{'select-file': uploadFile}">自行上传</span>
+                            &nbsp;&nbsp;&nbsp;&nbsp;<span @click="selectMyFile" :class="{'select-file': !uploadFile}">我的文件</span> </div>
+                        <li data-v-0ef69fa0 class="flex-start">
+                            <div data-v-0ef69fa0 class="list-content">
+                                <div class="file-size-wrapper">
+                                    <select name="file_size" data-v-0ef69fa0 class="input" v-model="pageSize" @change="handleFileSizeChange($event)">
+                                        <option :value="index" v-for="(item, index) in pageSizeList" :key="index"></option>
+
+                                    </select>
+                                    <span data-v-0ef69fa0 class="file-size-tag">﹀</span>
+                                </div>
+                            </div>
+                        </li>
+                        <li data-v-0ef69fa0 class="flex-start">
+                            <div data-v-0ef69fa0 class="list-content">
+                                <div class="file-upload">
+                                    <form name="form1" @submit.prevent="handleUploadSubmitClick" method="post" enctype="multipart/form-data">
+                                        <div class="file-upload-wrapper">
+                                            <div class="file-upload-view">
+                                                <a class="update-file-input">
+                                                    <input @change="handleFileUpload($event)" ref="fileUploadInput" type="file" name="请上传文件">点击选择需要分享的文件
+                                                    <p v-html="fileText"></p>
+                                                </a>
+                                                <div class="file-upload-name" v-html="fileName"></div>
+                                            </div>
+
+                                            <div class="file-upload-sibmit-wrapper">
+                                                <input  :class="{'not-upload-file': true, 'display': fileUploadDisplay}" ref="fileUploadButtonText"  type="button" value="上传文件">
+                                                <input :class="{'file-upload-submit': true, 'display': !fileUploadDisplay}" type="submit" value="上传文件">
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </li>
+
+                    </div>
+
+                    <div class="file-select-item">
+
+                        <div class="share-title">文件分类:
+
+                            <li data-v-0ef69fa0 class="flex-start">
+                                <div data-v-0ef69fa0 class="list-content">
+                                    <span class="not-select-tag">考研</span><span class="not-select-tag">考试</span><span class="not-select-tag">论文</span><span
+                                        class="not-select-tag">考公</span><span class="not-select-tag">四六级</span><span class="select-tag">其他</span>
+                                </div>
+                            </li>
+
+                        </div>
+                    </div>
+
+                    <li data-v-0ef69fa0 style="margin-top: 10px;">
+
+                        <div data-v-0ef69fa0 class="content">
+
+                            <div data-v-0ef69fa0 class="btn-wrap">
+                                <a data-v-0ef69fa0 href="javascript:;"  class="file-upload-submit">
+                                    确认分享
+                                </a>
+                            </div>
+                        </div>
+                    </li>
+
+                </ul>
+            </div>
+        </div>
+    </div>
+
+</div>

@@ -42,7 +42,7 @@ public class FileStoreController {
      */
     @RequestMapping(value = "download", method = RequestMethod.GET)
     @ResponseBody
-    public ServerResponse download(String file, HttpSession session, HttpServletRequest request, HttpServletResponse response){
+    public ServerResponse download(String file, String orderNo, HttpSession session, HttpServletRequest request, HttpServletResponse response){
 
         User user = (User)session.getAttribute(Const.CURRENT_USER);
 
@@ -54,7 +54,7 @@ public class FileStoreController {
             return ServerResponse.createByErrorMessage("不是店主，无法访问此文件");
         }
 
-        ServerResponse serverResponse = iOrderService.checkOrderHasFile(user.getId(), file);
+        ServerResponse serverResponse = iOrderService.checkOrderHasFileForBackend(user.getId(), file);
 
         if ( !serverResponse.isSuccess() ){
             return serverResponse;
@@ -65,7 +65,7 @@ public class FileStoreController {
         ServerResponse result = null;
 
         try {
-            result = iFileService.backendDownload(path, file, response);
+            result = iFileService.backendDownload(path, file, orderNo,  response);
         } catch (UnsupportedEncodingException e) {
             log.error(" 文件名编码失败 ");
         }

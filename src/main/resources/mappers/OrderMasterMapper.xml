@@ -222,5 +222,18 @@
     order by create_time desc
   </select>
 
+  <select id="checkByOrderNoAndShopId" resultMap="BaseResultMap" parameterType="map">
+    SELECT
+    <include refid="Base_Column_List"/>
+    from order_master
+    where order_no = #{orderNo}
+    and shop_id = #{shopId}
+  </select>
+
+  <update id="updateOrderStatusAndGetKeyByPrimaryKey" parameterType="com.wrq.pojo.OrderMaster">
+    update order_master
+    set order_status = #{orderStatus,jdbcType=INTEGER}, get_key = #{getKey,jdbcType=VARCHAR}
+    where order_no = #{orderNo,jdbcType=VARCHAR}
+  </update>
 
 </mapper>
