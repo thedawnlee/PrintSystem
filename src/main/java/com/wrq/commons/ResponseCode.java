@@ -10,6 +10,7 @@ public enum  ResponseCode {
     NEED_LOGON_FOR_USER_INFO(10, "登陆后即可查看个人中心"),
     NEED_LOGON_FOR_ORDER_DETAIL_INFO(10, "登陆后即可查看订单详情"),
     NEED_LOGON_FOR_ORDER_LIST(10, "登陆后即可查看订单列表"),
+    NEED_LOGON_FOR_SHARE(10, "登陆后即可进行资料分享"),
     ;
 
     private  final  int code;

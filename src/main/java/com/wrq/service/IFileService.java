@@ -20,4 +20,6 @@ public interface IFileService {
 
     ServerResponse getFileList(Integer userId,Integer pageNum, Integer pageSize);
 
+    ServerResponse getNotShareFileList(Integer userId);
+
 }

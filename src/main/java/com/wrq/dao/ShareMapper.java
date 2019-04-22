@@ -2,6 +2,8 @@ package com.wrq.dao;
 
 import com.wrq.pojo.Share;
 
+import java.util.List;
+
 public interface ShareMapper {
     int deleteByPrimaryKey(Integer id);
 
@@ -14,4 +16,6 @@ public interface ShareMapper {
     int updateByPrimaryKeySelective(Share record);
 
     int updateByPrimaryKey(Share record);
+
+    List<Share> selectShareList();
 }

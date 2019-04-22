@@ -3,7 +3,6 @@ package com.wrq.service.impl;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.google.common.collect.Lists;
-import com.google.zxing.common.StringUtils;
 import com.wrq.commons.ServerResponse;
 import com.wrq.config.ParameterConfig;
 import com.wrq.dao.*;
@@ -18,13 +17,13 @@ import com.wrq.utils.TencentMsgUtil;
 import com.wrq.vo.OrderListVo;
 import com.wrq.vo.OrderVo;
 import com.wrq.vo.OrderVoList;
-import com.wrq.vo.ShopVo;
 import com.wrq.vo.backend.BackendOrderListVo;
 import com.wrq.vo.backend.BackendOrderVo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -475,6 +474,7 @@ public class OrderServiceImpl implements IOrderService {
      * @return
      */
     @Override
+    @Transactional
     public ServerResponse noticePackingForBackend( User user,  String getKey ,String orderNo ) {
 
         String shopAddress;
@@ -511,7 +511,7 @@ public class OrderServiceImpl implements IOrderService {
 
         String buyerPhone = order.getBuyerPhone();
 
-        if ( order.getGetKey() != null && !order.getGetKey().equals("") ){
+        if ( !StringUtils.isEmpty(order.getGetKey()) ){
             return ServerResponse.createByErrorMessage("当前订单已经设置过取货码，请刷新订单详情页面。");
         }
         /* 3. 存储取货码,更改订单状态 */

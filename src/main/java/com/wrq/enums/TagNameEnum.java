@@ -9,12 +9,12 @@ import lombok.Getter;
 public enum TagNameEnum implements CodeEnum{
 
 
-    TAG_OTHERS(0,"已取消"), /* 未支付，用户点击取消订单 */
-    TAG_POSTGRADUATE(1,"未支付"),
-    TAG_EXAMINATION(2,"已付款"),
-    TAG_PAPER(3,"待取货"),
-    TAG_CIVIL_SERVANT(4,"店主拒绝"),
-    TAG_CET(5,"订单完结");
+    TAG_OTHERS(0,"其它"), /* 未支付，用户点击取消订单 */
+    TAG_POSTGRADUATE(1,"考研"),
+    TAG_EXAMINATION(2,"考试"),
+    TAG_PAPER(3,"论文"),
+    TAG_CIVIL_SERVANT(4,"考公"),
+    TAG_CET(5,"四六级");
 
     /* 状态码 */
     private Integer code;

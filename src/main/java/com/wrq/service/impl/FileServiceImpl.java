@@ -270,6 +270,13 @@ public class FileServiceImpl implements IFileService {
         }
     }
 
+    /**
+     * 根据用户id 获取用的文件列表，分页显示
+     * @param userId
+     * @param pageNum
+     * @param pageSize
+     * @return
+     */
     @Override
     public ServerResponse getFileList(Integer userId, Integer pageNum, Integer pageSize) {
 
@@ -284,6 +291,18 @@ public class FileServiceImpl implements IFileService {
         pageResult.setList(result);
 
         return ServerResponse.createBySuccess(pageResult);
+    }
+
+    @Override
+    public ServerResponse getNotShareFileList(Integer userId) {
+
+        List<com.wrq.pojo.File> fileList = fileMapper.selectNotShareFileByUserId(userId);
+
+        if ( fileList.size() == 0 ){
+            return ServerResponse.createByErrorMessage("当前用户还未上传过文件，请选择自行上传！");
+        }
+
+        return ServerResponse.createBySuccess(fileList);
     }
 
     /**

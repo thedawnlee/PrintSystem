@@ -23,4 +23,8 @@ public interface FileMapper {
     File selectFileByUserIdFileNewName(@Param(value = "userId") Integer userId, @Param(value = "fileName") String fileName);
 
     File selectFileByFileNewName(String fileName);
+
+    List<File> selectNotShareFileByUserId(Integer userId);
+
+    int updateFileScoreAndStatus(@Param(value = "fileId") Integer fileId, @Param(value = "score") Integer score);
 }

@@ -186,4 +186,20 @@
     where new_name = #{fileName,jdbcType=INTEGER}
   </select>
 
+  <select id="selectNotShareFileByUserId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from file
+    where user_id = #{userId} and share = 0 order by create_time desc
+  </select>
+
+  <update id="updateFileScoreAndStatus" parameterType="com.wrq.pojo.File">
+    update file
+    set
+    share = 1,
+    integral = #{score},
+    update_time = now()
+    where id = #{fileId,jdbcType=INTEGER}
+  </update>
+
 </mapper>

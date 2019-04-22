@@ -5,7 +5,7 @@ var vue = new Vue({
     el: "#pay",
     data: {
         orderNo: null,
-        qrUrl: "http://image.qian.com/loading.gif",
+        qrUrl: util.getImgHost() + "loading.gif",
         getQr: true,
         paymentTimer: null,
         paySuccess: true

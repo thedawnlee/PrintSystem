@@ -8,6 +8,7 @@ import com.wrq.service.IOrderService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -102,7 +103,9 @@ public class OrderStoreController {
 
         log.info(" 请求 notice.do 接口，getKey = {}, orderNo = {} ",getKey, orderNo);
 
-        if ( getKey == null || getKey.equals("") ){
+
+
+        if (  !StringUtils.isEmpty(getKey) ){
             log.info("取货码为空");
             return ServerResponse.createByErrorMessage("请输入取货码后再进行通知！");
         }

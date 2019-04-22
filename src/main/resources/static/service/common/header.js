@@ -39,16 +39,16 @@ var vue = new Vue({
             this.isShow = !this.isShow;
         },
         handleUserCenterClick: function () {
-            localStorage.nav = "userCenter";
             location.href = "/user/info";
         },
         handleOrderClick: function () {
-            localStorage.nav = "userCenter";
             location.href = "/order/info";
         },
         handleIndexCenterClick: function () {
-            localStorage.nav = "select";
             location.href = "/index";
+        },
+        handleShareClick: function () {
+            location.href = "/share/list";
         },
         handleLoginOut: function () {
             this.$http.post('/user/logout.do',{emulateJSON:true}).then(this.outSuccessCallback, this.errorCallback)
@@ -57,7 +57,6 @@ var vue = new Vue({
             res = res.body;
             if( res.status == 0){
                 window.location.href = '/index';
-                console.log(res.data)
             }else {
                 util.errorTips( res.msg )
             }

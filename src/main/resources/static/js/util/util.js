@@ -3,6 +3,9 @@
  */
 var util = {
 
+    getImgHost: function () {
+        return "http://image.qian.com/";
+    },
     getHost: function(){
         return "localhost:8083";
     },
@@ -61,5 +64,5 @@ var util = {
         } else {
             return false;
         }
-    },
+    }
 }

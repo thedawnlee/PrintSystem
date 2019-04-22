@@ -198,4 +198,14 @@
       update_time = now()
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+  <select id="selectShareList" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List"/>
+    from share
+    where is_delete = 0
+    order by create_time desc
+  </select>
+
+
 </mapper>

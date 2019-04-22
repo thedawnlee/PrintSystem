@@ -4,15 +4,20 @@
 var vue = new Vue({
     el: "#share",
     data: {
+        createSuccess: true,
         fileUploadDisplay: false,/* 未选择文件时候，上传不能点击 */
-        fileText: "点击浏览本地文件", /* 控制选择上传文件的样式 */
+        fileText: "请选择需要分享的文件", /* 控制选择上传文件的样式 */
         fileName: "", /* 控制选择上传文件的样式 */
         file: '',
         isUpload: false, /* 是否上传？ */
         filePageCount: null,
         fileNewName: null,
         fileId: null,
-        tagValue: 0,
+        desc: "",
+        list: "",
+        title: "",
+        tagValue: 1,
+        richText: "",
         uploadFile: true, /* true 代表当前上传文件为true 而不是我的文件 */
     },
     methods: {
@@ -72,6 +77,39 @@ var vue = new Vue({
                 util.errorTips( res.msg );
             }
         },
+        editorFunction: function () {
+
+            var _this = this;
+
+            var options = ['code', '|', 'bold', 'italic', 'underline', 'strikethrough', 'forecolor', 'backcolor', 'removeformat',
+                '|', 'quotes', 'fontname', 'fontsize', 'heading', 'indent', 'outdent',
+                'insertorderedlist', 'insertunorderedlist', 'justifyleft', 'justifycenter', 'justifyright', 'justifyfull', '|',
+                'createlink', 'insertimage', 'insertvideo', 'insertcode'
+            ];
+            var editorItem = Edit.getEditor('editorItem', {
+                // toolbars: options,
+                focus: true,
+                events: {
+                    contentchange: function(editor) {
+                        _this.richText = editor.getPlainTxt();
+                    },
+                },
+                resize: true
+            })
+        },
+        getUserFileList: function () {
+            this.$http.get('/file/not_share.do').then(function ( res ) {
+                res = res.body;
+                if( res.data && res.status == 0){
+                    this.list = res.data;
+                }else {
+                    util.errorTips( res.msg );
+                    this.uploadFile = true;
+                }
+            }, function () {
+                util.errorTips( "获取个人文件信息失败" );
+            })
+        },
         fileUploadErrorCallback: function () {
             util.errorTips( "发生错误, 请选择文件重新上传！" );
         },
@@ -79,24 +117,52 @@ var vue = new Vue({
             this.uploadFile = true
         },
         selectMyFile: function () {
+            this.getUserFileList();
+
             this.uploadFile = false
+        },
+        handleFileChange: function (event){
+            this.fileId = parseInt(event.target.value);
+        },
+        handleTagClick: function ( event, value ) {
+            this.$refs.tag.querySelectorAll(".select-tag")[0].className = "not-select-tag";
+            event.currentTarget.className = "select-tag";
+            this.tagValue = value;
+        },
+        handleSubmitClick: function () {
+
+            if ( (this.title) != null & (this.desc) != null & (this.richText) != null & (this.tagValue) != null & (this.fileId) != null){
+
+                this.$http.post('/share/create', {
+                    title: this.title,
+                    desc: this.desc,
+                    richText: this.richText,
+                    tagValue: parseInt(this.tagValue),
+                    fileId: parseInt(this.fileId)
+                }, {emulateJSON:true}).then(function ( res ) {
+                    res = res.data;
+                    if( res.status == 0){
+                        this.createSuccess = false
+                    }else {
+                        util.errorTips( res.msg );
+                    }
+                }, function () {
+                    util.errorTips( "提交分享时出现错误！" );
+                })
+
+            }else {
+                util.errorTips(" 请选择或者填写完整，再进行提交！ ");
+            }
+
         },
         handleBackIndex: function () {
             location.href = "/index";
-        }
-    },
-    filters: {
-
-        getKeyFilter: function ( value ) {
-
-            if ( value == null ){
-                return ""
-            }else {
-                return "取货码：" + value;
-            }
-
+        },
+        handleShareIndex: function () {
+            alert("前去逛逛！");
         }
     },
     mounted: function () {
+        this.editorFunction();
     }
 });
