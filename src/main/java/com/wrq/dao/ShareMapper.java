@@ -18,4 +18,9 @@ public interface ShareMapper {
     int updateByPrimaryKey(Share record);
 
     List<Share> selectShareList();
+
+    Share selectByPrimaryKeyAndNotDelete(Integer id);
+
+    int addViewNumByShareId(Integer id);
+
 }

@@ -207,5 +207,20 @@
     order by create_time desc
   </select>
 
+  <select id="selectByPrimaryKeyAndNotDelete" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from share
+    where id = #{id,jdbcType=INTEGER} and is_delete = 0
+  </select>
+
+  <update id="addViewNumByShareId" parameterType="com.wrq.pojo.Share">
+    update share
+    set
+    view_num = view_num + 1,
+    update_time = now()
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
 
 </mapper>

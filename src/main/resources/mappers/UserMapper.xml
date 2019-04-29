@@ -232,4 +232,13 @@
     <!--and id !=#{userId}-->
   <!--</select>-->
 
+  <update id="updateByPrimaryKeyAndIntegral" parameterType="com.wrq.pojo.User">
+    update user
+    set
+    integral = #{integral,jdbcType=VARCHAR},
+    update_time = now()
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+
 </mapper>

@@ -80,18 +80,6 @@ var vue = new Vue({
         handleShareClick: function ( value ) {
             console.log("点击去分享:", value)
         },
-        handleDownloadClick: function ( value ) {
-            this.$http.get('/file/download', {params: {file: value }}).then(function ( res ) {
-                res = res.body;
-                if( res.data && res.status == 0){
-                   console.log( res.data )
-                }else {
-                    util.errorTips( res.msg );
-                }
-            }, function () {
-                util.errorTips( "下载文件失败" );
-            });
-        },
         handleUserClick: function () {
             this.showValueItem("user");
         },

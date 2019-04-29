@@ -7,9 +7,13 @@ public class Score {
 
     private Integer userId;
 
+    private Integer ownerId;
+
+    private Integer integral;
+
     private Integer shareId;
 
-    private Integer status;
+    private String fileNewName;
 
     private Date createTime;
 
@@ -17,14 +21,16 @@ public class Score {
 
     private Integer lookOver;
 
-    public Score(Integer id, Integer userId, Integer shareId, Integer status, Date createTime, Date updateTime, Integer lookOver) {
+    public Score(Integer id, Integer userId, Integer ownerId, Integer integral, Integer shareId,String fileNewName, Date createTime, Date updateTime, Integer lookOver) {
         this.id = id;
         this.userId = userId;
         this.shareId = shareId;
-        this.status = status;
         this.createTime = createTime;
         this.updateTime = updateTime;
         this.lookOver = lookOver;
+        this.ownerId = ownerId;
+        this.integral = integral;
+        this.fileNewName = fileNewName;
     }
 
     public Score() {
@@ -55,14 +61,6 @@ public class Score {
         this.shareId = shareId;
     }
 
-    public Integer getStatus() {
-        return status;
-    }
-
-    public void setStatus(Integer status) {
-        this.status = status;
-    }
-
     public Date getCreateTime() {
         return createTime;
     }
@@ -85,5 +83,29 @@ public class Score {
 
     public void setLookOver(Integer lookOver) {
         this.lookOver = lookOver;
+    }
+
+    public Integer getOwnerId() {
+        return ownerId;
+    }
+
+    public void setOwnerId(Integer ownerId) {
+        this.ownerId = ownerId;
+    }
+
+    public Integer getIntegral() {
+        return integral;
+    }
+
+    public void setIntegral(Integer integral) {
+        this.integral = integral;
+    }
+
+    public String getFileNewName() {
+        return fileNewName;
+    }
+
+    public void setFileNewName(String fileNewName) {
+        this.fileNewName = fileNewName;
     }
 }

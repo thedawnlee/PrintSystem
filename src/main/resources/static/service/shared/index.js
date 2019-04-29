@@ -35,14 +35,14 @@ var vue = new Vue({
                     util.errorTips( res.msg )
                 }
             }, function () {
-                
+                util.errorTips("获取列表失败！")
             })
         },
         handleGoShareCLick: function () {
             location.href = "/share/create";
         },
         handleShareDetail: function ( value ){
-            alert(value);
+            location.href = "/share/detail/" + value;
         }
     },
     filters: {

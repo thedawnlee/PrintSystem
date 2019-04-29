@@ -123,7 +123,7 @@ public class FileServiceImpl implements IFileService {
 
 
     /**
-     * 文件下载
+     * 用户文件列表 文件下载
      * @param path upload的文件夹
      * @param file 文件UUID名字
      * @param userId 请求下载的用户
@@ -150,6 +150,15 @@ public class FileServiceImpl implements IFileService {
     }
 
 
+    /**
+     * 后台点击进行下载文件
+     * @param path
+     * @param file
+     * @param orderNo
+     * @param response
+     * @return
+     * @throws UnsupportedEncodingException
+     */
     public ServerResponse backendDownload(String path, String file,String orderNo, HttpServletResponse response) throws UnsupportedEncodingException {
 
         /* 进行下载 */
@@ -163,6 +172,28 @@ public class FileServiceImpl implements IFileService {
         }
 
         return ServerResponse.createBySuccess();
+    }
+
+    /**
+     * 分享 扣除积分后进行下载
+     * @param path
+     * @param file
+     * @param viewName
+     * @param response
+     * @return
+     * @throws UnsupportedEncodingException
+     */
+    @Override
+    public ServerResponse shareDownload(String path, String file, String viewName, HttpServletResponse response) throws UnsupportedEncodingException {
+
+        ServerResponse download = download(path, file, response, viewName);
+
+        if ( !download.isSuccess() ){
+            return ServerResponse.createByErrorMessage("下载失败");
+        }
+
+        return ServerResponse.createBySuccess();
+
     }
 
 
@@ -208,7 +239,7 @@ public class FileServiceImpl implements IFileService {
                     i = bis.read(buffer);
                 }
 
-                return ServerResponse.createByErrorMessage("下载失败");
+                return ServerResponse.createBySuccess("下载成功");
 
             } catch (Exception e) {
                 log.error("文件下载失败");
@@ -233,7 +264,7 @@ public class FileServiceImpl implements IFileService {
             }
         }
 
-        return ServerResponse.createBySuccess();
+        return ServerResponse.createByErrorMessage("下载失败");
     }
 
     /**

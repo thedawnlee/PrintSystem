@@ -18,6 +18,7 @@ var vue = new Vue({
         title: "",
         tagValue: 1,
         richText: "",
+        editorItem: null,
         uploadFile: true, /* true 代表当前上传文件为true 而不是我的文件 */
     },
     methods: {
@@ -86,12 +87,13 @@ var vue = new Vue({
                 'insertorderedlist', 'insertunorderedlist', 'justifyleft', 'justifycenter', 'justifyright', 'justifyfull', '|',
                 'createlink', 'insertimage', 'insertvideo', 'insertcode'
             ];
-            var editorItem = Edit.getEditor('editorItem', {
+
+            this.editorItem = Edit.getEditor('editorItem', {
                 // toolbars: options,
                 focus: true,
                 events: {
                     contentchange: function(editor) {
-                        _this.richText = editor.getPlainTxt();
+                        _this.richText = _this.editorItem.getContent();
                     },
                 },
                 resize: true
@@ -159,7 +161,7 @@ var vue = new Vue({
             location.href = "/index";
         },
         handleShareIndex: function () {
-            alert("前去逛逛！");
+            location.href = "/share/list";
         }
     },
     mounted: function () {
