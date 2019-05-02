@@ -14,7 +14,7 @@
                     <a :href=" '/file/download?file=' +item.fileNewName ">
                      <div data-v-e4d24c94   class="ui-btn white-btn">下载</div>
                     </a>
-                    <div data-v-e4d24c94 @click="handleShareClick(item.share)" class="ui-btn white-btn">{{item.share | fileShareButtonFilter}}</div>
+                    <div data-v-e4d24c94 @click="handleShareClick(item.fileId)" class="ui-btn white-btn">{{item.share | fileShareButtonFilter}}</div>
                 </div>
             </li>
         </ul>
@@ -22,7 +22,9 @@
                                                                alt="none">
             <p data-v-360910dd>暂无文件</p>
         </div>
-
+        <button data-v-637a7fc8 @click="handleMoreBtnClick" class="next-page-btn ui-btn orange-btn" :class="{'is-hidden': size==total}">
+            加载更多
+        </button>
         <div data-v-e4d24c94 class="bottom-paging"></div>
     </div>
 </div>

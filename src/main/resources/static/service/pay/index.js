@@ -59,6 +59,9 @@ var vue = new Vue({
         },
         handleGoIndex: function () {
             window.location.href = '/index';
+        },
+        handleGoShareClick: function () {
+            location.href = "/share/create";
         }
     },
     mounted: function () {

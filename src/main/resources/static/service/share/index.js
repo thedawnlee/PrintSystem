@@ -166,5 +166,14 @@ var vue = new Vue({
     },
     mounted: function () {
         this.editorFunction();
+    },
+    created: function () {
+        var fileId = util.getUrlParam("file");
+        console.log(fileId)
+        if ( fileId != null ){
+            this.selectMyFile();
+            console.log(fileId)
+            this.fileId = fileId;
+        }
     }
 });

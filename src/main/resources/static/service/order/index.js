@@ -10,7 +10,6 @@ var vue = new Vue({
         payMethods: true,
         paymentTimer: null,
         paySuccess: true,
-        displayButton: "支付"
     },
     methods: {
         pay: function () {
@@ -65,35 +64,55 @@ var vue = new Vue({
         },
         handleGoBackClick: function () {
             window.location.href = "/order/info";
+        },
+        handleGoShareClick: function () {
+            location.href = "/share/create";
+        },
+        closeOrder: function () {
+            this.$http.get('/order/close', {params: { orderNo: this.orderNo }}).then(function ( res ) {
+                res = res.body;
+                if( res.status == 0 ){
+                    alert("更改订单状态成功！");
+                }else {
+                    util.errorTips( res.msg )
+                }
+
+            }, function () {
+                util.errorTips(" 关闭订单失败！ ");
+            });
+        },
+        handleCloseOrderClick: function () {
+            this.closeOrder();
+        },
+        handleGetKeyClick: function () {
+            this.$http.get('/order/get_key.do', {params: {orderNo: this.orderNo }}).then(function ( res ) {
+
+                res = res.body;
+                if( res.data && res.status == 0){
+
+                    console.log(res.data)
+
+                    var getKey = res.data.getKey;
+                    var shopName = res.data.shopName;
+                    var shopOwnerPhone = res.data.shopOwnerPhone;
+                    var shopAddress = res.data.shopAddress;
+                    var closeTime = res.data.closeTime;
+
+                    alert (shopName + "已完成文件打印，取货码为：" + getKey + "，请在 " + closeTime + " 之前到 " + shopAddress + " 进行取货，如果有任何疑问请联系店主："+ shopOwnerPhone + "");
+
+                }else {
+                    util.errorTips( res.msg )
+                }
+
+            }, function () {
+                util.errorTips(" 获取取货码失败！ ");
+            });
+        },
+        handleRefundClick: function () {
+
         }
     },
     mounted: function () {
         this.orderNo = this.$refs.orderNoRef.value.trim();
-        this.orderStatus = this.$refs.orderStatusRef.value.trim();
-
-        switch (this.orderStatus) {
-            case "未支付":
-                this.displayButton = "确认支付";
-                break;
-            case "已付款":
-                this.displayButton = "我要退款";
-                break;
-            case "待取货":
-                this.displayButton = "取货码";
-                break;
-            case "店主拒绝":
-                this.displayButton = "";
-                break;
-            case "订单完结":
-                this.displayButton = "关闭订单";
-                break;
-            case "订单关闭":
-                this.displayButton = "";
-                break;
-            case "已取消":
-                this.displayButton = "";
-                break;
-        }
-
     }
-})
+});

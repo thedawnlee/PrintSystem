@@ -90,6 +90,9 @@ var vue = new Vue({
                 util.errorTips("此店已经打烊啦~")
             }
 
+        },
+        handleOrderClick: function () {
+            window.location.href = "/order/info";
         }
     },
     filters: {

@@ -19,7 +19,7 @@ var vue = new Vue({
                     util.errorTips( res.msg )
                 }
             }, function () {
-
+                util.errorTips("兑换文件时出现了错误，请稍后再试")
             })
         },
         handleDownloadClick: function ( value ) {

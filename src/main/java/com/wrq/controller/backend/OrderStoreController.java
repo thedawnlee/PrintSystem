@@ -105,7 +105,7 @@ public class OrderStoreController {
 
 
 
-        if (  !StringUtils.isEmpty(getKey) ){
+        if (  StringUtils.isEmpty(getKey) ){
             log.info("取货码为空");
             return ServerResponse.createByErrorMessage("请输入取货码后再进行通知！");
         }

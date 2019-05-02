@@ -1433,3 +1433,8 @@ a:hover {
 	width: 100%;
 	max-width: 100%
 }
+.display-important {
+
+	display: block !important;
+
+}

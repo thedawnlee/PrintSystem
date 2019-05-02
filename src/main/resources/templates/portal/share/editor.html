@@ -41,7 +41,7 @@
                                 <div class="share-history">请选择历史上传过的文件:</div>
                                 <div class="file-size-wrapper">
                                     <select name="file_size" v-model="fileId" data-v-0ef69fa0 class="input" @change="handleFileChange($event)">
-                                        <option :value="item.id" v-for="(item, index) in list" :key="item.id">{{item.fileName}}</option>
+                                        <option :select="item.id == fileId" :value="item.id" v-for="(item, index) in list" :key="item.id">{{item.fileName}}</option>
                                     </select>
                                     <span data-v-0ef69fa0 class="file-size-tag">﹀</span>
                                 </div>

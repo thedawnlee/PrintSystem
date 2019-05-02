@@ -1,4 +1,5 @@
-<div data-v-637a7fc8 class="content" id="content">
+<div id="content">
+<div data-v-637a7fc8 class="content">
     <div data-v-637a7fc8 class="main-title"><span data-v-637a7fc8>店铺</span>
         <div @click="handleOrderClick" data-v-637a7fc8 class="ui-btn white-btn"><i data-v-637a7fc8 class="iconfont"></i>
             我的订单
@@ -83,8 +84,11 @@
     </ul>
 </div>
 
-<button data-v-637a7fc8 class="next-page-btn ui-btn orange-btn">
+<button data-v-637a7fc8 @click="handleMoreClick" :class="{'is-hidden': size==total}" class="next-page-btn ui-btn orange-btn">
     加载更多
 </button>
+
+</div>
+
 <!--引入js-->
 <script src="${basePath}/service/index/index.js"></script>

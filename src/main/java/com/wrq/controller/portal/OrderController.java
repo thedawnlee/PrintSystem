@@ -244,5 +244,42 @@ public class OrderController {
         }
     }
 
+    /**
+     * 订单 详情页，点击 取货码
+     * @param orderNo
+     * @param session
+     * @return
+     */
+    @RequestMapping(value = "get_key.do",method = RequestMethod.GET)
+    @ResponseBody
+    public ServerResponse getKey(String orderNo, HttpSession session){
+
+        User user = (User)session.getAttribute(Const.CURRENT_USER);
+
+        if(user != null){
+            return iOrderService.getOrderFileKey(orderNo);
+        }
+        return  ServerResponse.createByErrorMessage("用户未登录，无法获取当前用户信息");
+    }
+
+    /**
+     * 关闭订单
+     * @param orderNo
+     * @param session
+     * @return
+     */
+    @RequestMapping(value = "close",method = RequestMethod.GET)
+    @ResponseBody
+    public ServerResponse close(String orderNo, HttpSession session){
+
+        User user = (User)session.getAttribute(Const.CURRENT_USER);
+
+        if(user != null){
+            return iOrderService.closeOrder(orderNo);
+        }
+        return  ServerResponse.createByErrorMessage("用户未登录，无法获取当前用户信息");
+    }
+
+
 
 }

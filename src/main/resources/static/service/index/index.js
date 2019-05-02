@@ -15,12 +15,14 @@ var vue = new Vue({
         navigatepageNums: [],
         imageList: [],
         total: null,
+        size: null,
         shopId: "",
         currentPageNum: 1,
-        currentPageSize: 5,
+        currentPageSize: 3,
         creditSelected: true,
         dealSelected: false,
-        allSelected: false
+        allSelected: false,
+        sortType: "credit"
     },
     methods: {
         getAllShopList: function ( pageNum, pageSize ) {
@@ -39,6 +41,7 @@ var vue = new Vue({
                 this.isFirstPage = res.data.isFirstPage;
                 this.isLastPage = res.data.isLastPage;
                 this.total = res.data.total;
+                this.size = res.data.size;
                 this.pages = res.data.pages;
                 this.navigatepageNums = res.data.navigatepageNums;
             }else {
@@ -55,28 +58,43 @@ var vue = new Vue({
             this.creditSelected = true;
             this.dealSelected= false;
             this.allSelected= false;
+            this.sortType = "credit";
             this.getShopList(this.currentPageNum, this.currentPageSize, "credit");
         },
         handleDealClick: function () {
             this.creditSelected = false;
             this.dealSelected= true;
             this.allSelected= false;
+            this.sortType = "deal_num";
             this.getShopList(this.currentPageNum, this.currentPageSize, "deal_num");
         },
         handleAllClick: function () {
             this.creditSelected = false;
             this.dealSelected= false;
             this.allSelected= true;
+            this.sortType = "all";
             this.getAllShopList(this.currentPageNum, this.currentPageSize);
+        },
+        handleMoreClick: function () {
+
+            if (  this.sortType == "all" ){
+                this.getAllShopList(1, this.size + 3);
+            }else {
+                this.getShopList(1, this.size + 3, this.sortType);
+            }
+
+
         }
     },
     filters: {
         onService: function ( value ) {
+
             if (value != "-1"){
                 return value + "元";
             }else {
                 return "无此服务";
             }
+
         },
         shopStatusFilter: function ( value ) {
 

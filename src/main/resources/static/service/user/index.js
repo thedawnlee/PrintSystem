@@ -19,9 +19,11 @@ var vue = new Vue({
         username: "",
         list: [],
         total: null,
+        size: null,
         noOrder: true, /* 如果没有订单，控制显示 无订单 的提示图片 */
         noIntegral: true,/* 如果没有积分，控制显示 无交易 的提示图片 */
-        noFile: true
+        noFile: true,
+        showMore: true
     },
     methods: {
         getUserInfo: function () {
@@ -48,6 +50,7 @@ var vue = new Vue({
                 if( res.data && res.status == 0){
                     this.list = res.data.list;
                     this.total = res.data.total;
+                    this.size = res.data.size;
                     if ( (res.data.total) == 0) {
                         this.noOrder = false;
                     }
@@ -65,6 +68,28 @@ var vue = new Vue({
                 if( res.data && res.status == 0){
                     this.list = res.data.list;
                     this.total = res.data.total;
+                    this.size = res.data.size;
+                    if ( this.total == 0 ){
+                        this.noFile = false
+                    }
+                }else {
+                    util.errorTips( res.msg );
+                }
+            }, function () {
+                util.errorTips( "获取订单信息失败" );
+            })
+        },
+        getIntegralInfo: function (pageNum, pageSize) {
+            this.$http.get('/score/get_score_list.do', {params: {pageNum: pageNum, pageSize: pageSize}}).then(function ( res ) {
+                res = res.body;
+                if( res.data && res.status == 0){
+                    console.log(res.data)
+                    this.list = res.data.list;
+                    this.total = res.data.total;
+                    this.size = res.data.size;
+                    if ( this.total == 0 ){
+                        this.noIntegral = false
+                    }
                 }else {
                     util.errorTips( res.msg );
                 }
@@ -78,6 +103,7 @@ var vue = new Vue({
 
         },
         handleShareClick: function ( value ) {
+            location.href = "/share/create?file=" + value;
             console.log("点击去分享:", value)
         },
         handleUserClick: function () {
@@ -95,10 +121,12 @@ var vue = new Vue({
             this.showValueItem("account");
         },
         handleIntegralSelect: function () {
-            this.orderDeal = false
+            this.orderDeal = false;
+            this.getIntegralInfo(1, 5);
         },
         handleOrderSelect: function () {
             this.orderDeal = true
+            this.getDealOrderInfo(1, 5);
         },
         showValueItem: function ( value ) {
             if ( value == "user" ) {
@@ -124,6 +152,23 @@ var vue = new Vue({
             this.accountItem = true;
             this.userItem = true;
         },
+        handleMoreBtnClick: function () {
+
+
+            if ( !this.fileItem ){
+                console.log( " fileItem ")
+                this.getFileInfo(1, this.size + 5);
+            }else if ( !this.dealItem ){
+                if (  this.orderDeal ){
+                    console.log( " orderDeal ")
+                    this.getDealOrderInfo(1, this.size + 5);
+                }else {
+                    console.log( " inter ")
+                    this.getIntegralInfo(1, this.size + 5);
+                }
+            }
+
+        }
     },
     filters: {
         getKeyFilter: function ( value ) {
@@ -174,7 +219,7 @@ var vue = new Vue({
             if ( value == "0" ){
                 return "分享"
             }else {
-                return "取消分享"
+                return "取消"
             }
 
         },

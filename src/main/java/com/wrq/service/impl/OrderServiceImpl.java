@@ -14,6 +14,7 @@ import com.wrq.service.IOrderService;
 import com.wrq.utils.EnumUtil;
 import com.wrq.utils.KeyUtil;
 import com.wrq.utils.TencentMsgUtil;
+import com.wrq.vo.GetKeyVo;
 import com.wrq.vo.OrderListVo;
 import com.wrq.vo.OrderVo;
 import com.wrq.vo.OrderVoList;
@@ -40,6 +41,9 @@ public class OrderServiceImpl implements IOrderService {
 
     @Autowired
     private OrderItemMapper orderItemMapper;
+
+    @Autowired
+    private UserMapper userMapper;
 
     @Autowired
     private FileMapper fileMapper;
@@ -551,6 +555,87 @@ public class OrderServiceImpl implements IOrderService {
         }
 
         return ServerResponse.createBySuccess("通知用户成功！");
+    }
+
+    /**
+     * 订单详情页， 点击 取货码，弹出这些
+     * @param orderNo
+     * @return
+     */
+    public ServerResponse getOrderFileKey( String orderNo ){
+
+        OrderMaster orderMaster = orderMasterMapper.selectByPrimaryKey(orderNo);
+
+        if ( orderMaster == null ){
+            return ServerResponse.createByErrorMessage("查询不到此订单！");
+        }
+
+        Integer orderStatus = orderMaster.getOrderStatus();
+
+        if ( orderStatus != OrderStatusEnum.PROCESSING_ORDER.getCode() ){
+            return ServerResponse.createByErrorMessage("订单非「待取货」状态，请核实后查询！");
+        }
+
+        String getKey = orderMaster.getGetKey();
+
+        if ( StringUtils.isEmpty(getKey) ){
+            return ServerResponse.createByErrorMessage("未查询到取货码，请稍后再试");
+        }
+
+        Shop shop = shopMapper.selectByPrimaryKey(orderMaster.getShopId());
+
+        if ( shop == null ){
+
+            return ServerResponse.createByErrorMessage("查询不到下单店铺，请稍后重试！");
+
+        }
+
+        GetKeyVo getKeyVo = new GetKeyVo();
+
+        User user = userMapper.selectByPrimaryKey(shop.getOwnerId());
+
+        if ( user != null){
+            getKeyVo.setShopOwnerPhone(user.getPhone());
+        }
+
+        getKeyVo.setGetKey(orderMaster.getGetKey());
+        getKeyVo.setShopAddress(shop.getShopAddress());
+        getKeyVo.setShopName(shop.getShopName());
+        getKeyVo.setCloseTime(shop.getCloseTime());
+
+        return ServerResponse.createBySuccess(getKeyVo);
+    }
+
+    /**
+     * 关闭订单
+     * @param orderNo
+     * @return
+     */
+    public ServerResponse closeOrder( String orderNo ){
+
+        OrderMaster orderMaster = orderMasterMapper.selectByPrimaryKey(orderNo);
+
+        if ( orderMaster == null ){
+            return ServerResponse.createByErrorMessage("不存在此订单");
+        }
+
+        Integer orderStatus = orderMaster.getOrderStatus();
+
+        if ( orderStatus == OrderStatusEnum.ORDER_CLOSE.getCode()){
+            return ServerResponse.createByErrorMessage("订单已经是关闭状态");
+        }
+
+        if ( orderStatus < OrderStatusEnum.ORDER_REFUSED.getCode()){
+            return ServerResponse.createByErrorMessage("订单状态不正确，无法关闭！");
+        }
+
+        int result = orderMasterMapper.updateOrderStatusByOrderNo(OrderStatusEnum.ORDER_CLOSE.getCode(), orderNo);
+
+        if ( result <= 0 ){
+            return ServerResponse.createByErrorMessage("更新订单状态失败");
+        }
+
+        return ServerResponse.createBySuccess("更新订单成功");
     }
 
 }

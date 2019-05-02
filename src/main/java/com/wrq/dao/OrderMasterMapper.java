@@ -28,4 +28,5 @@ public interface OrderMasterMapper {
 
     int updateOrderStatusAndGetKeyByPrimaryKey(@Param("getKey") String getKey ,@Param("orderStatus") Integer order_status, @Param("orderNo") String orderNo);
 
+    int updateOrderStatusByOrderNo( @Param("orderStatus") Integer order_status, @Param("orderNo") String orderNo );
 }

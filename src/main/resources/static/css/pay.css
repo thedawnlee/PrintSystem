@@ -1,4 +1,6 @@
-
+.not-display{
+	display: none;
+}
 .order .back[data-v-715e15c5] {
 	display: block;
 	font-size: 20px;
