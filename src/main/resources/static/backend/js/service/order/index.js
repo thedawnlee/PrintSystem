@@ -30,8 +30,6 @@ var vue = new Vue({
 
         },
         noticeGetFile: function () {
-            console.log(this.getKey);
-            console.log(this.orderNo);
             this.$http.get("/store/order/notice.do", {params: {getKey: this.getKey, orderNo: this.orderNo}}).then(function ( res ) {
                 res = res.body;
                 if( res.status == 0){

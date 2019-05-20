@@ -14,12 +14,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.*;
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by wangqian on 2019/4/6.
@@ -110,6 +112,11 @@ public class FileController {
         return  ServerResponse.createByErrorMessage("用户未登录，无法获取当前用户信息");
     }
 
+    /**
+     * 创建分享  选择文件，需要没有分享的文件
+     * @param session
+     * @return
+     */
     @RequestMapping(value = "not_share.do",method = RequestMethod.GET)
     @ResponseBody
     public ServerResponse notShareFile(HttpSession session){
@@ -124,5 +131,27 @@ public class FileController {
         return  ServerResponse.createByErrorMessage("用户未登录，无法获取当前用户信息");
     }
 
+
+    /**
+     * 跳转至 个人中心 文件
+     * @param session
+     * @param map
+     * @return
+     */
+    @RequestMapping(value = "info", method = RequestMethod.GET)
+    public ModelAndView user(HttpSession session, Map<String, Object> map ){
+
+        log.info("请求了 /file/info 接口");
+
+        User user = (User)session.getAttribute(Const.CURRENT_USER);
+        if(user == null){
+            map.put("msg", ResponseCode.NEED_LOGON_FOR_FILE_LIST.getDesc());
+            map.put("url", "/file/info" );
+            return new ModelAndView("portal/login" , map);
+        }else {
+            map.put("item", "file");
+            return new ModelAndView("portal/user", map);
+        }
+    }
 
 }

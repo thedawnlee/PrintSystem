@@ -78,6 +78,9 @@ var vue = new Vue({
                 util.errorTips( res.msg );
             }
         },
+        fileUploadErrorCallback: function () {
+            util.errorTips( "发生错误, 请选择文件重新上传！" );
+        },
         editorFunction: function () {
 
             var _this = this;
@@ -111,9 +114,6 @@ var vue = new Vue({
             }, function () {
                 util.errorTips( "获取个人文件信息失败" );
             })
-        },
-        fileUploadErrorCallback: function () {
-            util.errorTips( "发生错误, 请选择文件重新上传！" );
         },
         selectUploadFile: function () {
             this.uploadFile = true
@@ -169,10 +169,8 @@ var vue = new Vue({
     },
     created: function () {
         var fileId = util.getUrlParam("file");
-        console.log(fileId)
         if ( fileId != null ){
             this.selectMyFile();
-            console.log(fileId)
             this.fileId = fileId;
         }
     }

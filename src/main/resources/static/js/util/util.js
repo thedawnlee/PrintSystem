@@ -64,5 +64,10 @@ var util = {
         } else {
             return false;
         }
+    },
+    getImgName: function ( value ) {
+        var index = value .lastIndexOf("\/");
+        value  = value.substring(index + 1, value.length);
+        return value;
     }
 }

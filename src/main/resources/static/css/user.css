@@ -4032,6 +4032,7 @@ svg path[data-v-5f3c376c] {
 }
 
 .account-main[data-v-a5d53ce8] {
+	min-height: 620px;
 	-ms-flex: 1;
 	flex: 1
 }
@@ -6287,7 +6288,7 @@ a.navbar-item[data-v-42b92e2d]:hover {
 
 .right-section[data-v-a1f2b3b6] {
 	background-color: #fff;
-	min-height: 936px;
+	min-height: 620px;
 	border-top-right-radius: 8px;
 	border-bottom-right-radius: 8px;
 	padding-left: 3rem;
@@ -7083,7 +7084,7 @@ a.navbar-item[data-v-42b92e2d]:hover {
 .right-section[data-v-e4d24c94] {
 	box-sizing: border-box;
 	padding: 80px 84px;
-	min-height: 100%;
+	min-height: 620px;
 	background: #fff
 }
 

@@ -14,6 +14,7 @@ import com.wrq.service.IShopService;
 import com.wrq.vo.DetailVo;
 import com.wrq.vo.OtherShopVo;
 import com.wrq.vo.ShopVo;
+import com.wrq.vo.backend.BackendDetailVo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -179,5 +180,35 @@ public class ShopServiceImpl implements IShopService {
         }
         return otherShopList;
     }
+
+
+    /**
+     * 店家端 店铺详情
+     * @param userId
+     * @return
+     */
+    @Override
+    public ServerResponse getShopDetailByUserId(Integer userId) {
+
+        Shop shop = shopMapper.selectShopByUserId(userId);
+
+        if ( shop == null ){
+            return ServerResponse.createByErrorMessage("尚未进行店铺登记，请联系管理员");
+        }
+
+        BackendDetailVo backendDetailVo = new BackendDetailVo();
+
+        backendDetailVo.setAddress(shop.getShopAddress());
+        backendDetailVo.setCloseTime(shop.getCloseTime());
+        backendDetailVo.setContent(shop.getContent());
+        backendDetailVo.setDesc(shop.getShopDescription());
+        backendDetailVo.setMiniImg(paramConfig.getImageHost() + shop.getMiniImg());
+        backendDetailVo.setName(shop.getShopName());
+        backendDetailVo.setMainImg(paramConfig.getImageHost() + shop.getMainImg());
+        backendDetailVo.setWorkTime(shop.getWorkTime());
+
+        return ServerResponse.createBySuccess(backendDetailVo);
+    }
+
 
 }

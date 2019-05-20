@@ -25,7 +25,7 @@ public class TestDiv {
     public void string (){
 
 
-        String message = "1.1545455659545565";
+        String message = "45151-1515-5.png";
 
         String orderNo =  message.substring(message.lastIndexOf(".")+1);
 

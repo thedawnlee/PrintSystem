@@ -15,11 +15,15 @@ public interface IFileService {
 
     ServerResponse<FileVo> upload(MultipartFile file, String path, Integer userId);
 
+    ServerResponse uploadImg(MultipartFile file, String path);
+
     ServerResponse userDownload(String path, String file,Integer userId, HttpServletResponse response) throws UnsupportedEncodingException;
 
     ServerResponse backendDownload(String path, String file, String orderNo, HttpServletResponse response) throws UnsupportedEncodingException;
 
     ServerResponse shareDownload(String path, String file, String viewName, HttpServletResponse response) throws UnsupportedEncodingException;
+
+    ServerResponse download ( String path, String file, HttpServletResponse response, String viewName )throws UnsupportedEncodingException;
 
     ServerResponse getFileList(Integer userId,Integer pageNum, Integer pageSize);
 

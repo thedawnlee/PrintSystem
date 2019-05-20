@@ -52,6 +52,7 @@ var vue = new Vue({
                     this.total = res.data.total;
                     this.size = res.data.size;
                     if ( (res.data.total) == 0) {
+                        this.noIntegral = true;
                         this.noOrder = false;
                     }
                     console.log( res.data )
@@ -88,7 +89,8 @@ var vue = new Vue({
                     this.total = res.data.total;
                     this.size = res.data.size;
                     if ( this.total == 0 ){
-                        this.noIntegral = false
+                        this.noOrder = true;
+                        this.noIntegral = false;
                     }
                 }else {
                     util.errorTips( res.msg );
@@ -104,7 +106,6 @@ var vue = new Vue({
         },
         handleShareClick: function ( value ) {
             location.href = "/share/create?file=" + value;
-            console.log("点击去分享:", value)
         },
         handleUserClick: function () {
             this.showValueItem("user");
@@ -151,6 +152,7 @@ var vue = new Vue({
             this.fileItem = true;
             this.accountItem = true;
             this.userItem = true;
+            this.orderDeal = true;
         },
         handleMoreBtnClick: function () {
 
@@ -168,6 +170,12 @@ var vue = new Vue({
                 }
             }
 
+        },
+        handleShareDetailClick: function ( id ) {
+            location.href = "/share/detail/" + id;
+        },
+        handleDownloadScoreFileClick: function ( id ) {
+            location.href = "/share/download?id=" + id;
         }
     },
     filters: {
@@ -241,7 +249,7 @@ var vue = new Vue({
                 this.showValueItem("user");
                 break;
             case "file":
-                //this.getFileInfo();
+                this.getFileInfo(1, 5);
                 this.showValueItem("file");
                 break;
             case "account":

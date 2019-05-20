@@ -22,4 +22,6 @@ public interface IShopService {
 
     ServerResponse getShopInfoByUserId(Integer userId);
 
+    ServerResponse getShopDetailByUserId(Integer userId);
+
 }

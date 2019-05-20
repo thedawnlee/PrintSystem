@@ -29,6 +29,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.net.URLEncoder;
+import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
@@ -122,6 +123,48 @@ public class FileServiceImpl implements IFileService {
     }
 
 
+    public ServerResponse uploadImg(MultipartFile file, String path){
+
+        String fileName = file.getOriginalFilename();
+
+        //扩展名
+        String fileExtensionName = fileName.substring(fileName.lastIndexOf(".")+1);
+        String uploadFileName = UUID.randomUUID().toString()+"."+fileExtensionName;
+
+        log.info("文件开始上传，上传文件的文件名:{},上传的路径为:{},新文件名为:{}",fileName,path,uploadFileName);
+
+        File fileDir = new File(path);
+
+        if(!fileDir.exists()){
+            fileDir.setWritable(true);
+            fileDir.mkdirs();
+        }
+        File targetFile = new File(path,uploadFileName);
+
+        try {
+
+            // 文件已经上传
+            file.transferTo(targetFile);
+
+            // targetFile上传到FTP服务器,file文件夹
+            FTPUtil.uploadFile(Lists.newArrayList(targetFile), "img");
+
+            // 上传完后，删除upload下面的文件
+            targetFile.delete();
+
+        } catch (IOException e) {
+            log.error("文件上传异常",e);
+            return null;
+        }
+
+        HashMap map = new HashMap();
+
+        map.put("img", uploadFileName);
+
+        return ServerResponse.createBySuccess(map);
+    }
+
+
     /**
      * 用户文件列表 文件下载
      * @param path upload的文件夹
@@ -197,7 +240,7 @@ public class FileServiceImpl implements IFileService {
     }
 
 
-    private ServerResponse download ( String path, String file, HttpServletResponse response, String viewName )throws UnsupportedEncodingException  {
+    public ServerResponse download ( String path, String file, HttpServletResponse response, String viewName )throws UnsupportedEncodingException  {
 
         // 被下载的文件在服务器中的路径
 

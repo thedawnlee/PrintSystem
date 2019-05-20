@@ -19,6 +19,8 @@ public interface IShareService {
 
     ServerResponse prepareForDownload(Integer shareId, User user);
 
+    ServerResponse downloadForUserCenter(String path, Integer id,Integer userId, HttpServletResponse response);
+
     ServerResponse downloadShareByShopId(String path, Integer shareId, User user, HttpServletResponse response);
 
 }

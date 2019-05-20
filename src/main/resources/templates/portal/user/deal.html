@@ -46,8 +46,8 @@
                 </div>
                 <div data-v-e4d24c94 class="update-info">提供者：<span data-v-e4d24c94>{{item.ownerName}}</span> </div>
                 <div data-v-e4d24c94 class="btn-wrapper">
-                    <div data-v-e4d24c94 class="ui-btn white-btn">{{item.shareId}}详情</div>
-                    <div data-v-e4d24c94 class="ui-btn white-btn"><a :href="item.fileNewName"></a>下载</div>
+                    <div data-v-e4d24c94 class="ui-btn white-btn" @click="handleShareDetailClick(item.shareId)">详情</div>
+                    <div data-v-e4d24c94 class="ui-btn white-btn" @click="handleDownloadScoreFileClick(item.id)">下载</div>
                 </div>
             </li>
         </ul>

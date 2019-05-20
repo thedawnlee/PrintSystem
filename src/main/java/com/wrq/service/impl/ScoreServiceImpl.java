@@ -65,6 +65,8 @@ public class ScoreServiceImpl implements IScoreService {
 
             ScoreListVo scoreVo = new ScoreListVo();
 
+            scoreVo.setId(score.getId());
+
             scoreVo.setIntegral(score.getIntegral());
             scoreVo.setCreateTime( DateTimeUtil.dateToStr(score.getCreateTime(), "yyyy-MM-dd HH:mm"));
 

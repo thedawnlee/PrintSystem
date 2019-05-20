@@ -286,6 +286,44 @@ public class ShareServiceImpl implements IShareService {
         return ServerResponse.createBySuccess("可以下载");
     }
 
+    /**
+     * 用户中心 积分记录下载文件
+     * @param path
+     * @param id
+     * @param userId
+     * @param response
+     * @return
+     */
+    @Override
+    public ServerResponse downloadForUserCenter(String path, Integer id, Integer userId, HttpServletResponse response) {
+
+
+        Score score = scoreMapper.selectByPrimaryKey(id);
+
+        if ( score == null ){
+            return ServerResponse.createByErrorMessage("无此交易记录~");
+        }
+
+        if ( userId != score.getUserId() ){
+            return ServerResponse.createByErrorMessage("此交易记录不是当前用户，请核实");
+        }
+
+        String fileNewName = score.getFileNewName();
+
+        ServerResponse download = null;
+        try {
+            download = iFileService.download(path, fileNewName, response, fileNewName);
+        } catch (UnsupportedEncodingException e) {
+            log.error("编码失败");
+        }
+
+        if ( !download.isSuccess() ){
+            return ServerResponse.createByErrorMessage("下载失败");
+        }
+
+        return ServerResponse.createBySuccess();
+    }
+
 
     /**
      * 进行下载

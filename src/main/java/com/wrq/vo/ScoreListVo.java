@@ -10,6 +10,8 @@ import java.util.Date;
 @Data
 public class ScoreListVo {
 
+    private Integer id;
+
     private String title;
 
     private Integer shareId;

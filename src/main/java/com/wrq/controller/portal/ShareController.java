@@ -20,6 +20,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import java.io.UnsupportedEncodingException;
 import java.util.Map;
 
 /**
@@ -81,7 +82,7 @@ public class ShareController {
      * @param pageSize
      * @return
      */
-    @GetMapping("/list.do")
+    @GetMapping("list.do")
     @ResponseBody
     public ServerResponse list(@RequestParam(value = "pageNum",defaultValue = "1") int pageNum, @RequestParam(value = "pageSize",defaultValue = "10") int pageSize){
         return  iShareService.getShareList(pageNum, pageSize);
@@ -170,6 +171,37 @@ public class ShareController {
 
         if ( !result.isSuccess() ){
             return ServerResponse.createByErrorMessage("下载失败");
+        }
+
+        return ServerResponse.createBySuccess("下载成功");
+    }
+
+    /**
+     * 个人中心 交易记录下载
+     * @param id
+     * @param session
+     * @param request
+     * @param response
+     * @return
+     */
+    @RequestMapping(value = "download", method = RequestMethod.GET)
+    @ResponseBody
+    public ServerResponse downloadForScoreHistory(Integer id, HttpSession session,  HttpServletRequest request, HttpServletResponse response){
+
+        User user = (User)session.getAttribute(Const.CURRENT_USER);
+
+        if(user == null){
+            return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(),"用户未登录，请先登陆");
+        }
+
+        String path = request.getSession().getServletContext().getRealPath("upload");
+
+        ServerResponse result = null;
+
+        result = iShareService.downloadForUserCenter(path, id, user.getId(), response);
+
+        if ( !result.isSuccess() ){
+            return result;
         }
 
         return ServerResponse.createBySuccess("下载成功");
