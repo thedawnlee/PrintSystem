@@ -8,11 +8,20 @@ import com.wrq.pojo.User;
  */
 public interface IUserService {
 
+    ServerResponse getUserById(Integer userId);
+
     ServerResponse<User> login(String username, String password);
 
     ServerResponse<String> register(User user);
 
     ServerResponse<String> checkValid(String str,String type);
+
+    ServerResponse resetUsername(User user , String username);
+
+    ServerResponse resetEmail(User user , String email);
+
+    ServerResponse resetPhone(User user , String phone);
+
 
 //    ServerResponse<String> selectQuestion(String username);
 //
@@ -20,7 +29,7 @@ public interface IUserService {
 //
 //    ServerResponse<String> forgetResetPassword(String username,String passwordNew,String forgetToken);
 //
-//    ServerResponse<String> resetPassword(String passwordOld,String passwordNew,User user);
+    ServerResponse<String> resetPassword(String passwordOld,String passwordNew,User user);
 //
 //    ServerResponse<User> updateInformation(User user);
 //

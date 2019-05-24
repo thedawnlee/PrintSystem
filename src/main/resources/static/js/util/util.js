@@ -29,7 +29,7 @@ var util = {
     },
     //表单验证，支持非空，手机，邮箱
     validate  : function(value, type){
-        var value = $.trim(value);
+        var value = this.trim(value);
         // 非空验证
         if('require' === type){
             return !!value;//确保返回的是布尔值
@@ -44,8 +44,13 @@ var util = {
         }
         // 邮箱格式验证
         if('username' === type){
-            return /^(\w)+(\.\w+)*@(\w)+((\.\w{2,3}){1,3})$/.test(value);
+            return /^[a-zA-Z\d]{3,10}$/.test(value);
         }
+    },
+    trim: function (str){
+
+        return str.replace(/(^\s*)|(\s*$)/g, "");
+
     },
     //统一 登陆处理
     doLogin 	: function(){

@@ -23,7 +23,16 @@ var vue = new Vue({
         noOrder: true, /* 如果没有订单，控制显示 无订单 的提示图片 */
         noIntegral: true,/* 如果没有积分，控制显示 无交易 的提示图片 */
         noFile: true,
-        showMore: true
+        showMore: true,
+        modUsername: true,
+        modEmail: true,
+        modPhone: true,
+        newUsername: "",
+        newEmail: "",
+        newPhone: "",
+        oldPassword: "",
+        newPassword: "",
+        secondPassword: ""
     },
     methods: {
         getUserInfo: function () {
@@ -176,7 +185,137 @@ var vue = new Vue({
         },
         handleDownloadScoreFileClick: function ( id ) {
             location.href = "/share/download?id=" + id;
+        },
+        handleModUsernameClick: function () {
+            this.modUsername = false;
+            this.newUsername = this.username
+        },
+        handleModEmailClick: function () {
+            this.modEmail = false;
+            this.newEmail  = this.email
+        },
+        handleModPhoneClick: function () {
+            this.modPhone = false;
+            this.newPhone = this.phone
+        },
+        handleSaveUsernameClick: function () {
+
+            if ( !util.validate(this.newUsername, "username")){
+                util.errorTips("请输入 3~10 位字母或者数字")
+                return
+            }
+
+            this.$http.post('/user/username.do',{
+                username: this.newUsername,
+            },{emulateJSON:true}).then(function ( res ) {
+                res = res.body;
+                if( res.data && res.status == 0){
+                    this.getUserInfo();
+                    this.handleCancelUsernameClick();
+                }else {
+                    util.errorTips( res.msg );
+                }
+            }, function () {
+                util.errorTips( "更新失败" );
+            })
+
+        },
+        handleSaveEmailClick: function () {
+
+            if ( !util.validate(this.newEmail, "email")){
+                util.errorTips("请输入正确格式的邮箱地址")
+                return
+            }
+
+            this.$http.post('/user/email.do',{
+                email: this.newEmail,
+            },{emulateJSON:true}).then(function ( res ) {
+                res = res.body;
+                if( res.data && res.status == 0){
+                    this.getUserInfo();
+                    this.handleCancelEmailClick();
+                }else {
+                    util.errorTips( res.msg );
+                }
+            }, function () {
+                util.errorTips( "更新失败" );
+            })
+
+        },
+        handleSavePhoneClick: function () {
+
+            if ( !util.validate(this.newPhone, "phone")){
+                util.errorTips("请输入正确格式的手机号")
+                return
+            }
+
+            this.$http.post('/user/phone.do',{
+                phone: this.newPhone
+            },{emulateJSON:true}).then(function ( res ) {
+                res = res.body;
+                if( res.data && res.status == 0){
+                    this.getUserInfo();
+                    this.handleCancelPhoneClick();
+                }else {
+                    util.errorTips( res.msg );
+                }
+            }, function () {
+                util.errorTips( "更新失败" );
+            })
+
+        },
+        handleCancelUsernameClick: function () {
+            this.newUsername = "";
+            this.modUsername = true;
+        },
+        handleCancelEmailClick: function () {
+            this.newEmail = "";
+            this.modEmail = true;
+        },
+        handleCancelPhoneClick: function () {
+            this.newPhone = "";
+            this.modPhone = true;
+        },
+        handleSavePasswordClick: function () {
+
+            if ( this.oldPassword == "" || this.oldPassword == undefined ){
+                util.errorTips("请输入旧密码后进行提交")
+                return
+            }
+
+            if ( this.newPassword == "" || this.newPassword == undefined ){
+                util.errorTips("请输入新密码后进行提交")
+                return
+            }
+
+            if ( this.secondPassword == "" || this.secondPassword == undefined ){
+                util.errorTips("请确认密码后进行提交")
+                return
+            }
+
+            if ( this.secondPassword != this.newPassword ){
+                util.errorTips("两次输入的密码不一致")
+                return
+            }
+
+            this.$http.post('/user/password.do',{
+                passwordNew: this.newPassword,
+                passwordOld: this.oldPassword
+            },{emulateJSON:true}).then(function ( res ) {
+                res = res.body;
+                if(res.status == 0){
+                    this.getUserInfo();
+                    location.href = "/user/info"
+                }else {
+                    util.errorTips( res.msg );
+                }
+            }, function () {
+                util.errorTips( "更新失败" );
+            })
+
+
         }
+
     },
     filters: {
         getKeyFilter: function ( value ) {

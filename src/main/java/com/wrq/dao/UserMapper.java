@@ -28,9 +28,17 @@ public interface UserMapper {
 //
 //    int updatePasswordByUsername(@Param("username")String username,@Param("passwordNew")String passwordNew);
 //
-//    int checkPassword(@Param("password")String password,@Param("userId")Integer userId);
+    int checkPassword(@Param("password")String password,@Param("userId")Integer userId);
 //
 //    int checkEmailByUserId(@Param("email")String email,@Param("userId")Integer userId);
 
     int updateByPrimaryKeyAndIntegral(@Param("id") Integer id, @Param("integral")String integral);
+
+    int updateUsernameByUserId(@Param("id") Integer id, @Param("username")String username);
+
+    int updateEmailByUserId(@Param("id") Integer id, @Param("email")String email);
+
+    int updatePhoneByUserId(@Param("id") Integer id, @Param("phone")String phone);
+
+    int updatePasswordByPrimaryKey(@Param("id") Integer id, @Param("password")String password);
 }

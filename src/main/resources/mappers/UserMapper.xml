@@ -218,13 +218,13 @@
     <!--where username = #{username}-->
   <!--</update>-->
 
-  <!--<select id="checkPassword" resultType="int" parameterType="map">-->
-    <!--SELECT-->
-    <!--count(1)-->
-    <!--FROM  user-->
-    <!--WHERE id = #{userId}-->
-    <!--and password = #{password}-->
-  <!--</select>-->
+  <select id="checkPassword" resultType="int" parameterType="map">
+    SELECT
+    count(1)
+    FROM  user
+    WHERE id = #{userId}
+    and password = #{password}
+  </select>
 
   <!--<select id="checkEmailByUserId" resultType="int" parameterType="map">-->
     <!--select count(1) from user-->
@@ -233,12 +233,44 @@
   <!--</select>-->
 
   <update id="updateByPrimaryKeyAndIntegral" parameterType="com.wrq.pojo.User">
+  update user
+  set
+  integral = #{integral,jdbcType=VARCHAR},
+  update_time = now()
+  where id = #{id,jdbcType=INTEGER}
+</update>
+
+  <update id="updateUsernameByUserId" parameterType="com.wrq.pojo.User">
     update user
     set
-    integral = #{integral,jdbcType=VARCHAR},
+    username = #{username,jdbcType=VARCHAR},
     update_time = now()
     where id = #{id,jdbcType=INTEGER}
   </update>
 
+  <update id="updateEmailByUserId" parameterType="com.wrq.pojo.User">
+    update user
+    set
+    email = #{email,jdbcType=VARCHAR},
+    update_time = now()
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+
+  <update id="updatePhoneByUserId" parameterType="com.wrq.pojo.User">
+    update user
+    set
+    phone = #{phone,jdbcType=VARCHAR},
+    update_time = now()
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <update id="updatePasswordByPrimaryKey" parameterType="com.wrq.pojo.User">
+    update user
+    set
+    password = #{password,jdbcType=VARCHAR},
+    update_time = now()
+    where id = #{id,jdbcType=INTEGER}
+  </update>
 
 </mapper>

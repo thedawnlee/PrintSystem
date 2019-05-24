@@ -23,6 +23,21 @@ public class UserServiceImpl implements IUserService {
     @Autowired
     private ParameterConfig parameterConfig;
 
+    @Override
+    public ServerResponse getUserById(Integer userId) {
+        User user = userMapper.selectByPrimaryKey(userId);
+
+        if ( user == null ){
+            return ServerResponse.createByErrorMessage("无此用户信息，请稍后再试");
+        }
+
+        String headerPic = user.getHeaderPic();
+
+        user.setHeaderPic( parameterConfig.getImageHost() + headerPic );
+
+        return ServerResponse.createBySuccess(user);
+    }
+
     /**
      * 登陆
      * @param username 用户名
@@ -110,6 +125,50 @@ public class UserServiceImpl implements IUserService {
         return  ServerResponse.createBySuccessMessage("校验成功");
     }
 
+    @Override
+    public ServerResponse resetUsername(User user, String username) {
+
+        if ( StringUtils.isEmpty(username) ){
+            return ServerResponse.createByErrorMessage("请输入新用户名后再进行保存！");
+        }
+
+        int result = userMapper.updateUsernameByUserId(user.getId(), username);
+
+        if ( result <= 0 ){
+            return ServerResponse.createByErrorMessage("更新用户名时出现错误，请稍后再试！");
+        }
+
+        return ServerResponse.createBySuccess("修改成功");
+    }
+
+    @Override
+    public ServerResponse resetEmail(User user, String email) {
+
+        ServerResponse validResponse = this.checkValid(user.getUsername(), Const.EMAIL);
+        if( !validResponse.isSuccess() ){
+            return  validResponse;
+        }
+
+        int result = userMapper.updateEmailByUserId(user.getId(), email);
+
+        if ( result <= 0 ){
+            return ServerResponse.createByErrorMessage("更新时出现错误");
+        }
+        return ServerResponse.createBySuccess("更新成功");
+    }
+
+    @Override
+    public ServerResponse resetPhone(User user, String phone) {
+
+        int result = userMapper.updatePhoneByUserId(user.getId(), phone);
+
+        if ( result <= 0 ){
+            return ServerResponse.createByErrorMessage("更新时出现错误");
+        }
+
+        return ServerResponse.createBySuccess("更新成功");
+    }
+
 //    /**
 //     * 忘记密码
 //     * @param username
@@ -180,27 +239,29 @@ public class UserServiceImpl implements IUserService {
 //    }
 //
 //
-//    /**
-//     * 登陆状态重设密码
-//     * @param passwordOld
-//     * @param passwordNew
-//     * @param user
-//     * @return
-//     */
-//    public ServerResponse<String> resetPassword(String passwordOld,String passwordNew,User user){
-//        //防止横向越权，要校验这个用户的旧密码，一定要指定是这个用户.因为我们会查询一个count(1),如果不指定id，那么结果就是true啦，count>0;
+    /**
+     * 登陆状态重设密码
+     * @param passwordOld
+     * @param passwordNew
+     * @param user
+     * @return
+     */
+    public ServerResponse<String> resetPassword(String passwordOld,String passwordNew,User user){
+        //防止横向越权，要校验这个用户的旧密码，一定要指定是这个用户.因为我们会查询一个count(1),如果不指定id，那么结果就是true啦，count>0;
 //        int resultCount = userMapper.checkPassword(MD5Util.MD5EncodeUtf8(passwordOld),user.getId());
-//        if(resultCount == 0){
-//            return  ServerResponse.createByErrorMessage("旧密码错误");
-//        }
+        int resultCount = userMapper.checkPassword(passwordOld, user.getId());
+        if(resultCount == 0){
+            return  ServerResponse.createByErrorMessage("旧密码错误");
+        }
 //        user.setPassword(MD5Util.MD5EncodeUtf8(passwordNew));
-//        int updateCount = userMapper.updateByPrimaryKeySelective(user);
-//        if(updateCount > 0){
-//            return ServerResponse.createBySuccessMessage("密码更新成功");
-//        }
-//        return ServerResponse.createByErrorMessage("密码更新失败");
-//
-//    }
+
+        int updateCount = userMapper.updatePasswordByPrimaryKey(user.getId(), passwordNew);
+        if(updateCount > 0){
+            return ServerResponse.createBySuccessMessage("密码更新成功");
+        }
+        return ServerResponse.createByErrorMessage("密码更新失败");
+
+    }
 //
 //    /**
 //     * 更新个人信息

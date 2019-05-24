@@ -157,9 +157,6 @@
                                                     <button class="btn btn-success" @click="handleAcceptOrder">接受订单</button>
                                                     <button class="btn btn-danger" @click="handleRefuseOrder">拒绝订单</button>
                                                 </#if>
-                                                <#if orderInfo.orderStatus == "待取货" >
-                                                    <button class="btn btn-inverse" @click="handleNoticePicking">通知取货</button>
-                                                </#if>
                                                 <#if orderInfo.orderStatus == "店主拒绝" >
                                                     <button class="btn">关闭订单</button>
                                                 </#if>
@@ -168,7 +165,6 @@
                                                 </#if>
                                             </div>
                                         </div>
-                                        <div class="col-sm-7 pull-left"> Extra Information </div>
                                     </div>
 
                                     <div :class="{show: getKeyItem}" class="modal getKey"  tabindex="-1" role="dialog" aria-labelledby="gridSystemModalLabel">

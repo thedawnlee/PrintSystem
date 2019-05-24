@@ -6326,6 +6326,12 @@ a.navbar-item[data-v-42b92e2d]:hover {
 	margin-right: .5rem
 }
 
+.right-section .item .item-detail .type-reset {
+	display: inline-block;
+	width: 5rem;
+	margin-right: .5rem
+}
+
 .right-section .item .item-detail .input[data-v-a1f2b3b6] {
 	font-size: 1.125rem;
 	color: #353535;
@@ -6372,6 +6378,11 @@ a.navbar-item[data-v-42b92e2d]:hover {
 .btn-control.save[data-v-a1f2b3b6] {
 	margin-right: .5rem;
 	margin-left: 1rem
+}
+
+.btn-control.save-reset[data-v-a1f2b3b6] {
+	margin-right: .5rem;
+	margin-left: -6rem
 }
 
 .btn-control.save[data-v-a1f2b3b6]:hover {

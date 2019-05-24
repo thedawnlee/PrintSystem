@@ -58,7 +58,7 @@ public class UserController {
         log.info("请求了 get_user_info.do 接口");
         User user = (User)session.getAttribute(Const.CURRENT_USER);
         if(user != null){
-            return  ServerResponse.createBySuccess(user);
+            return  iUserService.getUserById(user.getId());
         }
         return  ServerResponse.createByErrorMessage("用户未登录，无法获取当前用户信息");
     }
@@ -96,6 +96,73 @@ public class UserController {
             map.put("item", "user");
             return new ModelAndView("portal/user", map);
         }
+    }
+
+    /**
+     * 修改 username
+     * @param username
+     * @param session
+     * @return
+     */
+    @RequestMapping(value = "username.do",method = RequestMethod.POST)
+    @ResponseBody
+    public  ServerResponse username(String username, HttpSession session){
+        User user = (User)session.getAttribute(Const.CURRENT_USER);
+        if(user == null){
+            return ServerResponse.createByErrorMessage("请登陆后进行修改用户名操作！");
+        }
+
+       return iUserService.resetUsername(user, username);
+    }
+
+    /**
+     * 修改邮箱
+     * @param email
+     * @param session
+     * @return
+     */
+    @RequestMapping(value = "email.do",method = RequestMethod.POST)
+    @ResponseBody
+    public  ServerResponse email(String email, HttpSession session){
+        User user = (User)session.getAttribute(Const.CURRENT_USER);
+        if(user == null){
+            return ServerResponse.createByErrorMessage("请登陆后进行修改用户名操作！");
+        }
+
+        return iUserService.resetEmail(user, email);
+    }
+
+    /**
+     * 修改手机号
+     * @param phone
+     * @param session
+     * @return
+     */
+    @RequestMapping(value = "phone.do",method = RequestMethod.POST)
+    @ResponseBody
+    public  ServerResponse phone(String phone, HttpSession session){
+        User user = (User)session.getAttribute(Const.CURRENT_USER);
+        if(user == null){
+            return ServerResponse.createByErrorMessage("请登陆后进行修改用户名操作！");
+        }
+        return iUserService.resetPhone(user, phone);
+    }
+
+    /**
+     * 修改密码
+     * @param passwordOld
+     * @param passwordNew
+     * @param session
+     * @return
+     */
+    @RequestMapping(value = "password.do",method = RequestMethod.POST)
+    @ResponseBody
+    public  ServerResponse password(String passwordOld, String passwordNew, HttpSession session){
+        User user = (User)session.getAttribute(Const.CURRENT_USER);
+        if(user == null){
+            return ServerResponse.createByErrorMessage("请登陆后进行修改用户名操作！");
+        }
+        return iUserService.resetPassword(passwordOld, passwordNew, user);
     }
 
 }
