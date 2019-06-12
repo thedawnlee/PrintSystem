@@ -46,6 +46,18 @@ public class PageController {
         return "backend/mod-shop";
     }
 
+    @RequestMapping("/store/price")
+    public String price(){
+        return "backend/price";
+    }
+
+    @RequestMapping("/price/update")
+    public String updatePrice(){
+        return "backend/mod-price";
+    }
+
+
+
 
 
 }

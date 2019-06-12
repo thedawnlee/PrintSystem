@@ -28,4 +28,10 @@ public interface ShopMapper {
     List<Shop> selectOtherShopSortByCredit(Integer shopId);
 
     Shop selectShopByUserId(Integer userId);
+
+    int changeStoreStatus(@Param("id") Integer id, @Param("status")Integer status);
+
+    int addDealNumByPrimaryKey (@Param("id") Integer id);
+
+    int updateCreditByPrimaryKey(@Param("id") Integer id, @Param("credit")String credit);
 }

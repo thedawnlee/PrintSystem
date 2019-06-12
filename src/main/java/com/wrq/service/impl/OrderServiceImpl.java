@@ -638,4 +638,39 @@ public class OrderServiceImpl implements IOrderService {
         return ServerResponse.createBySuccess("更新订单成功");
     }
 
+    @Override
+    public ServerResponse overOrder(String orderNo) {
+
+        OrderMaster orderMaster = orderMasterMapper.selectByPrimaryKey(orderNo);
+
+        if ( orderMaster == null ){
+            return ServerResponse.createByErrorMessage("不存在此订单");
+        }
+
+        Integer orderStatus = orderMaster.getOrderStatus();
+
+        if ( orderStatus == OrderStatusEnum.ORDER_SUCCESS.getCode()){
+            return ServerResponse.createByErrorMessage("订单已经是完结状态");
+        }
+
+        if ( orderStatus < OrderStatusEnum.PROCESSING_ORDER.getCode()){
+            return ServerResponse.createByErrorMessage("订单状态不正确，无法完结！");
+        }
+
+        int result = orderMasterMapper.updateOrderStatusByOrderNo(OrderStatusEnum.ORDER_SUCCESS.getCode(), orderNo);
+
+        if ( result <= 0 ){
+            return ServerResponse.createByErrorMessage("更新订单状态失败");
+        }
+
+        Integer shopId = orderMaster.getShopId();
+
+        int updateResult = shopMapper.addDealNumByPrimaryKey(shopId);
+
+        if ( updateResult < 0 ){
+            return ServerResponse.createByErrorMessage("交易数改变时发生错误");
+        }
+        return ServerResponse.createBySuccess("更新订单成功");
+    }
+
 }

@@ -2,6 +2,7 @@ package com.wrq.service;
 
 import com.github.pagehelper.PageInfo;
 import com.wrq.commons.ServerResponse;
+import com.wrq.form.ShopForm;
 import com.wrq.vo.DetailVo;
 import com.wrq.vo.OtherShopVo;
 
@@ -23,5 +24,13 @@ public interface IShopService {
     ServerResponse getShopInfoByUserId(Integer userId);
 
     ServerResponse getShopDetailByUserId(Integer userId);
+
+    ServerResponse updateShopInfo(Integer userId, ShopForm form);
+
+    ServerResponse changeShopStatus(Integer userId);
+
+    ServerResponse creditShop( Integer userId, String star, String orderNo );
+
+    ServerResponse getShopPriceByUserId(Integer userId);
 
 }

@@ -8,7 +8,8 @@ var vue = new Vue({
         shopName: null,
         status: null,
         modelShow: false,
-        orderNo: null
+        orderNo: null,
+        business: true
     },
     methods: {
         getShopInfo: function () {
@@ -21,6 +22,12 @@ var vue = new Vue({
                 this.shopName = res.data.shopName;
                 this.shopId = res.data.id;
                 this.status = res.data.status;
+
+                if ( this.status == 0 ){
+                    this.business = true
+                }else {
+                    this.business = false
+                }
 
                 this.webSocket();
 
@@ -92,6 +99,31 @@ var vue = new Vue({
         handleModelCloseClick: function () {
             this.$refs.audio.pause();
             this.modelShow = false;
+        },
+        handleBusinessChange: function () {
+
+            if ( this.status == 0 ){
+                this.business = false;
+            }
+
+            if ( this.status == 1 ){
+                this.business = true;
+            }
+
+            this.$http.post('/store/shop/change_status.do',  {emulateJSON:true}).then(function ( res ) {
+                res = res.data;
+                if( res.data && res.status == 0 ){
+
+                    this.status = res.data.status
+
+                    console.log(this.status)
+                }else {
+                    util.errorTips( res.msg );
+                }
+            }, function () {
+                util.errorTips( "更改营业状态出现错误" );
+            })
+
         }
     },
     created: function () {

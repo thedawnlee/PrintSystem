@@ -12,6 +12,9 @@ var vue = new Vue({
         mainImg: null,
         miniImg: null,
         content: null,
+        shopId: null,
+        phone: null,
+        email: null,
 
         miniImgUploadDisplay: false,/* 未选择文件时候，上传不能点击 */
         mainImgUploadDisplay: false,
@@ -38,6 +41,8 @@ var vue = new Vue({
             res = res.body;
             if( res.data && res.status == 0){
                 this.name = res.data.name;
+                this.phone = res.data.phone;
+                this.email = res.data.email;
                 this.address = res.data.address;
                 this.desc = res.data.desc;
                 this.workTime = res.data.workTime;
@@ -47,6 +52,7 @@ var vue = new Vue({
                 this.miniImgNewName = util.getImgName(res.data.miniImg);
                 this.mainImgNewName = util.getImgName(res.data.mainImg);
                 this.richText = res.data.content;
+                this.shopId = res.data.id;
                 this.editorItem.setContent( this.richText );
             }else {
                 util.errorTips( res.msg );
@@ -172,42 +178,42 @@ var vue = new Vue({
         },
         handleSubmitClick: function () {
 
-            if ( (this.name) != null & (this.workTime) != null & (this.closeTime) != null & (this.desc) != null & (this.richText) != null & (this.address) != null ){
+            if ( !util.validate(this.email, "email")){
+                util.errorTips("请输入正确的邮箱格式！");
+                return
+            }
 
-                console.log(this.name);
-                console.log("----------------")
-                console.log(this.workTime);
-                console.log("----------------")
-                console.log(this.closeTime);
-                console.log("----------------")
-                console.log(this.desc);
-                console.log("----------------")
-                console.log(this.richText);
-                console.log("----------------")
-                console.log(this.address)
-                console.log("----------------")
-                console.log(this.miniImgNewName)
-                console.log("----------------")
-                console.log(this.mainImgNewName)
+            if ( !util.validate(this.phone, "phone")){
+                util.errorTips("请输入正确的手机格式！");
+                return
+            }
 
+            if ( (this.name) != null & (this.workTime) != null & (this.closeTime) != null & (this.desc) != null & (this.richText) != null& (this.email) != null& (this.phone) != null & (this.address) != null ){
 
+                this.$http.post('/store/shop/update_shop.do', {
+                    name: this.name,
+                    workTime: this.workTime,
+                    closeTime: this.closeTime,
+                    desc: this.desc,
+                    richText: this.richText,
+                    address: this.address,
+                    miniImgNewName: this.miniImgNewName,
+                    mainImgNewName: this.mainImgNewName,
+                    id: this.shopId,
+                    phone: this.phone,
+                    email: this.email
+                }, {emulateJSON:true}).then(function ( res ) {
+                    res = res.data;
+                    if( res.status == 0 ){
 
-                //this.$http.post('/share/create', {
-                //    title: this.title,
-                //    desc: this.desc,
-                //    richText: this.richText,
-                //    tagValue: parseInt(this.tagValue),
-                //    fileId: parseInt(this.fileId)
-                //}, {emulateJSON:true}).then(function ( res ) {
-                //    res = res.data;
-                //    if( res.status == 0){
-                //        this.createSuccess = false
-                //    }else {
-                //        util.errorTips( res.msg );
-                //    }
-                //}, function () {
-                //    util.errorTips( "提交时出现错误！" );
-                //})
+                        location.href = "/store/detail"
+
+                    }else {
+                        util.errorTips( res.msg );
+                    }
+                }, function () {
+                    util.errorTips( "提交时出现错误！" );
+                })
 
             }else {
                 util.errorTips(" 请填写完整，再进行提交！ ");

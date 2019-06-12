@@ -29,7 +29,8 @@ var vue = new Vue({
             this.$http.get('/shop/get_all_shop.do', {params: {pageNum: pageNum, pageSize: pageSize}}).then(this.successCallback, this.errorCallback)
         },
         getShopList: function (pageNum, pageSize, type) {
-            this.$http.get('/shop/shop_list.do', {params: {pageNum: pageNum, pageSize: pageSize, type: type}}).then(this.successCallback, this.errorCallback);
+            this.$http.get('/shop/shop_list.do', {params: {pageNum: pageNum, pageSize: pageSize, type: type}})
+                .then(this.successCallback, this.errorCallback);
         },
         successCallback: function ( res ) {
             res = res.body;

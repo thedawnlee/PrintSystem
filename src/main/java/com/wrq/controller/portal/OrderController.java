@@ -281,5 +281,23 @@ public class OrderController {
     }
 
 
+    /**
+     * 完结订单
+     * @param orderNo
+     * @param session
+     * @return
+     */
+    @RequestMapping(value = "over", method = RequestMethod.POST)
+    @ResponseBody
+    public ServerResponse over(String orderNo, HttpSession session) {
+
+        User user = (User)session.getAttribute(Const.CURRENT_USER);
+
+        if(user == null){
+            return ServerResponse.createByErrorMessage(ResponseCode.NEED_LOGON_FOR_CREATE.getDesc());
+        }else {
+            return  iOrderService.overOrder(orderNo);
+        }
+    }
 
 }

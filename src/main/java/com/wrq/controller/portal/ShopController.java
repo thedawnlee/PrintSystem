@@ -1,6 +1,9 @@
 package com.wrq.controller.portal;
 
+import com.wrq.commons.Const;
+import com.wrq.commons.ResponseCode;
 import com.wrq.commons.ServerResponse;
+import com.wrq.pojo.User;
 import com.wrq.service.IShopPriceService;
 import com.wrq.service.IShopService;
 import com.wrq.vo.DetailVo;
@@ -10,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpSession;
 import java.util.Map;
 
 
@@ -92,6 +96,26 @@ public class ShopController {
     @ResponseBody
     public ServerResponse all(@RequestParam(value = "pageNum",defaultValue = "1") int pageNum, @RequestParam(value = "pageSize",defaultValue = "10") int pageSize){
         return iShopService.getShopList(pageNum, pageSize);
+    }
+
+    /**
+     * 店铺评分
+     * @param orderNo
+     * @param star
+     * @param session
+     * @return
+     */
+    @RequestMapping(value = "credit", method = RequestMethod.POST)
+    @ResponseBody
+    public ServerResponse credit(String orderNo, String star, HttpSession session) {
+
+        User user = (User)session.getAttribute(Const.CURRENT_USER);
+
+        if(user == null){
+            return ServerResponse.createByErrorMessage(ResponseCode.NEED_LOGON_FOR_CREATE.getDesc());
+        }else {
+            return iShopService.creditShop(user.getId(), star, orderNo);
+        }
     }
 
 }

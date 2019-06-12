@@ -2,6 +2,7 @@ package com.wrq.service;
 
 import com.wrq.commons.ServerResponse;
 import com.wrq.form.CreateOrderForm;
+import com.wrq.form.GetPriceForm;
 import com.wrq.pojo.User;
 
 
@@ -27,4 +28,6 @@ public interface IOrderService {
     ServerResponse getOrderFileKey( String orderNo );
 
     ServerResponse closeOrder( String orderNo );
+
+    ServerResponse overOrder ( String orderNo );
 }

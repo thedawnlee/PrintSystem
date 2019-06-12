@@ -7,11 +7,11 @@ import java.io.Serializable;
 
 //下面这个注解的意思是空的值不会被序列化，key会消失
 @JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
-public class ServerResponse<T> implements Serializable {
+    public class ServerResponse<T> implements Serializable {
 
-    private int status;
-    private String msg;
-    private T data;
+        private int status;
+        private String msg;
+        private T data;
 
     private ServerResponse(int status) {
         this.status = status;

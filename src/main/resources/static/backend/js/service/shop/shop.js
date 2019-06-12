@@ -11,7 +11,9 @@ var vue = new Vue({
         closeTime: null,
         mainImg: null,
         miniImg: null,
-        content: null
+        content: null,
+        phone: null,
+        email: null
     },
     methods: {
         getShopDetail: function (pageNum, pageSize) {
@@ -28,6 +30,8 @@ var vue = new Vue({
                 this.mainImg = res.data.mainImg;
                 this.miniImg = res.data.miniImg;
                 this.content = res.data.content;
+                this.phone = res.data.phone;
+                this.email = res.data.email;
             }else {
                 util.errorTips( res.msg );
                 if ( (res.msg) == "NEED_LOGIN") {

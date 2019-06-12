@@ -278,4 +278,26 @@
     where owner_id = #{userId}
   </select>
 
+  <update id="changeStoreStatus" parameterType="com.wrq.pojo.Shop">
+    update shop
+    set
+    status = #{status,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <update id="addDealNumByPrimaryKey" parameterType="com.wrq.pojo.Shop">
+    update shop
+    set
+    deal_num = deal_num + 1
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <update id="updateCreditByPrimaryKey" parameterType="com.wrq.pojo.Shop">
+    update shop
+    set
+    credit = #{credit,jdbcType=INTEGER},
+    credit_people_num = credit_people_num + 1
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
 </mapper>

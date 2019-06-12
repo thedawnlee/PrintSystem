@@ -41,4 +41,5 @@ public interface UserMapper {
     int updatePhoneByUserId(@Param("id") Integer id, @Param("phone")String phone);
 
     int updatePasswordByPrimaryKey(@Param("id") Integer id, @Param("password")String password);
+
 }

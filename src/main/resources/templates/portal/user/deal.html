@@ -31,6 +31,7 @@
                     <div data-v-e4d24c94 class="ui-btn white-btn" v-if=" item.orderStatus === '未支付' " @click="handleOrderDetailClick(item.orderNo)">去支付</div>
                     <div data-v-e4d24c94 class="ui-btn white-btn" v-else-if=" item.orderStatus === '已付款' " @click="handleOrderDetailClick(item.orderNo)">退款</div>
                     <div data-v-e4d24c94 class="ui-btn white-btn" v-else-if=" item.orderStatus === '订单完结' " @click="handleOrderDetailClick(item.orderStatus)">关闭</div>
+                    <div data-v-e4d24c94 class="ui-btn white-btn" v-else-if=" item.orderStatus === '待取货' " @click="handleOrderOverClick(item.orderNo)">已取货</div>
                     <div data-v-e4d24c94 class="ui-btn white-btn is-hidden" v-else></div>
                 </div>
             </li>
@@ -63,5 +64,17 @@
             加载更多
         </button>
         <div data-v-e4d24c94 class="bottom-paging"></div>
+    </div>
+</div>
+
+<div data-v-a05d844a data-v-715e15c5 :class="{'notice-wrap': true, 'is-hidden': overOrderSuccess}">
+    <div data-v-a05d844a class="notice-info"><i data-v-1ce6e4a8 class="iconfont-credit"></i>
+        <h1 data-v-a05d844a>交易成功</h1>
+        <p data-v-a05d844a>请为此店铺的服务打个分吧~</p>
+        <input id="input-21d"  value="2" style="display: none"  ref="starRef" type="text" class="rating" data-min=0 data-max=5 data-step=0.5 data-size="sm"
+               title="">
+        <div data-v-a05d844a class="btns">
+            <button  class="btn-go-share" data-v-a05d844a @click="handleCreditClick">确认</button>
+            <button class="btn-go-index" data-v-a05d844a  @click="handleCloseCreditClick">退出</button></div>
     </div>
 </div>

@@ -43,6 +43,24 @@ var vue = new Vue({
         },
         handleShareDetail: function ( value ){
             location.href = "/share/detail/" + value;
+        },
+        handlePostgraduateClick: function () {
+
+        },
+        handleExaminationClick: function () {
+
+        },
+        handlePaperClick: function () {
+
+        },
+        handleCivilClick: function () {
+
+        },
+        handleOtherClick: function () {
+
+        },
+        handleCETClick: function () {
+
         }
     },
     filters: {
@@ -55,6 +73,6 @@ var vue = new Vue({
         }
     },
     created: function () {
-        this.getShareList(1, 5);
+        this.getShareList(1, 10);
     }
 });

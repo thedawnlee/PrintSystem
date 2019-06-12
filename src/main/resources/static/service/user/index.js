@@ -4,6 +4,7 @@
 var vue = new Vue({
     el: "#user",
     data: {
+        overOrderSuccess: true,
         dealItem: true,
         accountItem: true,
         fileItem: true,
@@ -32,7 +33,8 @@ var vue = new Vue({
         newPhone: "",
         oldPassword: "",
         newPassword: "",
-        secondPassword: ""
+        secondPassword: "",
+        orderNo:null
     },
     methods: {
         getUserInfo: function () {
@@ -312,8 +314,52 @@ var vue = new Vue({
             }, function () {
                 util.errorTips( "更新失败" );
             })
+        },
+        handleOrderOverClick: function ( value ) {
+
+            this.$http.post('/order/over',{
+                orderNo: value
+            },{emulateJSON:true}).then(function ( res ) {
+                res = res.body;
+                if(res.status == 0){
+                    this.evaluation(value);
+                }else {
+                    util.errorTips( res.msg );
+                }
+            }, function () {
+                util.errorTips( "完结订单失败！" );
+            })
+        },
+        evaluation: function ( value ) {
+            this.overOrderSuccess = false;
+            this.orderNo = value;
+        },
+        handleCreditClick: function () {
+
+            var star = this.$refs.starRef.value;
+
+            this.$http.post('/shop/credit',{
+                orderNo: this.orderNo,
+                star: star
+            },{emulateJSON:true}).then(function ( res ) {
+                res = res.body;
+                if(res.status == 0){
+
+                    alert("评分成功!");
+                    location.href = "/order/info"
+
+                }else {
+                    util.errorTips( res.msg );
+                }
+            }, function () {
+                util.errorTips( "评分失败！" );
+            })
 
 
+
+        },
+        handleCloseCreditClick: function () {
+            location.href = "/order/info"
         }
 
     },

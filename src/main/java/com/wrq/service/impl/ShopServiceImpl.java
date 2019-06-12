@@ -5,21 +5,26 @@ import com.github.pagehelper.PageInfo;
 import com.google.common.collect.Lists;
 import com.wrq.commons.ServerResponse;
 import com.wrq.config.ParameterConfig;
-import com.wrq.dao.ShopMapper;
-import com.wrq.dao.UserMapper;
-import com.wrq.pojo.Shop;
-import com.wrq.pojo.User;
+import com.wrq.dao.*;
+import com.wrq.enums.*;
+import com.wrq.form.ShopForm;
+import com.wrq.pojo.*;
 import com.wrq.service.IShopPriceService;
 import com.wrq.service.IShopService;
 import com.wrq.vo.DetailVo;
 import com.wrq.vo.OtherShopVo;
 import com.wrq.vo.ShopVo;
 import com.wrq.vo.backend.BackendDetailVo;
+import com.wrq.vo.backend.BackendPriceVo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 
@@ -37,7 +42,22 @@ public class ShopServiceImpl implements IShopService {
     private UserMapper userMapper;
 
     @Autowired
+    private OrderMasterMapper orderMasterMapper;
+
+    @Autowired
     private ParameterConfig paramConfig;
+
+    @Autowired
+    private ColorMapper  colorMapper;
+
+    @Autowired
+    private BonusMapper bonusMapper;
+
+    @Autowired
+    private SingleDoubleMapper  singleDoubleMapper;
+
+    @Autowired
+    private PageSizeMapper  pageSizeMapper;
 
     @Autowired
     private IShopPriceService iShopPriceService;
@@ -190,6 +210,8 @@ public class ShopServiceImpl implements IShopService {
     @Override
     public ServerResponse getShopDetailByUserId(Integer userId) {
 
+        User user = userMapper.selectByPrimaryKey(userId);
+
         Shop shop = shopMapper.selectShopByUserId(userId);
 
         if ( shop == null ){
@@ -206,9 +228,236 @@ public class ShopServiceImpl implements IShopService {
         backendDetailVo.setName(shop.getShopName());
         backendDetailVo.setMainImg(paramConfig.getImageHost() + shop.getMainImg());
         backendDetailVo.setWorkTime(shop.getWorkTime());
+        backendDetailVo.setId(shop.getId());
+        backendDetailVo.setPhone(user.getPhone());
+        backendDetailVo.setEmail(user.getEmail());
+
 
         return ServerResponse.createBySuccess(backendDetailVo);
     }
 
+    /**
+     * 更新店铺信息
+     * @param userId
+     * @param form
+     * @return
+     */
+    public ServerResponse updateShopInfo(Integer userId, ShopForm form) {
+
+        Shop shop = shopMapper.selectShopByUserId(userId);
+
+        if ( shop == null ){
+            return ServerResponse.createByErrorMessage("当前用户并未注册店铺信息");
+        }
+
+        Shop newShop = new Shop();
+
+        Integer id = form.getId();
+
+        newShop.setMainImg(form.getMainImgNewName());
+        newShop.setWorkTime(form.getWorkTime());
+        newShop.setSubImg(form.getMainImgNewName());
+        newShop.setShopName(form.getName());
+        newShop.setShopDescription(form.getDesc());
+        newShop.setShopAddress(form.getAddress());
+        newShop.setMiniImg(form.getMiniImgNewName());
+        newShop.setContent(form.getRichText());
+        newShop.setCloseTime(form.getCloseTime());
+        newShop.setId(id);
+
+        int result = shopMapper.updateByPrimaryKeySelective(newShop);
+
+        if ( result < 0 ){
+            return ServerResponse.createByErrorMessage("更新失败！");
+        }
+
+        String email = form.getEmail();
+
+        String phone = form.getPhone();
+
+        int updateResultForEmail = userMapper.updateEmailByUserId(userId, email);
+
+        if ( updateResultForEmail < 0 ){
+            return ServerResponse.createByErrorMessage("更新失败！");
+        }
+
+        int updateResultForPhone = userMapper.updatePhoneByUserId(userId, phone);
+
+        if ( updateResultForPhone < 0 ){
+            return ServerResponse.createByErrorMessage("更新失败！");
+        }
+
+        return ServerResponse.createBySuccess("更新成功");
+    }
+
+    /**
+     * 修改店铺状态
+     * @param userId
+     * @return
+     */
+    public ServerResponse changeShopStatus( Integer userId ){
+
+        HashMap map = new HashMap();
+
+        Shop shop = shopMapper.selectShopByUserId(userId);
+
+        if ( shop == null ){
+            return ServerResponse.createByErrorMessage("当前用户并未注册店铺信息");
+        }
+
+        if ( shop.getStatus().equals(ShopStatusEnum.OPEN.getCode()) ){
+            int result = shopMapper.changeStoreStatus(shop.getId(), ShopStatusEnum.CLOSE.getCode());
+            if ( result < 0 ){
+                return ServerResponse.createByErrorMessage("暂停营业失败");
+            }
+
+            map.put("status", ShopStatusEnum.CLOSE.getCode());
+
+        }
+
+        if ( shop.getStatus().equals(ShopStatusEnum.CLOSE.getCode()) ){
+            int result = shopMapper.changeStoreStatus(shop.getId(), ShopStatusEnum.OPEN.getCode());
+            if ( result < 0 ){
+                return ServerResponse.createByErrorMessage("开始营业失败");
+            }
+            map.put("status", ShopStatusEnum.OPEN.getCode());
+        }
+
+        return ServerResponse.createBySuccess(map);
+
+    }
+
+
+    /**
+     * 店铺打分
+     * @param userId
+     * @param star
+     * @param orderNo
+     * @return
+     */
+    public ServerResponse creditShop( Integer userId, String star, String orderNo ){
+
+        OrderMaster orderMaster = orderMasterMapper.selectByPrimaryKey(orderNo);
+
+        if ( orderMaster == null ){
+            return ServerResponse.createByErrorMessage("此订单不存在，无法进行店铺评分");
+        }
+
+        Integer shopId = orderMaster.getShopId();
+
+        Integer buyerId = orderMaster.getBuyerId();
+
+        if ( userId != buyerId ){
+            return ServerResponse.createByErrorMessage("非当前用户订单，不可操作");
+        }
+
+        if ( orderMaster.getOrderStatus() < OrderStatusEnum.ORDER_SUCCESS.getCode() ){
+            return ServerResponse.createByErrorMessage("订单状态错误，不可评分");
+        }
+
+        Shop shop = shopMapper.selectByPrimaryKey(shopId);
+
+        if ( shop == null ){
+            return ServerResponse.createByErrorMessage("找不到此订单的店铺，无法评论");
+        }
+
+        String credit = shop.getCredit();
+
+        Integer creditPeopleNum = shop.getCreditPeopleNum();
+
+        double creditSum = creditPeopleNum * Double.valueOf(credit);
+
+        creditSum  = creditSum + Double.valueOf(star);
+
+        double targetCredit = creditSum / (creditPeopleNum + 1);
+
+        int result = shopMapper.updateCreditByPrimaryKey(shopId, String.valueOf(targetCredit));
+
+        if ( result < 0 ){
+            return ServerResponse.createByErrorMessage("更新评分失败");
+        }
+
+        return ServerResponse.createBySuccess("评分成功");
+
+    }
+
+
+    /**
+     * 店铺价格
+     * @param userId
+     * @return
+     */
+    @Override
+    public ServerResponse getShopPriceByUserId(Integer userId) {
+
+        User user = userMapper.selectByPrimaryKey(userId);
+
+        Shop shop = shopMapper.selectShopByUserId(userId);
+
+        Integer shopId = shop.getId();
+
+
+        if ( shop == null ){
+            return ServerResponse.createByErrorMessage("尚未进行店铺登记，请联系管理员");
+        }
+
+        BackendPriceVo priceVo = new BackendPriceVo();
+
+        Color black = colorMapper.selectBlackOrColorByShopId(shopId, ColorTypeEnum.BLACK.getCode());
+
+        priceVo.setBlack(black.getPrice());
+
+        Bonus bonus = bonusMapper.selectBonusByShopId(shopId);
+
+        if ( StringUtils.isEmpty(bonus.getBonus()) ){
+            priceVo.setHasBonus(false);
+            priceVo.setBonus("0");
+        }else {
+            priceVo.setHasBonus(true);
+            priceVo.setBonus(bonus.getBonus());
+            priceVo.setThreshold(bonus.getThreshold());
+        }
+
+        Color color = colorMapper.selectBlackOrColorByShopId(shopId, ColorTypeEnum.COLORFUL.getCode());
+
+        if ( color == null ){
+            priceVo.setColor(BigDecimal.ZERO);
+            priceVo.setHasColor(false);
+        }else {
+            priceVo.setColor(color.getPrice());
+            priceVo.setHasColor(true);
+        }
+
+        SingleDouble single = singleDoubleMapper.selectSingleOrDoubleByShopId(shopId, PageTypeEnum.SINGLE.getCode());
+        SingleDouble doublePage = singleDoubleMapper.selectSingleOrDoubleByShopId(shopId, PageTypeEnum.DOUBLE.getCode());
+
+        priceVo.setSinglePage(single.getVariable());
+
+        if ( doublePage == null ){
+            priceVo.setDoublePage("0");
+            priceVo.setHasDouble(false);
+        }else {
+            priceVo.setDoublePage(doublePage.getVariable());
+            priceVo.setHasDouble(true);
+        }
+
+        ArrayList list = Lists.newArrayList();
+
+        for ( PageSizePriceEnum each: PageSizePriceEnum.values() ){
+            PageSize result = pageSizeMapper.getPageSizeByShopIdAndSize(shopId, each.getCode());
+            if (result != null){
+
+                HashMap map = new HashMap();
+
+                map.put(each.getMessage(), result.getVariable());
+
+                list.add(map);
+            }
+        }
+
+        priceVo.setPageSizeList(list);
+
+        return ServerResponse.createBySuccess(priceVo);
+    }
 
 }
