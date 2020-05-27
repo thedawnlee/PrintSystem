@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.wrq.dao.CommentMapper">
-  <resultMap id="BaseResultMap" type="com.wrq.pojo.Comment">
+<mapper namespace="com.dawn.dao.CommentMapper">
+  <resultMap id="BaseResultMap" type="com.dawn.pojo.Comment">
     <constructor>
       <idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER" />
       <arg column="user_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
@@ -29,7 +29,7 @@
     delete from comment
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.wrq.pojo.Comment">
+  <insert id="insert" parameterType="com.dawn.pojo.Comment">
     insert into comment (id, user_id, target_id, 
       ip, content, parent_id, 
       status, create_time, update_time, 
@@ -39,7 +39,7 @@
       #{status,jdbcType=INTEGER}, now(), now(),
       #{commentType,jdbcType=INTEGER})
   </insert>
-  <insert id="insertSelective" parameterType="com.wrq.pojo.Comment">
+  <insert id="insertSelective" parameterType="com.dawn.pojo.Comment">
     insert into comment
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -106,7 +106,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.wrq.pojo.Comment">
+  <update id="updateByPrimaryKeySelective" parameterType="com.dawn.pojo.Comment">
     update comment
     <set>
       <if test="userId != null">
@@ -139,7 +139,7 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.wrq.pojo.Comment">
+  <update id="updateByPrimaryKey" parameterType="com.dawn.pojo.Comment">
     update comment
     set user_id = #{userId,jdbcType=INTEGER},
       target_id = #{targetId,jdbcType=INTEGER},
@@ -152,4 +152,24 @@
       comment_type = #{commentType,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+  <select id="queryCommentFirstLevel" resultType="com.dawn.pojo.Comment" parameterType="java.lang.Integer">
+    SELECT
+    <include refid="Base_Column_List"></include>
+    FROM
+    comment
+    <where>
+      target_id = #{targetId,jdbcType=INTEGER} and parent_id = 0 and status = 0
+    </where>
+  </select>
+
+  <select id="queryCommentByParentId" resultType="com.dawn.pojo.Comment" parameterType="java.lang.Integer">
+    SELECT
+    <include refid="Base_Column_List"></include>
+    FROM
+    comment
+    <where>
+      target_id = #{targetId,jdbcType=INTEGER} and parent_id = #{parentId,jdbcType=INTEGER} and status = 0
+    </where>
+  </select>
 </mapper>

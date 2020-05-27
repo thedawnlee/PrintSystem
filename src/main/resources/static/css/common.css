@@ -1107,10 +1107,11 @@ a:hover {
 .common-header .common-header-wrapper .common-logo[data-v-702109a0] {
 	width: 9.4375rem;
 	height: 4.75rem;
-	background-image: url(../img/logo.png);
+	/*background-image: url(http://local:8080/img/logo_new.png);*/
 	background-repeat: no-repeat;
 	background-position: 50%;
-	background-size: contain
+	background-size: contain;
+	background-color: #fff;
 }
 
 .common-header .common-header-wrapper .info[data-v-702109a0] {

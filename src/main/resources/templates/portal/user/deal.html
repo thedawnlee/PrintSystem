@@ -29,8 +29,8 @@
                     <div data-v-e4d24c94 class="ui-btn white-btn" @click="handleOrderDetailClick(item.orderNo)">详 情</div>
 
                     <div data-v-e4d24c94 class="ui-btn white-btn" v-if=" item.orderStatus === '未支付' " @click="handleOrderDetailClick(item.orderNo)">去支付</div>
-                    <div data-v-e4d24c94 class="ui-btn white-btn" v-else-if=" item.orderStatus === '已付款' " @click="handleOrderDetailClick(item.orderNo)">退款</div>
-                    <div data-v-e4d24c94 class="ui-btn white-btn" v-else-if=" item.orderStatus === '订单完结' " @click="handleOrderDetailClick(item.orderStatus)">关闭</div>
+                    <div data-v-e4d24c94 class="ui-btn white-btn" v-else-if=" item.orderStatus === '已付款' " @click="handleRefundClick(item.orderNo)">退款</div>
+                    <div data-v-e4d24c94 class="ui-btn white-btn" v-else-if=" item.orderStatus === '订单完结' " @click="handleOrderCloseClick(item.orderNo)">关闭</div>
                     <div data-v-e4d24c94 class="ui-btn white-btn" v-else-if=" item.orderStatus === '待取货' " @click="handleOrderOverClick(item.orderNo)">已取货</div>
                     <div data-v-e4d24c94 class="ui-btn white-btn is-hidden" v-else></div>
                 </div>

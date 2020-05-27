@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.wrq.dao.SingleDoubleMapper">
-  <resultMap id="BaseResultMap" type="com.wrq.pojo.SingleDouble">
+<mapper namespace="com.dawn.dao.SingleDoubleMapper">
+  <resultMap id="BaseResultMap" type="com.dawn.pojo.SingleDouble">
     <constructor>
       <idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER" />
       <arg column="page_type" javaType="java.lang.String" jdbcType="VARCHAR" />
@@ -22,13 +22,13 @@
     delete from single_double_info
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.wrq.pojo.SingleDouble">
+  <insert id="insert" parameterType="com.dawn.pojo.SingleDouble">
     insert into single_double_info (id, page_type, shop_id,
       variable )
     values (#{id,jdbcType=INTEGER}, #{pageType,jdbcType=VARCHAR}, #{shopId,jdbcType=INTEGER},
       #{variable ,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.wrq.pojo.SingleDouble">
+  <insert id="insertSelective" parameterType="com.dawn.pojo.SingleDouble">
     insert into single_double_info
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -59,7 +59,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.wrq.pojo.SingleDouble">
+  <update id="updateByPrimaryKeySelective" parameterType="com.dawn.pojo.SingleDouble">
     update single_double_info
     <set>
       <if test="pageType != null">
@@ -74,7 +74,17 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.wrq.pojo.SingleDouble">
+
+  <update id="updatePrice" parameterType="com.dawn.pojo.SingleDouble">
+    update single_double_info
+    set
+    variable = #{price ,jdbcType=VARCHAR}
+    where page_type = #{pageType,jdbcType=VARCHAR} and shop_id = #{shopId,jdbcType=INTEGER}
+  </update>
+
+
+
+  <update id="updateByPrimaryKey" parameterType="com.dawn.pojo.SingleDouble">
     update single_double_info
     set page_type = #{pageType,jdbcType=VARCHAR},
       shop_id = #{shopId,jdbcType=INTEGER},

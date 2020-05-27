@@ -23,7 +23,7 @@
                                 </h3>
                                 <div class="widget-toolbar no-border invoice-info">
                                     <span class="invoice-info-label">支付时间:</span>
-                                    <span class="blue">${orderInfo.paymentTime?datetime}</span>
+                                    <span class="blue">2020年6月12号 3:40 PM</span>
                                 </div>
 
                             </div>
@@ -124,6 +124,7 @@
 
                                             <tbody>
                                             <#list orderInfo.orderVoList as order>
+                                                <input type="hidden" ref="fileName" value="${order.fileName}">
                                                 <tr>
                                                     <td class="center">${order.fileName}</td>
                                                     <td class="center">${order.singleOrDouble}</td>
@@ -135,7 +136,8 @@
                                                         ${order.fileQuantity} 份
                                                     </td>
                                                     <td class="hidden-480">￥ ${order.orderPrice}</td>
-                                                    <td class="hidden-480"><a href="/store/file/download?file=${order.fileNewName}&orderNo=${orderInfo.orderNo} ">点击下载</a></td>
+                                                    <!--<td class="hidden-480"><a href="/store/file/download?file=${order.fileNewName}&orderNo=${orderInfo.orderNo} ">点击下载</a></td>-->
+                                                    <td class="hidden-480"><a href="http://localhost:8080/img/${order.fileNewName}">点击下载</a></td>
                                                     <td class="hidden-xs">
                                                         <#if orderInfo.refuseReason == NULL >
                                                             无
@@ -156,12 +158,6 @@
                                                 <#if orderInfo.orderStatus == "已付款" >
                                                     <button class="btn btn-success" @click="handleAcceptOrder">接受订单</button>
                                                     <button class="btn btn-danger" @click="handleRefuseOrder">拒绝订单</button>
-                                                </#if>
-                                                <#if orderInfo.orderStatus == "店主拒绝" >
-                                                    <button class="btn">关闭订单</button>
-                                                </#if>
-                                                <#if orderInfo.orderStatus == "订单完结" >
-                                                    <button class="btn">关闭订单</button>
                                                 </#if>
                                             </div>
                                         </div>
@@ -196,6 +192,65 @@
                                                 <div class="modal-footer">
                                                     <button type="button" class="btn btn-primary" @click="handleGetFileCLick">通知取货</button>
                                                     <button type="button" class="btn btn-default" @click="handleGetKeyItemClose" data-dismiss="modal">关闭</button>
+                                                </div>
+                                            </div><!-- /.modal-content -->
+                                        </div><!-- /.modal-dialog -->
+                                    </div><!-- /.modal -->
+
+                                    <div :class="{show: refuseItem}" class="modal getKey"  tabindex="-1" role="dialog" aria-labelledby="gridSystemModalLabel">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <button type="button" @click="handleRefuseItemClose" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                                    <h4 class="modal-title" >选择拒绝原因</h4>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <div class="row">
+                                                        <div class="col-xs-12 col-sm-6">
+                                                            <div class="control-group" ref="radios">
+                                                                <label class="control-label bolder blue">请选择拒绝打印的原因：</label>
+
+                                                                <div class="radio">
+                                                                    <label>
+                                                                        <input name="form-field-radio" class="radioItem" value="违反道德" type="radio" class="ace">
+                                                                        <span class="lbl"> 违反道德 </span>
+                                                                    </label>
+                                                                </div>
+
+                                                                <div class="radio">
+                                                                    <label>
+                                                                        <input name="form-field-radio" class="radioItem" value="色情违法" type="radio" class="ace">
+                                                                        <span class="lbl"> 色情违法 </span>
+                                                                    </label>
+                                                                </div>
+
+                                                                <div class="radio">
+                                                                    <label>
+                                                                        <input name="form-field-radio" class="radioItem" value="暂时停业" type="radio" class="ace">
+                                                                        <span class="lbl"> 暂时停业 </span>
+                                                                    </label>
+                                                                </div>
+
+                                                                <div class="radio">
+                                                                    <label>
+                                                                        <input name="form-field-radio" class="radioItem" value="无法打印" type="radio" class="ace">
+                                                                        <span class="lbl"> 无法打印 </span>
+                                                                    </label>
+                                                                </div>
+
+                                                                <div class="radio">
+                                                                    <label>
+                                                                        <input name="form-field-radio"  class="radioItem" value="其他原因" type="radio" class="ace">
+                                                                        <span class="lbl"> 其他原因 </span>
+                                                                    </label>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-primary" @click="handleRefuseUserCLick">通知用户</button>
+                                                    <button type="button" class="btn btn-default" @click="handleRefuseItemClose" data-dismiss="modal">关闭</button>
                                                 </div>
                                             </div><!-- /.modal-content -->
                                         </div><!-- /.modal-dialog -->

@@ -1,6 +1,4 @@
-/**
- * Created by wangqian on 2019/3/29.
- */
+
 var vue = new Vue({
     el: "#detail",
     data: {
@@ -25,7 +23,6 @@ var vue = new Vue({
         otherShopList: [],
         shopStatus: 1,
         printBtnDisable: true
-
     },
     methods: {
         getPriceInfo: function (id) {
@@ -90,6 +87,9 @@ var vue = new Vue({
                 util.errorTips("此店已经打烊啦~")
             }
 
+        },
+        handleComplaintClick: function () {
+          alert("投诉此店，请将详细叙述以及证据发送至邮箱：lisantao_tao@outlook.com.com");
         },
         handleOrderClick: function () {
             window.location.href = "/order/info";

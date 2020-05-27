@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.wrq.dao.OrderItemMapper">
-  <resultMap id="BaseResultMap" type="com.wrq.pojo.OrderItem">
+<mapper namespace="com.dawn.dao.OrderItemMapper">
+  <resultMap id="BaseResultMap" type="com.dawn.pojo.OrderItem">
     <constructor>
       <idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER" />
       <arg column="order_no" javaType="java.lang.String" jdbcType="VARCHAR" />
@@ -31,7 +31,7 @@
     delete from order_item
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.wrq.pojo.OrderItem">
+  <insert id="insert" parameterType="com.dawn.pojo.OrderItem">
     insert into order_item (id, order_no, user_id, 
       file_id, file_quantity, current_price, 
       size_info_type, user_des, create_time, 
@@ -41,7 +41,7 @@
       #{sizeInfoType,jdbcType=INTEGER}, #{userDes,jdbcType=VARCHAR}, now(),
       now(), #{colorInfoType,jdbcType=INTEGER}, #{pageInfoType,jdbcType=INTEGER})
   </insert>
-  <insert id="insertSelective" parameterType="com.wrq.pojo.OrderItem">
+  <insert id="insertSelective" parameterType="com.dawn.pojo.OrderItem">
     insert into order_item
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -120,7 +120,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.wrq.pojo.OrderItem">
+  <update id="updateByPrimaryKeySelective" parameterType="com.dawn.pojo.OrderItem">
     update order_item
     <set>
       <if test="orderNo != null">
@@ -159,7 +159,7 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.wrq.pojo.OrderItem">
+  <update id="updateByPrimaryKey" parameterType="com.dawn.pojo.OrderItem">
     update order_item
     set order_no = #{orderNo,jdbcType=VARCHAR},
       user_id = #{userId,jdbcType=INTEGER},

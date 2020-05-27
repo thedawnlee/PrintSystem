@@ -1376,7 +1376,7 @@ a:hover {
 	right: 0;
 	bottom: 0;
 	z-index: -1;
-	background: url(http://image.qian.com/layout-bg.jpg) no-repeat top;
+	/*background: url(http://localhost:8080/img/layout-bg.jpg) no-repeat top;*/
 	background-size: cover
 }
 

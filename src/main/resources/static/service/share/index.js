@@ -1,6 +1,4 @@
-/**
- * Created by wangqian on 2019/4/19.
- */
+
 var vue = new Vue({
     el: "#share",
     data: {
@@ -88,16 +86,23 @@ var vue = new Vue({
             var options = ['code', '|', 'bold', 'italic', 'underline', 'strikethrough', 'forecolor', 'backcolor', 'removeformat',
                 '|', 'quotes', 'fontname', 'fontsize', 'heading', 'indent', 'outdent',
                 'insertorderedlist', 'insertunorderedlist', 'justifyleft', 'justifycenter', 'justifyright', 'justifyfull', '|',
-                'createlink', 'insertimage', 'insertvideo', 'insertcode'
+                'createlink', 'insertimage'
             ];
 
             this.editorItem = Edit.getEditor('editorItem', {
-                // toolbars: options,
+                toolbars: options,
                 focus: true,
                 events: {
                     contentchange: function(editor) {
                         _this.richText = _this.editorItem.getContent();
                     },
+                },
+                upload : {
+                    url : '/file/richtext_img_upload.do', //文件上传的接口地址
+                    params: null, //键值对,指定文件上传接口的额外参数,上传的时候随文件一起提交
+                    fileKey: 'upload_file', //服务器端获取文件数据的参数名
+                    connectionCount: 3,
+                    leaveConfirm: '正在上传文件'
                 },
                 resize: true
             })

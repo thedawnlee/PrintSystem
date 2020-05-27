@@ -31,7 +31,10 @@
                 </div>
             </div>
         </div>
-        <div class="OjL5wNoM_0"><span>— 没有更多了 —</span></div>
+        <button data-v-637a7fc8 @click="handleMoreClick" :class="{'is-hidden': size==total,'next-page-btn':true,'ui-btn':true,'orange-btn':true}" >
+            加载更多
+        </button>
+        <div  :class="{'OjL5wNoM_0':true, 'is-hidden': size!=total}"><span>— 没有更多了 —</span></div>
     </div>
 
     <#include "portal/shared/side.html"/>

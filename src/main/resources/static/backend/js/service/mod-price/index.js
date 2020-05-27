@@ -40,6 +40,7 @@ var vue = new Vue({
         black: null,
         color: null,
         bonus: null,
+        newBonus: 9,
         pageSizeList: [],
         threshold: null,
         updateBonus: false
@@ -87,51 +88,148 @@ var vue = new Vue({
 
             this.hasA0 = !this.hasA0;
 
+            if ( !this.hasA0 ){
+                this.priceA0 = null;
+            }
+
         },
         handleA1Click: function (){
 
             this.hasA1 = !this.hasA1
+
+            if ( !this.hasA1 ){
+                this.priceA1 = null;
+            }
 
         },
         handleA2Click: function (){
 
             this.hasA2 = !this.hasA2;
 
+            if ( !this.hasA2 ){
+                this.priceA2 = null;
+            }
+
         },
         handleA3Click: function (){
 
             this.hasA3 = !this.hasA3;
-
+            if ( !this.hasA3 ){
+                this.priceA3 = null;
+            }
         },
         handleA4Click: function (){
             this.hasA4 = !this.hasA4;
+            if ( !this.hasA4 ){
+                this.priceA4 = null;
+            }
         },
         handleA5Click: function (){
             this.hasA5 = !this.hasA5;
+
+            if ( !this.hasA5 ){
+                this.priceA5 = null;
+            }
         },
         handleA6Click: function (){
             this.hasA6 = !this.hasA6;
+
+            if ( !this.hasA6 ){
+                this.priceA6 = null;
+            }
         },
         handleA7Click: function (){
             this.hasA7 = !this.hasA7;
+
+            if ( !this.hasA7 ){
+                this.priceA7 = null;
+            }
         },
         handleA8Click: function (){
             this.hasA8 = !this.hasA8;
+
+            if ( !this.hasA8 ){
+                this.priceA8 = null;
+            }
         },
         handleA9Click: function (){
             this.hasA9 = !this.hasA9;
+
+            if ( !this.hasA9 ){
+                this.priceA9 = null;
+            }
         },
         handle0A0Click: function (){
             this.has0A0 = !this.has0A0;
+
+            if ( !this.has0A0 ){
+                this.price0A0 = null;
+            }
         },
         handle4A0Click: function (){
             this.has4A0 = !this.has4A0;
+
+            if ( !this.has4A0 ){
+                this.price4A0 = null;
+            }
         },
         handleA10Click: function (){
             this.hasA10 = !this.hasA10;
+
+            if ( !this.hasA10 ){
+                this.priceA10 = null;
+            }
         },
         handleBonusUpdateClick: function () {
             this.updateBonus = !this.updateBonus;
+        },
+        handleCloseClick: function () {
+            location.href = "/store/price"
+        },
+        handleSubmitClick: function () {
+
+            this.$http.post('/store/shop/price/update', {
+                singlePage: this.singlePage,
+                doublePage: this.doublePage,
+                black: this.black,
+                color: this.color,
+                threshold: this.threshold,
+                bonus: this.newBonus,
+                hasDoublePage: this.hasDoublePage,
+                hasColor: this.hasColor,
+                hasBonus: this.hasBonus,
+                price0A0: this.price0A0,
+                price4A0: this.price4A0,
+                priceA0: this.priceA0,
+                priceA1: this.priceA1,
+                priceA2: this.priceA2,
+                priceA3: this.priceA3,
+                priceA4: this.priceA4,
+                priceA5: this.priceA5,
+                priceA6: this.priceA6,
+                priceA7: this.priceA7,
+                priceA8: this.priceA8,
+                priceA9: this.priceA9,
+                priceA10: this.priceA10
+            }, {emulateJSON:true}).then(function (res) {
+
+                res = res.body;
+                if( res.data && res.status == 0){
+                   alert("!!!!")
+                }else {
+                    util.errorTips( res.msg );
+                    if ( (res.msg) == "NEED_LOGIN") {
+                        location.href = "/store/login";
+                        return
+                    }else {
+                        location.href = "/store/list"
+                    }
+                }
+
+            }, function () {
+
+            });
+
         }
     },
     watch:{

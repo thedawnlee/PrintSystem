@@ -1,6 +1,4 @@
-/**
- * Created by wangqian on 2019/4/4.
- */
+
 var vue = new Vue({
     el: "#create",
     data: {
@@ -228,6 +226,9 @@ var vue = new Vue({
         },
         getPriceErrorCallback: function () {
             util.errorTips( "计算订单价格时发生了错误！" );
+        },
+        handleComplaintClick: function () {
+            alert("投诉此店，请将详细叙述以及证据发送至邮箱：printonline@163.com");
         }
     },
     mounted: function () {

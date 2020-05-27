@@ -1,6 +1,3 @@
-/**
- * Created by wangqian on 2019/4/9.
- */
 var vue = new Vue({
     el: "#pay",
     data: {

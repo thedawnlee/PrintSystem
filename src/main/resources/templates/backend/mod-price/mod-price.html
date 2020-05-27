@@ -301,7 +301,7 @@
                             <div class="form-group" :class="{'is-hidden':!hasBonus}">
                                 <label class="col-sm-3 control-label no-padding-right"> 优惠力度: </label>
                                 <label class="col-xs-3 no-padding-left" :class="{'is-hidden':updateBonus}">&nbsp;&nbsp;用户打印张数大于 {{threshold}} 张，享 {{bonus * 10}} 折优惠</label>
-                                <label class="col-xs-3 no-padding-left" :class="{'is-hidden':!updateBonus}">&nbsp;&nbsp;用户打印张数大于  <input v-model="threshold" type="number" min="1" style="width: 40px"> 张，享 <input type="number" min="1"  max="9" style="width: 50px"> 折优惠</label>
+                                <label class="col-xs-3 no-padding-left" :class="{'is-hidden':!updateBonus}">&nbsp;&nbsp;用户打印张数大于  <input v-model="threshold" type="number" min="1" style="width: 40px"> 张，享 <input type="number" v-model="newBonus" min="1"  max="9" style="width: 50px"> 折优惠</label>
                                 <button class="btn btn-link" :class="{'is-hidden':updateBonus}" @click="handleBonusUpdateClick" type="button">
                                 修改
                             </button>
@@ -311,11 +311,11 @@
 
                             <div class="clearfix form-actions">
                                 <div class="col-md-offset-3 col-md-9">
-                                    <button class="btn btn-info" type="button">
+                                    <button class="btn btn-info" @click="handleSubmitClick" type="button">
                                         提交
                                     </button>
                                     &nbsp; &nbsp; &nbsp;
-                                    <button class="btn" type="reset">
+                                    <button class="btn" @click="handleCloseClick" type="reset">
                                         返回
                                     </button>
                                 </div>

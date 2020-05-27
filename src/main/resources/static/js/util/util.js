@@ -1,10 +1,7 @@
-/**
- * Created by wangqian on 2019/1/31.
- */
 var util = {
 
     getImgHost: function () {
-        return "http://image.qian.com/";
+        return "http://localhost:8080/img/";
     },
     getHost: function(){
         return "localhost:8083";

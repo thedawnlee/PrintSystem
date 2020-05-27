@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.wrq.dao.ScoreMapper">
-  <resultMap id="BaseResultMap" type="com.wrq.pojo.Score">
+<mapper namespace="com.dawn.dao.ScoreMapper">
+  <resultMap id="BaseResultMap" type="com.dawn.pojo.Score">
     <constructor>
       <idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER" />
       <arg column="user_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
@@ -27,13 +27,13 @@
     delete from score_history
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.wrq.pojo.Score">
+  <insert id="insert" parameterType="com.dawn.pojo.Score">
     insert into score_history (id, user_id, share_id, owner_id, integral, create_time, update_time,
       look_over, file_new_name)
     values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{shareId,jdbcType=INTEGER},  #{ownerId,jdbcType=INTEGER},  #{integral,jdbcType=INTEGER}, now(), now(),
       #{lookOver,jdbcType=INTEGER},#{fileNewName,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.wrq.pojo.Score">
+  <insert id="insertSelective" parameterType="com.dawn.pojo.Score">
     insert into score_history
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -94,7 +94,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.wrq.pojo.Score">
+  <update id="updateByPrimaryKeySelective" parameterType="com.dawn.pojo.Score">
     update score_history
     <set>
       <if test="userId != null">
@@ -124,7 +124,7 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.wrq.pojo.Score">
+  <update id="updateByPrimaryKey" parameterType="com.dawn.pojo.Score">
     update score_history
     set user_id = #{userId,jdbcType=INTEGER},
       share_id = #{shareId,jdbcType=INTEGER},

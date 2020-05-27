@@ -28,7 +28,7 @@ import java.util.*;
 
 /**
  * 简单main函数，用于测试当面付api
- * sdk和demo的意见和问题反馈请联系：liuyang.kly@alipay.com
+ * sdk和demo的意见和问题反馈请联系
  */
 public class Main {
     private static Log log = LogFactory.getLog(Main.class);
@@ -92,8 +92,8 @@ public class Main {
         // 测试查询当面付2.0交易
         //        main.test_trade_query();
 
-        // 测试当面付2.0退货
-        //        main.test_trade_refund();
+//         测试当面付2.0退货
+                main.test_trade_refund();
 
         // 测试当面付2.0生成支付二维码
         main.test_trade_precreate();

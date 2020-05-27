@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.wrq.dao.CreditMapper">
-  <resultMap id="BaseResultMap" type="com.wrq.pojo.Credit">
+<mapper namespace="com.dawn.dao.CreditMapper">
+  <resultMap id="BaseResultMap" type="com.dawn.pojo.Credit">
     <constructor>
       <idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER" />
       <arg column="user_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
@@ -24,7 +24,7 @@
     delete from credit_history
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.wrq.pojo.Credit">
+  <insert id="insert" parameterType="com.dawn.pojo.Credit">
     insert into credit_history (id, user_id, shop_id, 
       score, create_time, update_time
       )
@@ -32,7 +32,7 @@
       #{score,jdbcType=VARCHAR}, now(), now()
       )
   </insert>
-  <insert id="insertSelective" parameterType="com.wrq.pojo.Credit">
+  <insert id="insertSelective" parameterType="com.dawn.pojo.Credit">
     insert into credit_history
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -75,7 +75,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.wrq.pojo.Credit">
+  <update id="updateByPrimaryKeySelective" parameterType="com.dawn.pojo.Credit">
     update credit_history
     <set>
       <if test="userId != null">
@@ -96,7 +96,7 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.wrq.pojo.Credit">
+  <update id="updateByPrimaryKey" parameterType="com.dawn.pojo.Credit">
     update credit_history
     set user_id = #{userId,jdbcType=INTEGER},
       shop_id = #{shopId,jdbcType=INTEGER},

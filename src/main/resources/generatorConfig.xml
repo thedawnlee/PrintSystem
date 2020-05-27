@@ -11,8 +11,8 @@
         </commentGenerator>
         <!--数据库链接地址账号密码 -->
         <jdbcConnection driverClass="com.mysql.jdbc.Driver"
-                        connectionURL="jdbc:mysql://localhost:3306/print?useSSL=false"
-                        userId="root" password="admin">
+                        connectionURL="jdbc:mysql://39.96.183.205:10086/myPrintSystem?useSSL=false"
+                        userId="root" password="123456">
         </jdbcConnection>
 
         <!-- true：使用BigDecimal对应DECIMAL和 NUMERIC数据类型 -->
@@ -24,7 +24,7 @@
         </javaTypeResolver>
 
         <!--生成Model类存放位置 -->
-        <javaModelGenerator targetPackage="com.wrq.pojo"
+        <javaModelGenerator targetPackage="com.dawn.pojo"
                             targetProject="src/main/java">
             <!-- 在targetPackage的基础上，根据数据库的schema再生成一层package，最终生成的类放在这个package下，默认为false -->
             <property name="enableSubPackages" value="false" />
@@ -45,7 +45,7 @@
 
         <!--生成Dao类存放位置 -->
         <javaClientGenerator type="XMLMAPPER"
-                             targetPackage="com.wrq.dao" targetProject="src/main/java">
+                             targetPackage="com.dawn.dao" targetProject="src/main/java">
             <property name="enableSubPackages" value="false" />
         </javaClientGenerator>
 

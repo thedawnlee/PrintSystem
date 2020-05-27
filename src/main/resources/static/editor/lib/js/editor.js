@@ -219,8 +219,8 @@
 
 	// 初始化配置
 	var EDITOR_CONFIG = {
-		serverUrl: 'http://www.daily.bookln.cn/comm/file/upload.do',
-		serverBase64Url: 'http://www.daily.bookln.cn/comm/img/base64/upload.do',
+		serverUrl: '/file/richtext_img_upload.do',
+		serverBase64Url: '/file/richtext_img_upload.do',
 		toolbars: ['code', '|', 'bold', 'italic', 'underline', 'strikethrough', 'forecolor', 'backcolor', 'removeformat', '|', 'quotes', 'fontname', 'fontsize', 'heading', 'indent', 'outdent', 
 		'insertorderedlist', 'insertunorderedlist', 'justifyleft', 'justifycenter', 'justifyright', 'justifyfull', '|', 'createlink', 'insertimage', 'insertvideo', 'insertcode', '|', 'undo', 'redo'],
 		fontnames: [
@@ -1637,10 +1637,11 @@
     			editor.execCommand('inserthtml', '<img id="'+ loadingId +'" src="/lib/images/loading.gif" style="max-width:100% !important;height:auto;">');
     			if (rFilter.test(file.type)) {
     				Edit.Ajax(url,'post',Form,function(cb){
+						console.log(cb)
     					var loader = editor.document.getElementById(loadingId);
-						loader.setAttribute('src',cb.data.url);
-						if (cb.data.height) loader.setAttribute('height',cb.data.height);
-						if (cb.data.width) loader.setAttribute('width',cb.data.width);
+						loader.setAttribute('src',cb.url);
+						if (cb.height) loader.setAttribute('height',cb.height);
+						if (cb.width) loader.setAttribute('width',cb.width);
 						loader.removeAttribute('id');
     					Edit.ui.closeDialog();
 						// 监听内容变化

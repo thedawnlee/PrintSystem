@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.wrq.dao.ShopMapper">
-  <resultMap id="BaseResultMap" type="com.wrq.pojo.Shop">
+<mapper namespace="com.dawn.dao.ShopMapper">
+  <resultMap id="BaseResultMap" type="com.dawn.pojo.Shop">
     <constructor>
       <idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER" />
       <arg column="owner_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
@@ -37,7 +37,7 @@
     delete from shop
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.wrq.pojo.Shop">
+  <insert id="insert" parameterType="com.dawn.pojo.Shop">
     insert into shop (id, owner_id, shop_name, 
       shop_address, shop_description, content, 
       credit, status, work_time, 
@@ -53,7 +53,7 @@
       #{dealNum,jdbcType=INTEGER}, #{subImg,jdbcType=VARCHAR}, #{mainImg,jdbcType=VARCHAR}, 
       #{miniImg,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.wrq.pojo.Shop">
+  <insert id="insertSelective" parameterType="com.dawn.pojo.Shop">
     insert into shop
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -168,7 +168,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.wrq.pojo.Shop">
+  <update id="updateByPrimaryKeySelective" parameterType="com.dawn.pojo.Shop">
     update shop
     <set>
       <if test="ownerId != null">
@@ -225,7 +225,7 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.wrq.pojo.Shop">
+  <update id="updateByPrimaryKey" parameterType="com.dawn.pojo.Shop">
     update shop
     set owner_id = #{ownerId,jdbcType=INTEGER},
       shop_name = #{shopName,jdbcType=VARCHAR},
@@ -278,21 +278,21 @@
     where owner_id = #{userId}
   </select>
 
-  <update id="changeStoreStatus" parameterType="com.wrq.pojo.Shop">
+  <update id="changeStoreStatus" parameterType="com.dawn.pojo.Shop">
     update shop
     set
     status = #{status,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
 
-  <update id="addDealNumByPrimaryKey" parameterType="com.wrq.pojo.Shop">
+  <update id="addDealNumByPrimaryKey" parameterType="com.dawn.pojo.Shop">
     update shop
     set
     deal_num = deal_num + 1
     where id = #{id,jdbcType=INTEGER}
   </update>
 
-  <update id="updateCreditByPrimaryKey" parameterType="com.wrq.pojo.Shop">
+  <update id="updateCreditByPrimaryKey" parameterType="com.dawn.pojo.Shop">
     update shop
     set
     credit = #{credit,jdbcType=INTEGER},

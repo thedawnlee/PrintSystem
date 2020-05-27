@@ -1,6 +1,4 @@
-/**
- * Created by wangqian on 2019/3/29.
- */
+
 var vue = new Vue({
     el: "#header",
     data: {
@@ -49,6 +47,9 @@ var vue = new Vue({
         },
         handleShareClick: function () {
             location.href = "/share/list";
+        },
+        handleHelpClick: function () {
+            location.href = "/help";
         },
         handleLoginOut: function () {
             this.$http.post('/user/logout.do',{emulateJSON:true}).then(this.outSuccessCallback, this.errorCallback)

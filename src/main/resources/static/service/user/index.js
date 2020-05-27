@@ -1,6 +1,4 @@
-/**
- * Created by wangqian on 2019/4/10.
- */
+
 var vue = new Vue({
     el: "#user",
     data: {
@@ -329,6 +327,7 @@ var vue = new Vue({
             }, function () {
                 util.errorTips( "完结订单失败！" );
             })
+
         },
         evaluation: function ( value ) {
             this.overOrderSuccess = false;
@@ -360,6 +359,38 @@ var vue = new Vue({
         },
         handleCloseCreditClick: function () {
             location.href = "/order/info"
+        },
+        handleOrderCloseClick: function (value) {
+
+            this.$http.post('/order/close',{
+                orderNo: value
+            },{emulateJSON:true}).then(function ( res ) {
+                res = res.body;
+                if(res.status == 0){
+                    location.href = "/order/info"
+                }else {
+                    util.errorTips( res.msg );
+                }
+            }, function () {
+                util.errorTips( "关闭订单失败！" );
+            })
+
+        },
+        handleRefundClick: function (value) {
+
+            this.$http.post('/pay/refund.do',{
+                orderNo: value
+            },{emulateJSON:true}).then(function ( res ) {
+                res = res.body;
+                if(res.status == 0){
+                    location.href = "/order/info"
+                }else {
+                    util.errorTips( res.msg );
+                }
+            }, function () {
+                util.errorTips( "退款失败！" );
+            })
+
         }
 
     },

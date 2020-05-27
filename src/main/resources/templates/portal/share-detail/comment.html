@@ -1,47 +1,28 @@
 <div class="aWoEm1VW_0">
-    <div class="_3SZaEKao_0"><img src="https://static001.geekbang.org/account/avatar/00/11/7d/c6/87f6bee4.jpg"
+    <div class="_3SZaEKao_0"><img :src="headerPic"
                                   class="_1162B7i7_0">
-        <div class="_20XltAts_0">王久一</div>
+        <div class="_20XltAts_0">{{username}}</div>
     </div>
-    <div class="_1tbWAlsU_0"><textarea placeholder="由作者筛选后的优质留言将会公开显示，欢迎踊跃留言。" rows="16" class="_2KHEOPSr_0"></textarea></div>
+    <div class="_1tbWAlsU_0"><textarea v-model="content" placeholder="请自觉遵守互联网相关的政策法规，严禁发布色情、暴力、反动的言论。" rows="16" class="_2KHEOPSr_0"></textarea></div>
     <div class="_1veVZDxP_0">
-        <div class="_35yjm5PG_0">Ctrl + Enter 发表</div>
-        <div class="Yy13DVC5_0">0/2000字</div>
-        <div class="_3_vpCYgD_0">提交留言</div>
+        <div class="_35yjm5PG_0"></div>
+        <div class="Yy13DVC5_0"></div>
+        <div class="_3_vpCYgD_0" @click="handleSubmitComment">提交留言</div>
     </div>
 </div>
-<div class="_3-W_zrq4_0">
-    <h4>精选留言(112)</h4>
+<div class="_3-W_zrq4_0" :class="{'is-hidden': total<0}">
+    <h4>精选留言({{total}})</h4>
     <ul>
-        <li class="_2sjJGcOH_0"><img src="https://static001.geekbang.org/account/avatar/00/0f/75/69/3819e905.jpg"
+        <li class="_2sjJGcOH_0" v-for="(item, index) of list" :key="index">
+            <img :src="item.headerPic"
                                      class="_3FLYR4bF_0">
             <div class="_36ChpWj4_0">
-                <div class="_2zFoi7sd_0"><span>rocedu</span>
+                <div class="_2zFoi7sd_0"><span>{{item.username}}</span>
 
                 </div>
-                <div class="_2_QraFYR_0">别出心裁的Linux命令学习法https://www.cnblogs.com/rocedu/p/4902411.html, 我这篇博客可以让你尽快过第一关。</div>
+                <div class="_2_QraFYR_0">{{item.content}}</div>
                 <div class="_3klNVc4Z_0">
-                    <div class="_24fTab90_0"><i class="iconfont"></i> <span class="">62</span></div>
-
-                    <div class="_3Hkula0k_0">2019-03-29</div>
-                </div>
-
-            </div>
-        </li>
-        <li class="_2sjJGcOH_0"><img src="https://static001.geekbang.org/account/avatar/00/12/a4/39/6a5cd1d8.jpg"
-                                     class="_3FLYR4bF_0">
-            <div class="_36ChpWj4_0">
-                <div class="_2zFoi7sd_0"><span>sotey</span>
-
-                </div>
-                <div class="_2_QraFYR_0">学习计划：<br>我是做运维的<br>1、第一件事情当然是安装Linux操作系统了，我用虚拟机安装了CentOS7，第一遍升级到ml居然是5.0内核，内核还是升级到lt4.x，-
-                    -~！<br>2、买书！！！Unix环境编程、深入理解Linux内核、Linux源代码情景分析，又多了三本讲操作系统的了，- -~！<br>3、自我心理疏导，逃不掉啊，还是要面对C/C++<br>4、学习计划<br>4.1
-                    每周一三五读专栏，至少两遍，记录下不清楚的地方，并且提问最想知道的知识点<br>4.2 每周六、日带小孩- -~!抽空回顾本周三篇专栏，查漏补缺，搜索和翻阅书籍至少摘抄一边周一三五不清楚的地方<br>4.3
-                    每周日晚上总结一周学习效果，计划下一周冲刺<br>4.4 每周计划包括预习，根据老师的课程目录提前查阅资料，例如将要讲进程调度的时候，查阅一下讲操作系统概念的书。如老师要讲代码了，提前复习一下C/C++语言。</div>
-                <div class="_3klNVc4Z_0">
-                    <div class="_24fTab90_0"><i class="iconfont"></i> <span class="">50</span></div>
-
-                    <div class="_3Hkula0k_0">2019-03-29</div>
+                    <div class="_3Hkula0k_0">{{item.createTime | dataFormat}}</div>
                 </div>
 
             </div>

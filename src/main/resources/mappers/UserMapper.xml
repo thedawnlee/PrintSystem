@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.wrq.dao.UserMapper">
-  <resultMap id="BaseResultMap" type="com.wrq.pojo.User">
+<mapper namespace="com.dawn.dao.UserMapper">
+  <resultMap id="BaseResultMap" type="com.dawn.pojo.User">
     <constructor>
       <idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER" />
       <arg column="username" javaType="java.lang.String" jdbcType="VARCHAR" />
@@ -31,7 +31,7 @@
     delete from user
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.wrq.pojo.User">
+  <insert id="insert" parameterType="com.dawn.pojo.User">
     insert into user (id, username, password, 
       email, phone, header_pic, 
       question, answer, role, 
@@ -43,7 +43,7 @@
       #{integral,jdbcType=VARCHAR}, now(), now()
       )
   </insert>
-  <insert id="insertSelective" parameterType="com.wrq.pojo.User">
+  <insert id="insertSelective" parameterType="com.dawn.pojo.User">
     insert into user
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -122,7 +122,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.wrq.pojo.User">
+  <update id="updateByPrimaryKeySelective" parameterType="com.dawn.pojo.User">
     update user
     <set>
       <if test="username != null">
@@ -161,7 +161,7 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.wrq.pojo.User">
+  <update id="updateByPrimaryKey" parameterType="com.dawn.pojo.User">
     update user
     set username = #{username,jdbcType=VARCHAR},
       password = #{password,jdbcType=VARCHAR},
@@ -232,7 +232,7 @@
     <!--and id !=#{userId}-->
   <!--</select>-->
 
-  <update id="updateByPrimaryKeyAndIntegral" parameterType="com.wrq.pojo.User">
+  <update id="updateByPrimaryKeyAndIntegral" parameterType="com.dawn.pojo.User">
   update user
   set
   integral = #{integral,jdbcType=VARCHAR},
@@ -240,7 +240,7 @@
   where id = #{id,jdbcType=INTEGER}
 </update>
 
-  <update id="updateUsernameByUserId" parameterType="com.wrq.pojo.User">
+  <update id="updateUsernameByUserId" parameterType="com.dawn.pojo.User">
     update user
     set
     username = #{username,jdbcType=VARCHAR},
@@ -248,7 +248,7 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
 
-  <update id="updateEmailByUserId" parameterType="com.wrq.pojo.User">
+  <update id="updateEmailByUserId" parameterType="com.dawn.pojo.User">
     update user
     set
     email = #{email,jdbcType=VARCHAR},
@@ -257,7 +257,7 @@
   </update>
 
 
-  <update id="updatePhoneByUserId" parameterType="com.wrq.pojo.User">
+  <update id="updatePhoneByUserId" parameterType="com.dawn.pojo.User">
     update user
     set
     phone = #{phone,jdbcType=VARCHAR},
@@ -265,7 +265,7 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
 
-  <update id="updatePasswordByPrimaryKey" parameterType="com.wrq.pojo.User">
+  <update id="updatePasswordByPrimaryKey" parameterType="com.dawn.pojo.User">
     update user
     set
     password = #{password,jdbcType=VARCHAR},

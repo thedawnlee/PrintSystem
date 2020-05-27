@@ -1,6 +1,4 @@
-/**
- * Created by wangqian on 2019/3/29.
- */
+
 var vue = new Vue({
     el: "#content",
     data: {

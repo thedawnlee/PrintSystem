@@ -1,0 +1,59 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>用户登录</title>
+    <#include "portal/common/meta.html"/>
+    <link rel="stylesheet" type="text/css" href="${basePath}/css/login.css" />
+    <link rel="stylesheet" type="text/css" href="${basePath}/css/common.css" />
+</head>
+<body style="background-color: black;">
+<div class="app" id="register">
+    <div data-v-6143d696="" data-v-397789a4="" class="layout container">
+        <div data-v-6143d696="" class="fix-bg"></div>
+        <div data-v-6143d696="" class="layout-content"><img data-v-6143d696="" src="${basePath}/img/login_img.png" class="layout-label">
+            <div data-v-cf2320aa="" data-v-397789a4="" class="card" data-v-6143d696="">
+                <div data-v-397789a4="" data-v-cf2320aa=""><a href="/index"><img data-v-397789a4="" data-v-cf2320aa="" src="${basePath}/img/logo_new.png" alt="logo" class="logo"></a>
+                    <form action="/user/login.do" method="post">
+                        <!--<span class="error-tips">${msg}</span>-->
+                        <!--<input type="hidden" value="${url}" ref="urlRef">-->
+                        <div data-v-397789a4="" data-textarea="0" class="ui-form-item ui-big-input ui-gray-input" validate="true" data-v-cf2320aa="">
+                            <input  v-model="username" name="username" type="text" placeholder="请输入用户名" maxlength="64" class="ui-form-text" @blur.prevent="checkUserName()">
+                            <!--<span class="ui-input-error" :style="userErrorTips">用户名格式错误</span>-->
+                        </div>
+                        <div data-v-771508bb="" data-v-397789a4="" data-textarea="0" class="ui-form-item ui-big-input ui-gray-input" validate="true" data-v-cf2320aa="">
+                            <input v-model="password"  name="password" type="password" placeholder="请输入密码" maxlength="16" class="ui-form-text">
+                        </div>
+                        <div data-v-771508bb="" data-v-397789a4="" data-textarea="0" class="ui-form-item ui-big-input ui-gray-input" validate="true" data-v-cf2320aa="">
+                            <input v-model="CheckPassword"  name="CheckPassword" type="password" placeholder="请再次输入密码" maxlength="16" class="ui-form-text" @blur.prevent="checkPasswordDifference">
+                        </div>
+                        <div data-v-771508bb="" data-v-397789a4="" data-textarea="0" class="ui-form-item ui-big-input ui-gray-input" validate="true" data-v-cf2320aa="">
+                            <input v-model="question"  name="question" type="text" placeholder="请输入密保问题" maxlength="16" class="ui-form-text">
+                        </div>
+                        <div data-v-771508bb="" data-v-397789a4="" data-textarea="0" class="ui-form-item ui-big-input ui-gray-input" validate="true" data-v-cf2320aa="">
+                            <input v-model="answer"  name="answer" type="text" placeholder="请输入密保答案" maxlength="16" class="ui-form-text">
+                        </div>
+                        <div data-v-771508bb="" data-v-397789a4="" data-textarea="0" class="ui-form-item ui-big-input ui-gray-input" validate="true" data-v-cf2320aa="">
+                            <input v-model="email"  name="email" type="text" placeholder="请输入电子邮箱" maxlength="32" class="ui-form-text" @blur.prevent="checkEmail()">
+                        </div>
+                        <div data-v-771508bb="" data-v-397789a4="" data-textarea="0" class="ui-form-item ui-big-input ui-gray-input" validate="true" data-v-cf2320aa="">
+                            <input v-model="phone"  name="phone" type="text" placeholder="请输入手机号" maxlength="11" class="ui-form-text" @blur.prevent="checkPhone()">
+                        </div>
+                        <div data-v-397789a4="" class="ui-btn ui-big-btn orange-btn" data-v-cf2320aa="" @click="handleClick">
+                            注册
+                        </div>
+                        <span v-show="isChecked">{{msg}}</span>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <p data-v-b9241014="" data-v-6143d696="" class="footer">© 2020 DawnLee 毕业设计. All rights reserved</p>
+    </div>
+</div>
+
+<!-- 引入脚本 -->
+
+<#include "portal/common/js.html"/>
+<script src="${basePath}/service/register/register.js"></script>
+
+</body>
+</html>

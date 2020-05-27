@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.wrq.dao.OrderMasterMapper">
-  <resultMap id="BaseResultMap" type="com.wrq.pojo.OrderMaster">
+<mapper namespace="com.dawn.dao.OrderMasterMapper">
+  <resultMap id="BaseResultMap" type="com.dawn.pojo.OrderMaster">
     <constructor>
       <idArg column="order_no" javaType="java.lang.String" jdbcType="VARCHAR" />
       <arg column="shop_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
@@ -33,7 +33,7 @@
     delete from order_master
     where order_no = #{orderNo,jdbcType=VARCHAR}
   </delete>
-  <insert id="insert" parameterType="com.wrq.pojo.OrderMaster">
+  <insert id="insert" parameterType="com.dawn.pojo.OrderMaster">
     insert into order_master (order_no, shop_id, buyer_id,
       buyer_name, buyer_phone, buyer_email, 
       payment, payment_type, order_status, 
@@ -45,7 +45,7 @@
       #{paymentTime,jdbcType=TIMESTAMP}, now(), now(),
       #{refuseReason,jdbcType=VARCHAR}, #{getKey,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.wrq.pojo.OrderMaster">
+  <insert id="insertSelective" parameterType="com.dawn.pojo.OrderMaster">
     insert into order_master
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="orderNo != null">
@@ -136,7 +136,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.wrq.pojo.OrderMaster">
+  <update id="updateByPrimaryKeySelective" parameterType="com.dawn.pojo.OrderMaster">
     update order_master
     <set>
       <if test="shopId != null">
@@ -181,7 +181,52 @@
     </set>
     where order_no = #{orderNo,jdbcType=VARCHAR}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.wrq.pojo.OrderMaster">
+  <!--<update id="updateStatus" parameterType="com.dawnn.pojo.OrderMaster">-->
+    <!--update order_master-->
+    <!--<set>-->
+      <!--<if test="shopId != null">-->
+        <!--shop_id = #{shopId,jdbcType=INTEGER},-->
+      <!--</if>-->
+      <!--<if test="buyerId != null">-->
+        <!--buyer_id = #{buyerId,jdbcType=INTEGER},-->
+      <!--</if>-->
+      <!--<if test="buyerName != null">-->
+        <!--buyer_name = #{buyerName,jdbcType=VARCHAR},-->
+      <!--</if>-->
+      <!--<if test="buyerPhone != null">-->
+        <!--buyer_phone = #{buyerPhone,jdbcType=VARCHAR},-->
+      <!--</if>-->
+      <!--<if test="buyerEmail != null">-->
+        <!--buyer_email = #{buyerEmail,jdbcType=VARCHAR},-->
+      <!--</if>-->
+      <!--<if test="payment != null">-->
+        <!--payment = #{payment,jdbcType=DECIMAL},-->
+      <!--</if>-->
+      <!--<if test="paymentType != null">-->
+        <!--payment_type = #{paymentType,jdbcType=INTEGER},-->
+      <!--</if>-->
+      <!--<if test="orderStatus != null">-->
+        <!--order_status = 20,-->
+      <!--</if>-->
+      <!--<if test="paymentTime != null">-->
+        <!--payment_time = #{paymentTime,jdbcType=TIMESTAMP},-->
+      <!--</if>-->
+      <!--<if test="createTime != null">-->
+        <!--create_time = #{createTime,jdbcType=TIMESTAMP},-->
+      <!--</if>-->
+      <!--<if test="updateTime != null">-->
+        <!--update_time = now(),-->
+      <!--</if>-->
+      <!--<if test="refuseReason != null">-->
+        <!--refuse_reason = #{refuseReason,jdbcType=VARCHAR},-->
+      <!--</if>-->
+      <!--<if test="getKey != null">-->
+        <!--get_key = #{getKey,jdbcType=VARCHAR},-->
+      <!--</if>-->
+    <!--</set>-->
+    <!--where order_no = #{orderNo,jdbcType=VARCHAR}-->
+  <!--</update>-->
+  <update id="updateByPrimaryKey" parameterType="com.dawn.pojo.OrderMaster">
     update order_master
     set shop_id = #{shopId,jdbcType=INTEGER},
       buyer_id = #{buyerId,jdbcType=INTEGER},
@@ -230,13 +275,20 @@
     and shop_id = #{shopId}
   </select>
 
-  <update id="updateOrderStatusAndGetKeyByPrimaryKey" parameterType="com.wrq.pojo.OrderMaster">
+  <update id="updateOrderStatusAndGetKeyByPrimaryKey" parameterType="com.dawn.pojo.OrderMaster">
     update order_master
     set order_status = #{orderStatus,jdbcType=INTEGER}, get_key = #{getKey,jdbcType=VARCHAR},  update_time = now()
     where order_no = #{orderNo,jdbcType=VARCHAR}
   </update>
 
-  <update id="updateOrderStatusByOrderNo" parameterType="com.wrq.pojo.OrderMaster">
+  <update id="updateOrderStatusAndReasonByPrimaryKey" parameterType="com.dawn.pojo.OrderMaster">
+    update order_master
+    set order_status = #{orderStatus,jdbcType=INTEGER}, refuse_reason = #{reason,jdbcType=VARCHAR},  update_time = now()
+    where order_no = #{orderNo,jdbcType=VARCHAR}
+  </update>
+
+
+  <update id="updateOrderStatusByOrderNo" parameterType="com.dawn.pojo.OrderMaster">
     update order_master
     set order_status = #{orderStatus,jdbcType=INTEGER},  update_time = now()
     where order_no = #{orderNo,jdbcType=VARCHAR}

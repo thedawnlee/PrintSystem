@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.wrq.dao.FileMapper">
-  <resultMap id="BaseResultMap" type="com.wrq.pojo.File">
+<mapper namespace="com.dawn.dao.FileMapper">
+  <resultMap id="BaseResultMap" type="com.dawn.pojo.File">
     <constructor>
       <idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER" />
       <arg column="file_name" javaType="java.lang.String" jdbcType="VARCHAR" />
@@ -30,7 +30,7 @@
     delete from file
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="com.wrq.pojo.File">
+  <insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="com.dawn.pojo.File">
     insert into file (id, file_name, user_id, 
       file_spec, page_num, share, 
       integral, description, create_time, 
@@ -40,7 +40,7 @@
       #{integral,jdbcType=INTEGER}, #{description,jdbcType=VARCHAR}, now(),
        now(), #{newName,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.wrq.pojo.File">
+  <insert id="insertSelective" parameterType="com.dawn.pojo.File">
     insert into file
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -113,7 +113,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.wrq.pojo.File">
+  <update id="updateByPrimaryKeySelective" parameterType="com.dawn.pojo.File">
     update file
     <set>
       <if test="fileName != null">
@@ -149,7 +149,7 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.wrq.pojo.File">
+  <update id="updateByPrimaryKey" parameterType="com.dawn.pojo.File">
     update file
     set file_name = #{fileName,jdbcType=VARCHAR},
       user_id = #{userId,jdbcType=INTEGER},
@@ -193,7 +193,7 @@
     where user_id = #{userId} and share = 0 order by create_time desc
   </select>
 
-  <update id="updateFileScoreAndStatus" parameterType="com.wrq.pojo.File">
+  <update id="updateFileScoreAndStatus" parameterType="com.dawn.pojo.File">
     update file
     set
     share = 1,

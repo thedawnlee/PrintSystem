@@ -1,11 +1,8 @@
-/**
- * Created by wangqian on 2019/4/9.
- */
 var vue = new Vue({
     el: "#order",
     data: {
         orderNo: null,
-        qrUrl: "http://image.qian.com/loading.gif",
+        qrUrl: "http://localhost:8080/img/loading.gif",
         getQr: true,
         payMethods: true,
         paymentTimer: null,
@@ -20,7 +17,7 @@ var vue = new Vue({
         },
         successCallback: function ( res ) {
             res = res.body;
-            if( res.data && res.status == 0){
+            if( res.data && res.status === 0){
                 this.orderNo = res.data.data.orderNo;
                 this.qrUrl = res.data.data.qrUrl;
                 this.listenOrderStatus();
